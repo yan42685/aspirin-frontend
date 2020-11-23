@@ -47,7 +47,7 @@ httpClient.interceptors.request.use(
 // response interceptor
 httpClient.interceptors.response.use(
   (response: AxiosResponse) => {
-    return response.data;
+    return response.data.data;
   },
 
   error => {
