@@ -16,7 +16,7 @@ export interface ColumnProps {
   content: string;
 }
 
-export const ColumnList = defineComponent({
+export default defineComponent({
   name: "ColumnList",
   props: {
     list: {

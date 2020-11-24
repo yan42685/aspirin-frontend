@@ -10,7 +10,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-export const Modal = defineComponent({
+export default defineComponent({
   name: "Modal",
   props: {
     isOpen: Boolean
