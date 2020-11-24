@@ -1,3 +1,10 @@
+<template>
+  <div id="login">
+    <h2>This is Login</h2>
+    <pre>{{ message }}</pre>
+  </div>
+</template>
+
 <script lang="ts">
 import { getMousePosition } from "../utils/mouse-position";
 import { defineComponent } from "vue";
@@ -6,8 +13,10 @@ export const Login = defineComponent({
   name: "Login",
   setup() {
     const { x, y } = getMousePosition();
-    console.log(`x: ${x}\ny: ${y}`);
-    return {};
+    const message = `x: ${x}\ny: ${y}`;
+    return {
+      message
+    };
   }
 });
 </script>
