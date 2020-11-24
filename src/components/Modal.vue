@@ -29,4 +29,6 @@ export default defineComponent({
 });
 </script>
 
-<style module lang="scss"></style>
+  <style module lang="scss">
+
+</style>

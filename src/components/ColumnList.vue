@@ -1,9 +1,10 @@
 <template>
   <ul>
-    <li v-for="column in list" :key="column.id"></li>
-    <h5>{{ column.title }}</h5>
-    <p>{{ column.content }}</p>
-    <a href="#" target="_blank">link</a>
+    <li v-for="column in list" :key="column.id">
+      <h5>{{ column.id }}</h5>
+      <p>{{  }}</p>
+      <a href="#" target="_blank">link</a>
+    </li>
   </ul>
 </template>
 
@@ -23,9 +24,6 @@ export default defineComponent({
       type: Array as PropType<ColumnProps[]>,
       required: true
     }
-  },
-  setup() {
-    return {};
   }
 });
 </script>
