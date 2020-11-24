@@ -1,8 +1,8 @@
 <template>
   <ul>
     <li v-for="column in list" :key="column.id">
-      <h5>{{ column.id }}</h5>
-      <p>{{  }}</p>
+      <h5>{{ column.title }}</h5>
+      <p>{{ column.content }}</p>
       <a href="#" target="_blank">link</a>
     </li>
   </ul>
