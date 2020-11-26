@@ -1,11 +1,12 @@
 import { RouteLocation } from "vue-router";
-import { Module } from "vuex";
+import { MyModule } from "../types/common";
 
 interface TabState {
   visitedRoutes: Array<RouteLocation>;
 }
 
-export const tab: Module<TabState, TabState> = {
+// 这里泛型用两个相同的类型就可以，原因是vuex定义的类型有缺陷
+const module: MyModule<TabState> = {
   namespaced: true,
   state: { visitedRoutes: [] },
   getters: { visitedRoutes: state => state.visitedRoutes },
@@ -61,35 +62,7 @@ export const tab: Module<TabState, TabState> = {
     }
   },
 
-  actions: {
-    // @description 添加标签页
-    addVisitedRoute({ commit }, route: RouteLocation) {
-      commit("addVisitedRoute", route);
-    },
-
-    // @description 删除当前标签页
-    delVisitedRoute({ commit }, route: RouteLocation) {
-      commit("delVisitedRoute", route);
-    },
-
-    // @description 删除当前标签页以外其它全部多标签页
-    delOthersVisitedRoutes({ commit }, route: RouteLocation) {
-      commit("delOthersVisitedRoutes", route);
-    },
-
-    // @description 删除当前标签页左边全部多标签页
-    delLeftVisitedRoutes({ commit }, route: RouteLocation) {
-      commit("delLeftVisitedRoutes", route);
-    },
-
-    // @description 删除当前标签页右边全部多标签页
-    delRightVisitedRoutes({ commit }, route: RouteLocation) {
-      commit("delRightVisitedRoutes", route);
-    },
-
-    // @description 删除全部多标签页
-    delAllVisitedRoutes({ commit }) {
-      commit("delAllVisitedRoutes");
-    }
-  }
+  actions: {}
 };
+
+export default module;
