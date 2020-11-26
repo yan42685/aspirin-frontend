@@ -1,21 +1,19 @@
 import { createStore } from "vuex";
-/*
- * @description: 导入所有 vuex 模块，自动加入namespaced:true，避免命名冲突
- */
 
+// mutation示例
 // state.testType = { ...state.testType, ...testType };
 
-const files = require.context("./modules", false, /(\.js|\.ts)$/);
-const modules = {} as { [key: string]: any };
-// 获取所有modules对象
-files.keys().forEach(key => {
-  modules[key.replace(/(\.\/|\.js|\.ts)/g, "")] = files(key).default;
-});
-// 开启命名空间
-Object.keys(modules).forEach(key => {
-  modules[key]["namespaced"] = true;
+const files = require.context("./modules", false, /\.(js|ts)$/);
+const registeredModules = {} as { [key: string]: any };
+files.keys().forEach(filenameWithExtension => {
+  const filename = filenameWithExtension.replace(/(\.\/|\.js|\.ts)/g, "");
+  registeredModules[filename] = files(filenameWithExtension).filename;
 });
 
-export default createStore({
-  modules
+// 自动注册./modules文件夹里定义的模块
+// NOTE: 1. ./modules文件夹只能定义vuex的modules
+//       2. module导出的对象名字应该是不带扩展名的文件名
+//       3. 可能只适用于vuex4, 不知道未来有没有breaking change
+export const store = createStore({
+  modules: registeredModules
 });
