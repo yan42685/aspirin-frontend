@@ -1,20 +1,39 @@
-import { createStore } from "vuex";
+import { dynamicRoutes, staticRoutes } from "@/router";
+import { createStore, ActionTree } from "vuex";
+import { AllState } from "./types";
+import { filterRoutes } from "@/utils/route";
 
-// mutation示例
-// state.testType = { ...state.testType, ...testType };
+export const store = createStore<AllState>({
+  state: {
+    user: { role: null },
+    tab: { visitedRoutes: [] },
+    route: { accessibleArray: [] }
+  },
 
-const files = require.context("./modules", false, /\.(js|ts)$/);
-const registeredModules = {} as { [key: string]: any };
-files.keys().forEach(filenameWithExtension => {
-  const filename = filenameWithExtension.replace(/(\.\/|\.js|\.ts)/g, "");
-  // 这里的default就是export default出去的对象
-  registeredModules[filename] = files(filenameWithExtension).default;
-});
+  getters: {},
 
-// 自动注册./modules文件夹里定义的模块
-// NOTE: 1. ./modules文件夹只能定义vuex的modules
-//       2. module必须用export default
-//       3. 可能只适用于vuex4, 不知道未来有没有breaking change
-export const store = createStore({
-  modules: registeredModules
+  mutations: {
+    setRoutes({ route }, routes) {
+      route.accessibleArray = routes;
+    },
+    setUserInfo() {
+      console.log("TODO");
+    }
+  },
+
+  actions: {
+    setAllRoutes({ commit }) {
+      const allRoutes = [...staticRoutes, ...dynamicRoutes];
+      commit("setRoutes", allRoutes);
+      return dynamicRoutes;
+    },
+    // 只设置有权限的路由
+    setAccessibleRoutes({ commit }) {
+      const accessibleDynamicRoutes = filterRoutes(dynamicRoutes);
+      commit("setRoutes", [...staticRoutes, accessibleDynamicRoutes]);
+      return accessibleDynamicRoutes;
+    }
+    // async fetchUserInfo() {
+    // }
+  }
 });

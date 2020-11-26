@@ -2,21 +2,21 @@ import { messenger } from "./my-ant-design-vue";
 import { randomString, setIntervalImmediately } from "./basic-lib";
 import { router } from "@/router";
 
-export function loginRedirectMessage() {
+export function loginRedirect() {
   const key: string = randomString();
   let timeout = 3;
 
   const interval = setIntervalImmediately(() => {
     if (timeout > 0) {
       messenger.info({
-        content: `${timeout}秒后回到登录页面`,
+        content: `您尚未登录, ${timeout}秒后回到登录页面`,
         key,
         duration: timeout
       });
       --timeout;
     } else {
       clearInterval(interval);
-      // router.push("/login");
+      router.push("/login");
     }
   }, 1000);
 }

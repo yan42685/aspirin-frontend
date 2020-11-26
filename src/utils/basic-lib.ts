@@ -1,7 +1,7 @@
 import { ref, Ref, onMounted, onUnmounted } from "vue";
 
 // 获取随机字符串
-export function randomString(length = 12) {
+export function randomString(length = 20) {
   const charset =
     "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
   let result = "";
