@@ -1,13 +1,14 @@
 import { dynamicRoutes, staticRoutes } from "@/router";
-import { createStore, ActionTree } from "vuex";
-import { AllState } from "./types";
 import { filterRoutes } from "@/utils/route";
+import { createStore } from "vuex";
+import { AllState } from "./types";
 
 export const store = createStore<AllState>({
   state: {
     user: { role: null },
     tab: { visitedRoutes: [] },
-    route: { accessibleArray: [] }
+    route: { accessibleArray: [] },
+    layout: { sidebarCollapsed: false }
   },
 
   getters: {},
@@ -18,6 +19,9 @@ export const store = createStore<AllState>({
     },
     setUserInfo() {
       console.log("TODO");
+    },
+    toggleSidebarCollapse({ layout }) {
+      layout.sidebarCollapsed = !layout.sidebarCollapsed;
     }
   },
 

@@ -1,10 +1,18 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/login">Login</router-link>
-  </div>
+  <!-- <div id="nav">                                 -->
+  <!--   <router-link to="/">Home</router-link> |     -->
+  <!--   <router-link to="/login">Login</router-link> -->
+  <!-- </div>                                         -->
   <router-view />
 </template>
+
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  // components: { SideBar }
+});
+</script>
 
 <style lang="scss">
 #app {

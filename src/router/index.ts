@@ -9,7 +9,9 @@ export const staticRoutes: Array<RouteRecordRaw> = [
   {
     name: "index",
     path: "/",
-    component: () => import("../views/index.vue")
+    // component: () => import("../views/index.vue")
+    // 现在用于测试
+    component: () => import("../views/framework/Framework.vue")
   },
   {
     name: "login",
@@ -45,6 +47,9 @@ router.beforeEach(async (to, from, next) => {
     loginRedirect();
   } else if (internalConfig.accessControl && !hasPermission(to)) {
     messenger.warning("抱歉，您没有权限访问此资源");
+  } else {
+    // TODO: 此句仅为测试用, 记得删掉
+    next();
   }
 });
 

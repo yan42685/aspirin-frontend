@@ -5,6 +5,7 @@ export interface AllState {
   user: UserState;
   tab: TabState;
   route: RouteState;
+  layout: LayoutState;
 }
 
 export interface UserState {
@@ -17,4 +18,8 @@ export interface TabState {
 
 export interface RouteState {
   accessibleArray: Array<RouteRecordRaw>;
+}
+
+export interface LayoutState {
+  sidebarCollapsed: boolean;
 }
