@@ -82,7 +82,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .sidebar-containter {
   border: {
-    right: 1px solid #cad2e2;
+    right: $common-border;
   }
 }
 
@@ -92,12 +92,11 @@ export default defineComponent({
 }
 
 .top-title {
-  background-color: #b5d3e8;
-  /* background-color: $baseColor; */
+  background-color: $sidebar-top-title-color;
   h1 {
     margin-bottom: 0;
-    height: 64px;
-    line-height: 64px;
+    height: $header-height;
+    line-height: $header-height;
   }
 }
 </style>

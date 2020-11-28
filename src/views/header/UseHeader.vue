@@ -1,15 +1,14 @@
 <template>
   <a-layout-header class="header">
     <a-row>
-      <a-col :span="10"><use-bread-crumb /> </a-col>
-      <a-col :span="10"><use-icons /></a-col>
-      <a-col :span="4"><use-avatar /></a-col>
-    </a-row>
-    <a-row>
-      <!-- 一共24列 -->
-      <a-col :span="18">
-        <use-tabs />
+      <a-col :span="20">
+        <a-row>
+          <a-col :span="12"><use-bread-crumb /></a-col>
+          <a-col :span="12"><use-icons /></a-col>
+        </a-row>
+        <a-row><use-tabs /></a-row>
       </a-col>
+      <a-col :span="4"><use-avatar /></a-col>
     </a-row>
   </a-layout-header>
 </template>
@@ -32,9 +31,9 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .header {
-  height: 64px;
-  margin: 0 0 0 10px;
-  /* box-shadow: 0 0 0 2px black; */
+  height: $header-height;
+  margin-left: 7px;
+  border: $common-border;
   background-color: #b5d3e8;
 
   .ant-col + .ant-col {
@@ -52,5 +51,9 @@ export default defineComponent({
       color: #1890ff;
     }
   }
+}
+
+.ant-layout-header {
+  padding: 0;
 }
 </style>

@@ -24,4 +24,10 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.ant-breadcrumb {
+  text-align: left;
+  height: 100%;
+  line-height: $subheader1-height;
+}
+</style>
