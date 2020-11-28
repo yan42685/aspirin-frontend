@@ -9,7 +9,7 @@ export const store = createStore<AllState>({
   state: {
     user: { role: null },
     tabBar: { openTabs: [] },
-    route: { accessibleArray: [] },
+    route: { accessibleArray: [], isDynamicallyAdded: false },
     layout: { sidebarCollapsed: false }
   },
 

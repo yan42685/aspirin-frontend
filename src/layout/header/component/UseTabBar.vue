@@ -11,11 +11,6 @@
             type="editable-card"
             tab-position="left"
           >
-            <a-tab-pane :key="3333" :closable="true" tab="hahahah"></a-tab-pane>
-            <a-tab-pane :key="3332" :closable="true" tab="abc"></a-tab-pane>
-            <a-tab-pane :key="3331" :closable="true" tab="ddd"></a-tab-pane>
-            <a-tab-pane :key="3335" :closable="true" tab="rrrrr"></a-tab-pane>
-
             <a-tab-pane
               class="tab-pane"
               size="small"
@@ -24,6 +19,11 @@
               :closable="!isAffix(tab)"
               :tab="tab.meta.title"
             ></a-tab-pane>
+
+            <a-tab-pane :key="3333" :closable="true" tab="hahahah"></a-tab-pane>
+            <a-tab-pane :key="3332" :closable="true" tab="abc"></a-tab-pane>
+            <a-tab-pane :key="3331" :closable="true" tab="ddd"></a-tab-pane>
+            <a-tab-pane :key="3335" :closable="true" tab="rrrrr"></a-tab-pane>
           </a-tabs>
         </div>
       </a-col>
@@ -47,7 +47,6 @@
               </a-menu>
             </template>
             <a-button>
-              关闭标签
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -88,22 +87,16 @@ export default defineComponent({
     const openTabs = computed(() => store.state.tabBar.openTabs);
     const accessibleRoutes = computed(() => store.state.route.accessibleArray);
 
-    // 导出mutations为本组件的方法
-    const {
-      addTab,
-      deleteTab,
-      deleteOtherTabs,
-      deleteLeftTabs,
-      deleteRightTabs,
-      deleteAllTabs
-    } = mapMutations({
-      addTab: "addTab",
-      deleteTab: "deleteTab",
-      deleteOtherTabs: "deleteOtherTabs",
-      deleteLeftTabs: "deleteLeftTabs",
-      deleteRightTabs: "deleteRightTabs",
-      deleteAllTabs: "deleteAllTabs"
-    });
+    const addTab = (newTab: RouteLocation) => store.commit("addTab", newTab);
+    const deleteTab = (targetTab: RouteLocation) =>
+      store.commit("deleteTab", targetTab);
+    const deleteOtherTabs = (currentTab: RouteLocation) =>
+      store.commit("deleteOtherTabs", currentTab);
+    const deleteLeftTabs = (currentTab: RouteLocation) =>
+      store.commit("deleteLeftTabs", currentTab);
+    const deleteRightTabs = (currentTab: RouteLocation) =>
+      store.commit("deleteRightTabs", currentTab);
+    const deleteAllTabs = () => store.commit("deleteAllTabs");
 
     const data = reactive({
       affixTabs: [] as Array<RouteLocation>,
@@ -122,10 +115,17 @@ export default defineComponent({
           activateLastTab();
         }
         const targetTab = getTabByFullPath(fullPath);
-        deleteTab(targetTab);
+        if (targetTab) {
+          deleteTab(targetTab);
+        }
       },
       handleTabOperation: (operation: TabOperation) => {
         const currentTab = getTabByFullPath(data.activeTabKey);
+        if (!currentTab) {
+          console.log("找不到当前tab");
+          return;
+        }
+
         switch (operation) {
           case "CLOSE_LEFT":
             deleteLeftTabs(currentTab);
@@ -148,7 +148,7 @@ export default defineComponent({
     function initAffixTabs(routeRecords: Array<RouteRecordRaw>) {
       routeRecords.forEach(route => {
         if (route.meta && route.meta.affix) {
-          addTab(route);
+          addTab(Object.assign({} as RouteLocation, route));
           data.activeTabKey = route.path;
         }
       });
@@ -157,9 +157,9 @@ export default defineComponent({
     // 初始化固定标签页
     initAffixTabs(accessibleRoutes.value);
 
-    // route更新的时候添加tab
+    // route更新的时候添加tab;
     watch(currentRoute, (newRoute: RouteLocationNormalizedLoaded) => {
-      addTab(newRoute);
+      // addTab(newRoute);
       data.activeTabKey = newRoute.fullPath;
     });
 
@@ -180,10 +180,11 @@ export default defineComponent({
     position: relative;
     width: 100%;
     text-align: left;
-    left: 0;
+    top: 5px;
+    right: -23px;
   }
 
-  // ::v-deep 样式穿透并且写上!important 就可以覆盖用了scoped的组件
+  // ::v-deep 样式穿透并且写上!important 就可以覆盖用了scoped的组件的样式
   ::v-deep .ant-tabs {
     margin-bottom: 5px !important;
     &-bar {

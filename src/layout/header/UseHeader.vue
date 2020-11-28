@@ -1,11 +1,11 @@
 <template>
   <div class="placeholder">
     <a-layout-header class="header">
-      <a-row>
+      <a-row class="sub-header1">
         <a-col :span="12"><use-bread-crumb /></a-col>
         <a-col :span="12"><use-search-bar /></a-col>
       </a-row>
-      <use-tab-bar />
+      <div class="sub-header2"><use-tab-bar /></div>
     </a-layout-header>
   </div>
 </template>
@@ -35,6 +35,16 @@ export default defineComponent({
   height: $header-height;
   border: $common-border;
   background-color: white;
+
+  .sub-header1 {
+  }
+
+  .sub-header2 {
+    margin-top: -8px;
+    border: {
+      top: $common-border;
+    }
+  }
 
   .ant-col + .ant-col {
     display: flex;

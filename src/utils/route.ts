@@ -3,7 +3,6 @@ import { internalConfig } from "@/config/app-settings";
 import { store } from "@/store";
 import { RoleEnum } from "@/api/rest-api";
 import { router } from "@/router";
-import { Route } from "ant-design-vue/lib/breadcrumb/Breadcrumb";
 
 export function hasPermission(route: RouteRecordRaw | RouteLocation) {
   if (internalConfig.accessControl && route.meta && route.meta.roles) {
@@ -30,8 +29,12 @@ export function filterRoutes(
   return accessibleRoutes;
 }
 
-// 登录时调用
 export async function addDynamicRoutes() {
+  // 已经动态添加过就不用加了
+  if (store.state.route.isDynamicallyAdded) {
+    return;
+  }
+
   let accessibleDynamicRoutes: Array<RouteRecordRaw> = [];
   if (!internalConfig.accessControl) {
     accessibleDynamicRoutes = await store.dispatch("setAllRoutes");

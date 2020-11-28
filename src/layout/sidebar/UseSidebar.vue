@@ -83,6 +83,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .sidebar-containter {
+  z-index: 100;
   position: fixed;
   border: {
     right: $common-border;

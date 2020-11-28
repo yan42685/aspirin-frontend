@@ -53,10 +53,11 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .search-bar-container {
+  display: block;
   position: relative;
+  height: 30px;
   width: 50%;
-  top: 15px;
+  top: 10px;
   right: 230px;
-  text-align: center;
 }
 </style>

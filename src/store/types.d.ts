@@ -18,6 +18,7 @@ export interface TabBarState {
 
 export interface RouteState {
   accessibleArray: Array<RouteRecordRaw>;
+  isDynamicallyAdded: boolean;
 }
 
 export interface LayoutState {

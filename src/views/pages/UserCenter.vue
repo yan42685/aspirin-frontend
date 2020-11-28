@@ -1,14 +1,16 @@
 <template>
-  <div class="home">
-    <router-link to="/page">登录</router-link>
-  </div>
+  <div><h1>User Center...</h1></div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "Home",
-  components: {}
+  name: "UserCenter",
+  setup() {
+    return {};
+  }
 });
 </script>
+
+<style scoped lang="scss"></style>

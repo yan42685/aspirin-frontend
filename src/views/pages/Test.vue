@@ -1,14 +1,16 @@
 <template>
-  <div class="home">
-    <router-link to="/page">登录</router-link>
-  </div>
+  <div><h1>Test...</h1></div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "Home",
-  components: {}
+  name: "Test",
+  setup() {
+    return {};
+  }
 });
 </script>
+
+<style scoped lang="scss"></style>
