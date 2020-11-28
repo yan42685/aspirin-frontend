@@ -1,11 +1,11 @@
-import { RouteRecordRaw, RouteLocationNormalized } from "vue-router";
+import { RouteRecordRaw, RouteLocation } from "vue-router";
 import { internalConfig } from "@/config/app-settings";
 import { store } from "@/store";
 import { RoleEnum } from "@/api/rest-api";
 import { router } from "@/router";
 import { Route } from "ant-design-vue/lib/breadcrumb/Breadcrumb";
 
-export function hasPermission(route: RouteRecordRaw | RouteLocationNormalized) {
+export function hasPermission(route: RouteRecordRaw | RouteLocation) {
   if (internalConfig.accessControl && route.meta && route.meta.roles) {
     const requiredRoles: Array<RoleEnum> = route.meta.roles;
     const currentRole = store.state.user?.role;

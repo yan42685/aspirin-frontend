@@ -2,11 +2,13 @@ import { dynamicRoutes, staticRoutes } from "@/router";
 import { filterRoutes } from "@/utils/route";
 import { createStore } from "vuex";
 import { AllState } from "./types";
+import { RouteLocation } from "vue-router";
+import { tabBarMutations } from "./modules/tab-bar";
 
 export const store = createStore<AllState>({
   state: {
     user: { role: null },
-    tab: { visitedRoutes: [] },
+    tabBar: { openTabs: [] },
     route: { accessibleArray: [] },
     layout: { sidebarCollapsed: false }
   },
@@ -14,15 +16,20 @@ export const store = createStore<AllState>({
   getters: {},
 
   mutations: {
+    // ==========================
+    //  路由
+    // ==========================
     setRoutes({ route }, routes) {
       route.accessibleArray = routes;
     },
-    setUserInfo() {
-      console.log("TODO");
-    },
     toggleSidebarCollapse({ layout }) {
       layout.sidebarCollapsed = !layout.sidebarCollapsed;
-    }
+    },
+
+    // ==========================
+    //  标签页
+    // ==========================
+    ...tabBarMutations
   },
 
   actions: {
@@ -37,6 +44,7 @@ export const store = createStore<AllState>({
       commit("setRoutes", [...staticRoutes, accessibleDynamicRoutes]);
       return accessibleDynamicRoutes;
     }
+
     // async fetchUserInfo() {
     // }
   }
