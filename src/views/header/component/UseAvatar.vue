@@ -1,6 +1,6 @@
 <template>
   <div class="avatar-container">
-    <a-avatar :size="50" icon="user" />
+    <a-avatar :size="40" icon="user" />
   </div>
 </template>
 
@@ -17,7 +17,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .avatar-container {
-  height: $header-height;
+  height: $subheader1-height;
   display: flex;
   align-items: center;
 }

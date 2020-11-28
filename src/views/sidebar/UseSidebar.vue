@@ -95,8 +95,8 @@ export default defineComponent({
   background-color: $sidebar-top-title-color;
   h1 {
     margin-bottom: 0;
-    height: $header-height;
-    line-height: $header-height;
+    height: $sidebar-top-title-height;
+    line-height: $sidebar-top-title-height;
   }
 }
 </style>
