@@ -47,7 +47,7 @@
               </a-menu>
             </template>
             <a-button>
-              更多
+              关闭标签
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -172,12 +172,13 @@ export default defineComponent({
 </script>
 <style scoped lang="scss">
 .tab-bar {
+  position: relative;
   &-left-panel {
-    float: left;
     width: calc(100% - 52px - 30px);
   }
   &-right-panel {
-    float: left;
+    position: absolute;
+    left: 20px;
     width: 52px;
   }
 
