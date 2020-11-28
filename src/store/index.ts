@@ -1,9 +1,9 @@
 import { dynamicRoutes, staticRoutes } from "@/router";
 import { filterRoutes } from "@/utils/route";
 import { createStore } from "vuex";
-import { AllState } from "./types";
-import { RouteLocation } from "vue-router";
 import { tabBarMutations } from "./modules/tab-bar";
+import { AllState } from "./types";
+import { RouteRecordRaw } from "vue-router";
 
 export const store = createStore<AllState>({
   state: {
@@ -19,7 +19,7 @@ export const store = createStore<AllState>({
     // ==========================
     //  路由
     // ==========================
-    setRoutes({ route }, routes) {
+    setRoutes({ route }, routes: Array<RouteRecordRaw>) {
       route.accessibleArray = routes;
     },
     toggleSidebarCollapse({ layout }) {

@@ -36,9 +36,11 @@ export default defineComponent({
 }
 
 .content {
+  /* position: relative; */
   min-height: 300px !important;
   padding: $medium-padding;
   margin: $medium-margin;
+  /* top: $medium-margin !important; */
   background: #fff;
 }
 </style>

@@ -4,7 +4,7 @@
       <a-col :span="12"><use-bread-crumb /></a-col>
       <a-col :span="12"><use-icons /> <use-avatar /></a-col>
     </a-row>
-    <a-row><use-tabs /></a-row>
+    <use-tab-bar />
   </a-layout-header>
 </template>
 
@@ -12,11 +12,11 @@
 import { defineComponent } from "vue";
 import UseIcons from "./component/UseIcons.vue";
 import UseAvatar from "./component/UseAvatar.vue";
-import UseTabs from "./component/UseTabs.vue";
 import UseBreadCrumb from "./component/UseBreadCrumb.vue";
+import UseTabBar from "./component/UseTabBar.vue";
 
 export default defineComponent({
-  components: { UseTabs, UseIcons, UseAvatar, UseBreadCrumb },
+  components: { UseIcons, UseAvatar, UseBreadCrumb, UseTabBar },
   name: "UseHeader",
   setup() {
     return {};
@@ -35,16 +35,6 @@ export default defineComponent({
     justify-content: flex-end;
     padding: 0 20px;
   }
-  /* .trigger {                         */
-  /*   padding: 0 20px;                 */
-  /*   font-size: 18px;                 */
-  /*   line-height: $subheader1-height; */
-  /*   cursor: pointer;                 */
-  /*   transition: color 0.3s;          */
-  /*   &:hover {                        */
-  /*     color: #1890ff;                */
-  /*   }                                */
-  /* }                                  */
 }
 
 .ant-layout-header {

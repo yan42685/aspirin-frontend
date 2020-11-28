@@ -1,9 +1,5 @@
 import { RoleEnum } from "@/api/rest-api";
-import {
-  RouteRecord,
-  RouteRecordRaw,
-  RouteLocationNormalized
-} from "vue-router";
+import { RouteLocation, RouteRecordRaw } from "vue-router";
 
 export interface AllState {
   user: UserState;

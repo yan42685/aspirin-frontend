@@ -11,7 +11,7 @@ export const staticRoutes: Array<RouteRecordRaw> = [
     path: "/",
     // component: () => import("../views/index.vue")
     // 现在用于测试
-    component: () => import("../views/framework/Framework.vue")
+    component: () => import("../layout/framework/Framework.vue")
   },
   {
     name: "login",
