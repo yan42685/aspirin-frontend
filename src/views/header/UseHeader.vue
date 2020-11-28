@@ -1,9 +1,8 @@
 <template>
   <a-layout-header class="header">
     <a-row>
-      <a-col :span="11"><use-bread-crumb /></a-col>
-      <a-col :span="11"><use-icons /></a-col>
-      <a-col :span="2"><use-avatar /></a-col>
+      <a-col :span="12"><use-bread-crumb /></a-col>
+      <a-col :span="12"><use-icons /> <use-avatar /></a-col>
     </a-row>
     <a-row><use-tabs /></a-row>
   </a-layout-header>
@@ -28,7 +27,6 @@ export default defineComponent({
 <style scoped lang="scss">
 .header {
   height: $header-height;
-  /* margin-left: 7px; */
   border: $common-border;
   background-color: white;
 
