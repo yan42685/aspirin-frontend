@@ -1,22 +1,23 @@
 <template>
-  <a-layout-header class="header">
-    <a-row>
-      <a-col :span="12"><use-bread-crumb /></a-col>
-      <a-col :span="12"><use-icons /> <use-avatar /></a-col>
-    </a-row>
-    <use-tab-bar />
-  </a-layout-header>
+  <div class="placeholder">
+    <a-layout-header class="header">
+      <a-row>
+        <a-col :span="12"><use-bread-crumb /></a-col>
+        <a-col :span="12"><use-search-bar /></a-col>
+      </a-row>
+      <use-tab-bar />
+    </a-layout-header>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import UseIcons from "./component/UseIcons.vue";
-import UseAvatar from "./component/UseAvatar.vue";
 import UseBreadCrumb from "./component/UseBreadCrumb.vue";
 import UseTabBar from "./component/UseTabBar.vue";
+import UseSearchBar from "./component/UseSearchBar.vue";
 
 export default defineComponent({
-  components: { UseIcons, UseAvatar, UseBreadCrumb, UseTabBar },
+  components: { UseBreadCrumb, UseSearchBar, UseTabBar },
   name: "UseHeader",
   setup() {
     return {};
@@ -25,7 +26,12 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+.placeholder {
+  height: $header-height;
+}
 .header {
+  position: fixed;
+  width: 100%;
   height: $header-height;
   border: $common-border;
   background-color: white;

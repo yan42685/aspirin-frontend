@@ -1,7 +1,7 @@
 <template>
   <div class="tab-bar">
     <a-row>
-      <a-col :span="22">
+      <a-col :span="20">
         <div class="tab-bar-left-panel">
           <a-tabs
             @tab-click="handleTabClick"
@@ -27,7 +27,7 @@
           </a-tabs>
         </div>
       </a-col>
-      <a-col :span="2">
+      <a-col :span="4">
         <div class="tab-bar-right-panel">
           <a-dropdown>
             <template v-slot:overlay>
@@ -177,9 +177,10 @@ export default defineComponent({
     width: calc(100% - 52px - 30px);
   }
   &-right-panel {
-    position: absolute;
-    left: 20px;
-    width: 52px;
+    position: relative;
+    width: 100%;
+    text-align: left;
+    left: 0;
   }
 
   // ::v-deep 样式穿透并且写上!important 就可以覆盖用了scoped的组件

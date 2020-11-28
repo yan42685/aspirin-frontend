@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar-containter">
     <div class="top-title">
-      <h1>Aspirin</h1>
+      <use-avatar />
       <!-- TODO: hover隐藏的toggle开关 -->
       <!-- <menu-unfold-outlined                                                 -->
       <!--   v-if="sidebarCollapsed"                                             -->
@@ -54,12 +54,14 @@ import {
   SettingOutlined
 } from "@ant-design/icons-vue";
 import { defineComponent, reactive, toRefs, watch } from "vue";
+import UseAvatar from "../sidebar/UseAvatar.vue";
 export default defineComponent({
   name: "Sidebar",
   components: {
     MailOutlined,
     AppstoreOutlined,
-    SettingOutlined
+    SettingOutlined,
+    UseAvatar
   },
 
   setup() {
@@ -81,22 +83,23 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .sidebar-containter {
+  position: fixed;
   border: {
     right: $common-border;
   }
-}
-
-.sidebar {
-  height: 100vh;
-  text-align: left;
-}
-
-.top-title {
-  background-color: $sidebar-top-title-color;
-  h1 {
+  .top-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $sidebar-top-title-color;
     margin-bottom: 0;
     height: $sidebar-top-title-height;
     line-height: $sidebar-top-title-height;
+  }
+
+  .sidebar {
+    height: 100vh;
+    text-align: left;
   }
 }
 </style>
