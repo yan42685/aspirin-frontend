@@ -3,11 +3,13 @@
     <div class="top-title">
       <use-avatar />
     </div>
-    <dynamic-items
-      v-for="route in nonHiddenRoutes"
-      :key="route.path"
-      :route="route"
-    />
+    <a-menu class="vab-menu" mode="inline">
+      <dynamic-items
+        v-for="route in nonHiddenRoutes"
+        :key="route.path"
+        :route="route"
+      />
+    </a-menu>
   </div>
 </template>
 

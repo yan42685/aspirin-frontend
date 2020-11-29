@@ -1,11 +1,11 @@
 <template>
+  <!-- 递归动态生成item -->
   <component
     :is="itemType"
     v-if="!route.meta || (route.meta && !route.meta.hidden)"
     :route="route"
   >
     <template v-if="nonHiddenChildren.length">
-      <!-- 递归动态生成item -->
       <dynamic-items
         v-for="child in nonHiddenChildren"
         :key="child.path"
@@ -25,6 +25,36 @@ import SideBarItem from "./SideBarItem.vue";
 import SideBarSubItem from "./SideBarSubItem.vue";
 
 type ItemType = "SideBarItem" | "SideBarSubItem";
+
+// <!-- 递归动态生成item -->
+// <component
+//   :is="itemType"
+//   v-if="!route.meta || (route.meta && !route.meta.hidden)"
+//   :route="route"
+// >
+//   <template v-if="nonHiddenChildren.length">
+//     <dynamic-items
+//       v-for="child in nonHiddenChildren"
+//       :key="child.path"
+//       :route="child"
+//     >
+//       ></dynamic-items
+//     >
+//   </template>
+// </component>
+
+// <a-sub-menu :key="route.path">
+//   <template v-slot:title>
+//     <span class="anticon">
+//       hahah
+//     </span>
+//   </template>
+//   <slot></slot>
+// </a-sub-menu>
+// <a-menu-item :key="route.path">
+//   <span class="anticon"> </span>
+//   <span>menu-item</span>
+// </a-menu-item>
 
 export default defineComponent({
   name: "DynamicItems",
@@ -48,7 +78,7 @@ export default defineComponent({
 
     const itemType = computed(
       (): ItemType =>
-        nonHiddenChildren.value.length === 0 ? "SideBarItem" : "SideBarSubItem"
+        nonHiddenChildren.value.length !== 0 ? "SideBarItem" : "SideBarSubItem"
     );
 
     return { nonHiddenChildren, itemType };

@@ -1,13 +1,11 @@
 <template>
-  <a-sub-menu :key="route.path">
-    <template v-slot:title>
-      <span class="anticon" v-if="route.meta.icon">
-        <use-icon :icon="route.meta.icon" />
-      </span>
-      <span>{{ route.meta.title }}</span>
-    </template>
-    <slot></slot>
-  </a-sub-menu>
+  <a-menu-item :key="route.path">
+    <span class="icon" v-if="route.meta && route.meta.icon">
+      <use-icon :icon="route.meta.icon" />
+    </span>
+    <span v-if="route.meta && route.meta.title">{{ route.meta.title }}</span>
+    <span v-else>链接{{ route.path }}的title不存在</span>
+  </a-menu-item>
 </template>
 
 <script lang="ts">

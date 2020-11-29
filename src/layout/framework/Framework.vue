@@ -1,7 +1,7 @@
 <template>
   <a-layout class="layout-wrap">
     <a-row>
-      <a-col :span="3"> <use-sidebar /> </a-col>
+      <a-col :span="3"> <use-sidebar class="sidebar" /> </a-col>
       <a-col :span="21"> <use-header /><use-content /></a-col>
     </a-row>
   </a-layout>
