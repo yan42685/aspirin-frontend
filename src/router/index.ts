@@ -19,6 +19,7 @@ export const staticRoutes: Array<RouteRecordRaw> = [
         meta: {
           title: "首页",
           icon: "home-4-line",
+          // 是否固定到标签页
           affix: true
         }
       }
@@ -66,7 +67,8 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
         path: "user-center",
         component: () => import("../views/pages/UserCenter.vue"),
         meta: {
-          title: "用户中心"
+          title: "用户中心",
+          affix: true
         }
       }
     ]
@@ -97,7 +99,7 @@ router.beforeEach(async (to, from, next) => {
     messenger.warning("抱歉，您没有权限访问此资源");
   } else {
     // 不检查登录或者已经登录了，才会动态添加 routes
-    await addDynamicRoutes();
+    // await addDynamicRoutes();
     next();
   }
 });

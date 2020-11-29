@@ -1,5 +1,5 @@
 import { dynamicRoutes, staticRoutes } from "@/router";
-import { filterRoutes } from "@/utils/route";
+import { filterRoutesByPermission, traverseRoutes } from "@/utils/route";
 import { createStore } from "vuex";
 import { tabBarMutations } from "./modules/tab-bar";
 import { AllState } from "./types";
@@ -25,6 +25,9 @@ export const store = createStore<AllState>({
     toggleSidebarCollapse({ layout }) {
       layout.sidebarCollapsed = !layout.sidebarCollapsed;
     },
+    setRoutesIsDynamicAdded({ route }) {
+      route.isDynamicallyAdded = true;
+    },
 
     // ==========================
     //  标签页
@@ -34,13 +37,17 @@ export const store = createStore<AllState>({
 
   actions: {
     setAllRoutes({ commit }) {
-      const allRoutes = [...staticRoutes, ...dynamicRoutes];
+      const allRoutes = [] as RouteRecordRaw[];
+      traverseRoutes([...staticRoutes, ...dynamicRoutes], route =>
+        allRoutes.push(route)
+      );
       commit("setRoutes", allRoutes);
       return dynamicRoutes;
     },
+
     // 只设置有权限的路由
     setAccessibleRoutes({ commit }) {
-      const accessibleDynamicRoutes = filterRoutes(dynamicRoutes);
+      const accessibleDynamicRoutes = filterRoutesByPermission(dynamicRoutes);
       commit("setRoutes", [...staticRoutes, accessibleDynamicRoutes]);
       return accessibleDynamicRoutes;
     }

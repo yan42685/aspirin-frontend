@@ -3,17 +3,23 @@ import { AllState } from "../types";
 import { RouteLocation } from "vue-router";
 
 export const tabBarMutations: MutationTree<AllState> = {
-  addTab({ tabBar }, newTab: RouteLocation) {
+  addTab({ tabBar, route }, newTab: RouteLocation) {
+    // 不在可到达路由的tab不会添加
+    if (!route.accessibleArray.find(route => route.path === newTab.path)) {
+      return;
+    }
     const oldSamePathTab = tabBar.openTabs.find(
       tab => tab.path === newTab.path
     );
     // 覆盖query参数不同但路径相同的tab
-    if (oldSamePathTab && oldSamePathTab.fullPath !== newTab.fullPath) {
-      Object.assign(oldSamePathTab, newTab);
-      return;
+    if (oldSamePathTab) {
+      if (oldSamePathTab.fullPath !== newTab.fullPath) {
+        Object.assign(oldSamePathTab, newTab);
+      }
+    } else {
+      // 浅克隆对象
+      tabBar.openTabs.push(Object.assign({}, newTab));
     }
-    // 浅克隆对象
-    tabBar.openTabs.push(Object.assign({}, newTab));
   },
 
   deleteTab({ tabBar }, targetTab: RouteLocation) {

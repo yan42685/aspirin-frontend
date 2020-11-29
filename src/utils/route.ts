@@ -14,18 +14,29 @@ export function hasPermission(route: RouteRecordRaw | RouteLocation) {
   return true;
 }
 
-export function filterRoutes(
-  routes: Array<RouteRecordRaw>
-): Array<RouteRecordRaw> {
-  const accessibleRoutes = routes.filter(route => {
-    if (hasPermission(route)) {
-      if (route.children) {
-        // 递归过滤路由
-        route.children = filterRoutes(route.children);
-      }
-      return true;
+export function traverseRoutes(
+  routes: RouteRecordRaw[],
+  handler: (route: RouteRecordRaw) => void
+) {
+  if (routes.length === 0) {
+    return;
+  }
+  routes.forEach(route => {
+    handler(route);
+    if (route.children && route.children.length > 0) {
+      traverseRoutes(route.children, handler);
     }
-    return false;
+  });
+}
+
+export function filterRoutesByPermission(
+  routes: RouteRecordRaw[]
+): RouteRecordRaw[] {
+  const accessibleRoutes = [] as RouteRecordRaw[];
+  traverseRoutes(routes, route => {
+    if (hasPermission(route)) {
+      accessibleRoutes.push(route);
+    }
   });
   return accessibleRoutes;
 }
@@ -36,13 +47,13 @@ export async function addDynamicRoutes() {
     return;
   }
 
-  let accessibleDynamicRoutes: Array<RouteRecordRaw> = [];
-  if (!internalConfig.accessControl) {
-    accessibleDynamicRoutes = await store.dispatch("setAllRoutes");
-  } else {
+  let accessibleDynamicRoutes = [] as RouteRecordRaw[];
+  if (internalConfig.accessControl) {
     accessibleDynamicRoutes = await store.dispatch("setAccessibleRoutes");
+  } else {
+    accessibleDynamicRoutes = await store.dispatch("setAllRoutes");
   }
-  accessibleDynamicRoutes.forEach(item => {
-    router.addRoute(item);
-  });
+
+  accessibleDynamicRoutes.forEach(route => router.addRoute(route));
+  store.commit("setRoutesIsDynamicAdded");
 }

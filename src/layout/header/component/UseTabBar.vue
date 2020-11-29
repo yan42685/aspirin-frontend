@@ -19,11 +19,6 @@
               :closable="!isAffix(tab)"
               :tab="tab.meta.title"
             ></a-tab-pane>
-
-            <a-tab-pane key="3333" :closable="true" tab="hahahah"></a-tab-pane>
-            <a-tab-pane key="3332" :closable="true" tab="abc"></a-tab-pane>
-            <a-tab-pane key="3331" :closable="true" tab="ddd"></a-tab-pane>
-            <a-tab-pane key="3335" :closable="true" tab="rrrrr"></a-tab-pane>
           </a-tabs>
         </div>
       </a-col>
@@ -67,19 +62,21 @@ import {
 import { store } from "@/store";
 import { router } from "@/router";
 import { activateLastTab, getTabByFullPath } from "@/service/tab";
+import { DownOutlined } from "@ant-design/icons-vue";
+import { addDynamicRoutes } from "@/utils/route";
 
 type TabOperation = "CLOSE_LEFT" | "CLOSE_RIGHT" | "CLOSE_OTHER" | "CLOSE_ALL";
 
 export default defineComponent({
   name: "UseTabBar",
-  components: {
-    DownOutlined
-  },
+  components: { DownOutlined },
 
   setup() {
     // 当前路由信息
     const currentRoute = useRoute();
-    const openTabs = computed(() => store.state.tabBar.openTabs);
+    const openTabs: Array<RouteLocation> = computed(
+      () => store.state.tabBar.openTabs
+    );
     const accessibleRoutes = computed(() => store.state.route.accessibleArray);
 
     const addTab = (newTab: RouteLocation) => store.commit("addTab", newTab);
@@ -96,7 +93,7 @@ export default defineComponent({
     const data = reactive({
       affixTabs: [] as Array<RouteLocation>,
       // 当前激活的tab的key(fullPath)
-      activeTabKey: "3333",
+      activeTabKey: "",
 
       isAffix: (tab: RouteLocation): boolean => tab.meta.affix,
       handleTabClick: (fullPath: string) => {
@@ -146,6 +143,7 @@ export default defineComponent({
           addTab(Object.assign({} as RouteLocation, route));
           data.activeTabKey = route.path;
           console.log(data.activeTabKey);
+          console.log(store.state.route.accessibleArray);
         }
       });
     }
@@ -155,7 +153,7 @@ export default defineComponent({
 
     // route更新的时候添加tab;
     watch(currentRoute, (newRoute: RouteLocationNormalizedLoaded) => {
-      // addTab(newRoute);
+      addTab(newRoute);
       data.activeTabKey = newRoute.fullPath;
     });
 
