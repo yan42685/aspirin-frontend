@@ -6,12 +6,12 @@
     :route="route"
   >
     <template v-if="nonHiddenChildren.length">
-      <dynamic-items
+      <dynamic-menu
         v-for="child in nonHiddenChildren"
         :key="child.path"
         :route="child"
       >
-        ></dynamic-items
+        ></dynamic-menu
       >
     </template>
   </component>
@@ -19,46 +19,15 @@
 
 <script lang="ts">
 import { defineComponent, PropType, reactive, toRefs, computed } from "vue";
-import UseIcon from "@/components/UseIcon.vue";
 import { RouteRecordRaw } from "vue-router";
-import SideBarItem from "./SideBarItem.vue";
-import SideBarSubItem from "./SideBarSubItem.vue";
+import SubMenu from "./SubMenu.vue";
+import MenuItem from "./MenuItem.vue";
 
-type ItemType = "SideBarItem" | "SideBarSubItem";
-
-// <!-- 递归动态生成item -->
-// <component
-//   :is="itemType"
-//   v-if="!route.meta || (route.meta && !route.meta.hidden)"
-//   :route="route"
-// >
-//   <template v-if="nonHiddenChildren.length">
-//     <dynamic-items
-//       v-for="child in nonHiddenChildren"
-//       :key="child.path"
-//       :route="child"
-//     >
-//       ></dynamic-items
-//     >
-//   </template>
-// </component>
-
-// <a-sub-menu :key="route.path">
-//   <template v-slot:title>
-//     <span class="anticon">
-//       hahah
-//     </span>
-//   </template>
-//   <slot></slot>
-// </a-sub-menu>
-// <a-menu-item :key="route.path">
-//   <span class="anticon"> </span>
-//   <span>menu-item</span>
-// </a-menu-item>
+type ItemType = "SubMenu" | "MenuItem";
 
 export default defineComponent({
-  name: "DynamicItems",
-  components: { SideBarItem, SideBarSubItem },
+  name: "DynamicMenu",
+  components: { SubMenu, MenuItem },
   props: {
     route: null as PropType<RouteRecordRaw> | null
   },
@@ -78,7 +47,7 @@ export default defineComponent({
 
     const itemType = computed(
       (): ItemType =>
-        nonHiddenChildren.value.length !== 0 ? "SideBarItem" : "SideBarSubItem"
+        nonHiddenChildren.value.length !== 0 ? "SubMenu" : "MenuItem"
     );
 
     return { nonHiddenChildren, itemType };

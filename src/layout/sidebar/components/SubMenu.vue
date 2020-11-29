@@ -18,7 +18,7 @@ import { router } from "@/router";
 import UseIcon from "@/components/UseIcon.vue";
 
 export default defineComponent({
-  name: "SideBarItem",
+  name: "SubMenu",
   props: {
     route: null as PropType<RouteRecordRaw> | null
   },

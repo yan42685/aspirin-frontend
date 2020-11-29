@@ -9,7 +9,7 @@
       v-model:selectedKeys="selectedKeys"
       v-model:openKeys="openKeys"
     >
-      <dynamic-items
+      <dynamic-menu
         v-for="route in nonHiddenRoutes"
         :key="route.path"
         :route="route"
@@ -21,14 +21,14 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs, watch, computed } from "vue";
 import UseAvatar from "../sidebar/components/UseAvatar.vue";
-import DynamicItems from "./components/DynamicItems.vue";
 import { store } from "@/store";
+import DynamicMenu from "./components/DynamicMenu.vue";
 
 export default defineComponent({
   name: "Sidebar",
   components: {
     UseAvatar,
-    DynamicItems
+    DynamicMenu
   },
 
   setup() {

@@ -74,7 +74,7 @@ export default defineComponent({
   setup() {
     // 当前路由信息
     const currentRoute = useRoute();
-    const openTabs: Array<RouteLocation> = computed(
+    const openTabs: Ref<RouteLocation[]> = computed(
       () => store.state.tabBar.openTabs
     );
     const accessibleRoutes = computed(() => store.state.route.accessibleArray);
