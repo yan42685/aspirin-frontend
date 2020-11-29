@@ -29,31 +29,21 @@ export function traverseRoutes(
   });
 }
 
-export function filterRoutesByPermission(
-  routes: RouteRecordRaw[]
-): RouteRecordRaw[] {
-  const accessibleRoutes = [] as RouteRecordRaw[];
-  traverseRoutes(routes, route => {
-    if (hasPermission(route)) {
-      accessibleRoutes.push(route);
-    }
-  });
-  return accessibleRoutes;
-}
-
 export async function addDynamicRoutes() {
   // 已经动态添加过就不用加了
-  if (store.state.route.isDynamicallyAdded) {
+  if (store.state.route.isRootDynamicallyAdded) {
     return;
   }
 
-  let accessibleDynamicRoutes = [] as RouteRecordRaw[];
+  let accessibleDynamicRootRoutes = [] as RouteRecordRaw[];
   if (internalConfig.accessControl) {
-    accessibleDynamicRoutes = await store.dispatch("setAccessibleRoutes");
+    accessibleDynamicRootRoutes = await store.dispatch(
+      "setAccessibleRootRoutes"
+    );
   } else {
-    accessibleDynamicRoutes = await store.dispatch("setAllRoutes");
+    accessibleDynamicRootRoutes = await store.dispatch("setAllRootRoutes");
   }
 
-  accessibleDynamicRoutes.forEach(route => router.addRoute(route));
-  store.commit("setRoutesIsDynamicAdded");
+  accessibleDynamicRootRoutes.forEach(route => router.addRoute(route));
+  store.commit("setIsRootRoutesDynamicAdded");
 }

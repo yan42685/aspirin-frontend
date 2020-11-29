@@ -9,6 +9,8 @@ export const tabBarMutations: MutationTree<AllState> = {
       return;
     }
     const oldSamePathTab = tabBar.openTabs.find(
+      // 注意RouteRecordRaw中path表示定义时的path, 比如foo或者bar, 而RouteLocation中的path是完整路径/foo/bar,
+      // RouteLocation中的fullPath表示带query参数
       tab => tab.path === newTab.path
     );
     // 覆盖query参数不同但路径相同的tab

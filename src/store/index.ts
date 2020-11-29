@@ -1,15 +1,15 @@
-import { dynamicRoutes, staticRoutes } from "@/router";
-import { filterRoutesByPermission, traverseRoutes } from "@/utils/route";
+import { dynamicRootRoutes, staticRootRoutes } from "@/router";
 import { createStore } from "vuex";
 import { tabBarMutations } from "./modules/tab-bar";
 import { AllState } from "./types";
 import { RouteRecordRaw } from "vue-router";
+import { hasPermission } from "@/utils/route";
 
 export const store = createStore<AllState>({
   state: {
     user: { role: null },
     tabBar: { openTabs: [] },
-    route: { accessibleArray: [], isDynamicallyAdded: false },
+    route: { accessibleArray: [], isRootDynamicallyAdded: false },
     layout: { sidebarCollapsed: false }
   },
 
@@ -25,8 +25,8 @@ export const store = createStore<AllState>({
     toggleSidebarCollapse({ layout }) {
       layout.sidebarCollapsed = !layout.sidebarCollapsed;
     },
-    setRoutesIsDynamicAdded({ route }) {
-      route.isDynamicallyAdded = true;
+    setIsRootRoutesDynamicAdded({ route }) {
+      route.isRootDynamicallyAdded = true;
     },
 
     // ==========================
@@ -36,20 +36,23 @@ export const store = createStore<AllState>({
   },
 
   actions: {
-    setAllRoutes({ commit }) {
-      const allRoutes = [] as RouteRecordRaw[];
-      traverseRoutes([...staticRoutes, ...dynamicRoutes], route =>
-        allRoutes.push(route)
-      );
-      commit("setRoutes", allRoutes);
-      return dynamicRoutes;
+    setAllRootRoutes({ commit }) {
+      const allRootRoutes = [
+        ...staticRootRoutes,
+        ...dynamicRootRoutes
+      ] as RouteRecordRaw[];
+      commit("setRoutes", allRootRoutes);
+      return dynamicRootRoutes;
     },
 
     // 只设置有权限的路由
-    setAccessibleRoutes({ commit }) {
-      const accessibleDynamicRoutes = filterRoutesByPermission(dynamicRoutes);
-      commit("setRoutes", [...staticRoutes, accessibleDynamicRoutes]);
-      return accessibleDynamicRoutes;
+    setAccessibleRootRoutes({ commit }): RouteRecordRaw[] {
+      const accessibleRootRoutes: RouteRecordRaw[] = [
+        ...staticRootRoutes,
+        ...dynamicRootRoutes
+      ].filter(route => hasPermission(route));
+      commit("setRoutes", accessibleRootRoutes);
+      return [...dynamicRootRoutes].filter(router => hasPermission(router));
     }
 
     // async fetchUserInfo() {

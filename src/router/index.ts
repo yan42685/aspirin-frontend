@@ -6,7 +6,7 @@ import { loginRedirect } from "@/utils/timeout-actions";
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import Framework from "../layout/framework/Framework.vue";
 
-export const staticRoutes: Array<RouteRecordRaw> = [
+export const staticRootRoutes: Array<RouteRecordRaw> = [
   {
     path: "/",
     component: Framework,
@@ -45,7 +45,7 @@ export const staticRoutes: Array<RouteRecordRaw> = [
   }
 ];
 
-export const dynamicRoutes: Array<RouteRecordRaw> = [
+export const dynamicRootRoutes: Array<RouteRecordRaw> = [
   {
     name: "Page",
     path: "/page",
@@ -85,7 +85,7 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes: staticRoutes
+  routes: staticRootRoutes
 });
 
 const ROUTE_WHITE_LIST = ["/login", "/register", "/404"];
@@ -99,7 +99,7 @@ router.beforeEach(async (to, from, next) => {
     messenger.warning("抱歉，您没有权限访问此资源");
   } else {
     // 不检查登录或者已经登录了，才会动态添加 routes
-    // await addDynamicRoutes();
+    await addDynamicRoutes();
     next();
   }
 });
