@@ -35,4 +35,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.sidebar {
+  width: 12.5vw;
+}
+</style>

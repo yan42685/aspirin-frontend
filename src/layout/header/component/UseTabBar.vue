@@ -6,8 +6,8 @@
           <a-tabs
             @tab-click="handleTabClick"
             @edit="handleTabClose"
-            v-model:activeKey="activeTabKey"
             hide-add
+            v-model:activeKey="activeTabKey"
             type="editable-card"
             tab-position="left"
           >
@@ -20,10 +20,10 @@
               :tab="tab.meta.title"
             ></a-tab-pane>
 
-            <a-tab-pane :key="3333" :closable="true" tab="hahahah"></a-tab-pane>
-            <a-tab-pane :key="3332" :closable="true" tab="abc"></a-tab-pane>
-            <a-tab-pane :key="3331" :closable="true" tab="ddd"></a-tab-pane>
-            <a-tab-pane :key="3335" :closable="true" tab="rrrrr"></a-tab-pane>
+            <a-tab-pane key="3333" :closable="true" tab="hahahah"></a-tab-pane>
+            <a-tab-pane key="3332" :closable="true" tab="abc"></a-tab-pane>
+            <a-tab-pane key="3331" :closable="true" tab="ddd"></a-tab-pane>
+            <a-tab-pane key="3335" :closable="true" tab="rrrrr"></a-tab-pane>
           </a-tabs>
         </div>
       </a-col>
@@ -58,13 +58,9 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs, computed, Ref, watch } from "vue";
-import { DownOutlined } from "@ant-design/icons-vue";
-import { mapMutations, mapState } from "vuex";
 import {
   useRoute,
   RouteLocation,
-  RouteRecord,
-  RouteLocationNormalized,
   RouteRecordRaw,
   RouteLocationNormalizedLoaded
 } from "vue-router";
@@ -83,7 +79,6 @@ export default defineComponent({
   setup() {
     // 当前路由信息
     const currentRoute = useRoute();
-    // store.addTab;
     const openTabs = computed(() => store.state.tabBar.openTabs);
     const accessibleRoutes = computed(() => store.state.route.accessibleArray);
 
@@ -101,7 +96,7 @@ export default defineComponent({
     const data = reactive({
       affixTabs: [] as Array<RouteLocation>,
       // 当前激活的tab的key(fullPath)
-      activeTabKey: "",
+      activeTabKey: "3333",
 
       isAffix: (tab: RouteLocation): boolean => tab.meta.affix,
       handleTabClick: (fullPath: string) => {
@@ -150,6 +145,7 @@ export default defineComponent({
         if (route.meta && route.meta.affix) {
           addTab(Object.assign({} as RouteLocation, route));
           data.activeTabKey = route.path;
+          console.log(data.activeTabKey);
         }
       });
     }
@@ -182,6 +178,13 @@ export default defineComponent({
     text-align: left;
     top: 5px;
     right: -23px;
+    ::v-deep .ant-btn {
+      right: -9px !important;
+      top: 5px !important;
+
+      padding: 0 10px !important;
+      height: 22px !important;
+    }
   }
 
   // ::v-deep 样式穿透并且写上!important 就可以覆盖用了scoped的组件的样式

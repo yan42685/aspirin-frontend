@@ -28,12 +28,19 @@ export const staticRoutes: Array<RouteRecordRaw> = [
   {
     name: "Login",
     path: "/login",
-    component: () => import("../views/Login.vue")
+    component: () => import("../views/Login.vue"),
+    meta: {
+      // 决定是否出现在侧栏菜单中
+      hidden: true
+    }
   },
   {
     name: "404",
     path: "/404",
-    component: () => import("@/views/404.vue")
+    component: () => import("@/views/404.vue"),
+    meta: {
+      hidden: true
+    }
   }
 ];
 
@@ -67,7 +74,10 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
   // 在动态路由注入后，再注入404重定向规则，以确保该规则至于路由表最底部
   {
     path: "/:catchAll(.*)",
-    redirect: "/404"
+    redirect: "/404",
+    meta: {
+      hidden: true
+    }
   }
 ];
 

@@ -3,7 +3,12 @@
     <div class="top-title">
       <use-avatar />
     </div>
-    <a-menu class="vab-menu" mode="inline">
+    <a-menu
+      class="menu"
+      mode="inline"
+      v-model:selectedKeys="selectedKeys"
+      v-model:openKeys="openKeys"
+    >
       <dynamic-items
         v-for="route in nonHiddenRoutes"
         :key="route.path"
@@ -52,9 +57,6 @@ export default defineComponent({
 .sidebar-containter {
   z-index: 100;
   position: fixed;
-  border: {
-    right: $common-border;
-  }
   .top-title {
     display: flex;
     justify-content: center;
@@ -65,9 +67,12 @@ export default defineComponent({
     line-height: $sidebar-top-title-height;
   }
 
-  .sidebar {
-    height: 100vh;
+  .menu {
     text-align: left;
+    height: 100vh;
+    border: {
+      right: $common-border;
+    }
   }
 }
 </style>
