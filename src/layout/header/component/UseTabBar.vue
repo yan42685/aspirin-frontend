@@ -52,7 +52,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, computed, Ref, watch } from "vue";
+import {
+  defineComponent,
+  reactive,
+  toRefs,
+  computed,
+  Ref,
+  watch,
+  watchEffect
+} from "vue";
 import {
   useRoute,
   RouteLocation,
@@ -151,8 +159,9 @@ export default defineComponent({
     // 初始化固定标签页
     initAffixTabs(accessibleRoutes.value);
 
-    // route更新的时候添加tab;
-    watch(currentRoute, (newRoute: RouteLocationNormalizedLoaded) => {
+    // route更新的时候添加tab; 用watchEffct是因为普通的watch是deep=true模式,依赖全部属性(包括组件的key，这个key在生产环境中会被清除，导致问题)
+    // watchEffect只追踪有必要的属性, 详见https://github.com/vuejs/vue-next/issues/2027
+    watchEffect(currentRoute, (newRoute: RouteLocationNormalizedLoaded) => {
       addTab(newRoute);
       data.activeTabKey = newRoute.fullPath;
     });

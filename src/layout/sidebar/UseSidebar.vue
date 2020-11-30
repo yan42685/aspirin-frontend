@@ -13,6 +13,7 @@
         v-for="route in nonHiddenRoutes"
         :key="route.path"
         :route="route"
+        basePath=""
       />
     </a-menu>
   </div>

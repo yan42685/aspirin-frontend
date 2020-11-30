@@ -4,12 +4,14 @@
     :is="itemType"
     v-if="!route.meta || (route.meta && !route.meta.hidden)"
     :route="route"
+    :basePath="basePath"
   >
     <template v-if="nonHiddenChildren.length">
       <dynamic-menu
         v-for="child in nonHiddenChildren"
         :key="child.path"
         :route="child"
+        :basePath="currentFullPath"
       >
         ></dynamic-menu
       >
@@ -22,6 +24,7 @@ import { defineComponent, PropType, reactive, toRefs, computed } from "vue";
 import { RouteRecordRaw } from "vue-router";
 import SubMenu from "./SubMenu.vue";
 import MenuItem from "./MenuItem.vue";
+import { concatPath } from "@/utils/basic-lib";
 
 type ItemType = "SubMenu" | "MenuItem";
 
@@ -29,7 +32,11 @@ export default defineComponent({
   name: "DynamicMenu",
   components: { SubMenu, MenuItem },
   props: {
-    route: null as PropType<RouteRecordRaw> | null
+    route: null as PropType<RouteRecordRaw> | null,
+    basePath: {
+      type: String,
+      default: ""
+    }
   },
 
   setup(props) {
@@ -43,14 +50,18 @@ export default defineComponent({
       return children;
     }
 
-    const nonHiddenChildren = computed(() => getNonHiddenChildren(props.route));
+    const data = reactive({
+      nonHiddenChildren: computed(() => getNonHiddenChildren(props.route)),
+      itemType: computed(
+        (): ItemType =>
+          data.nonHiddenChildren.length > 1 ? "SubMenu" : "MenuItem"
+      ),
+      currentFullPath: computed(() =>
+        concatPath(props.basePath, props.route.path)
+      )
+    });
 
-    const itemType = computed(
-      (): ItemType =>
-        nonHiddenChildren.value.length !== 0 ? "SubMenu" : "MenuItem"
-    );
-
-    return { nonHiddenChildren, itemType };
+    return { ...toRefs(data) };
   }
 });
 </script>

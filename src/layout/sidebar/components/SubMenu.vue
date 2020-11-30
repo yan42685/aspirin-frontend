@@ -20,18 +20,17 @@ import UseIcon from "@/components/UseIcon.vue";
 export default defineComponent({
   name: "SubMenu",
   props: {
-    route: null as PropType<RouteRecordRaw> | null
+    route: null as PropType<RouteRecordRaw> | null,
+    basePath: {
+      type: String,
+      default: ""
+    }
   },
 
   components: { UseIcon },
 
-  setup(props) {
-    function handleClick() {
-      if (props.route) {
-        router.push(props.route.path);
-      }
-    }
-    return { handleClick };
+  setup() {
+    return {};
   }
 });
 </script>

@@ -9,30 +9,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, PropType, computed } from "vue";
 import { RouteRecordRaw, useRoute, RouteRecord } from "vue-router";
 import UseIcon from "@/components/UseIcon.vue";
 import { router } from "@/router";
+import { concatPath } from "@/utils/basic-lib";
 
 export default defineComponent({
   name: "MenuItem",
   props: {
-    route: null as PropType<RouteRecordRaw> | null
+    route: null as PropType<RouteRecordRaw> | null,
+    basePath: {
+      type: String,
+      default: ""
+    }
   },
   components: { UseIcon },
 
   setup(props) {
     const currentRoute = useRoute();
+
+    const targetFullPath = computed(() =>
+      concatPath(props.basePath, props.route.path)
+    );
     function handleClick() {
-      console.log("currentFullPath: ", currentRoute.fullPath);
-      console.log("targetRoute: ", props.route);
-      if (props.route && props.route.fullPath) {
-        const targetFullPath = props.route.fullPath;
-        if (targetFullPath !== currentRoute.fullPath) {
-          router.push(targetFullPath);
-        }
-      } else {
-        console.log("目标route的fullpath不存在");
+      if (targetFullPath.value != currentRoute.fullPath) {
+        router.push(targetFullPath.value);
       }
     }
 

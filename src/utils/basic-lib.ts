@@ -52,3 +52,20 @@ export function isClickOutside(elementRef: Ref<null | HTMLElement>) {
   });
   return isClickOutside;
 }
+
+export function concatPath(base: string, current: string) {
+  let result = "";
+  if (current === "/") {
+    result = "/";
+  } else if (base === "" || base === "/") {
+    result = "/" + current;
+  } else {
+    result = base + "/" + current;
+  }
+  // HACK:
+  if (result.startsWith("//")) {
+    result = result.slice(1);
+  }
+
+  return result;
+}
