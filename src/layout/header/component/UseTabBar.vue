@@ -95,10 +95,7 @@ export default defineComponent({
       activeTabKey: "",
 
       handleTabClick: (path: string) => {
-        // fullPath不一样才更新视图
-        if (currentRoute.path !== path) {
-          router.push(path);
-        }
+        router.push(path);
       },
       handleTabClose: (path: string) => {
         let shouldActivateLastTab = false;

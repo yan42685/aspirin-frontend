@@ -1,13 +1,12 @@
 <template>
-  <div><h1>Test One...</h1></div>
+  <div><h1>Test Two</h1></div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { router } from "@/router";
 
 export default defineComponent({
-  name: "Test",
+  name: "Test2",
   setup() {
     return {};
   }

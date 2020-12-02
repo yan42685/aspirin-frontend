@@ -60,7 +60,7 @@ export function concatPath(base: string, current: string) {
   } else if (base === "" || base === "/") {
     result = "/" + current;
   } else {
-    result = base + "/" + current;
+    result = base.trim() + "/" + current.trim();
   }
   // HACK:
   if (result.startsWith("//")) {

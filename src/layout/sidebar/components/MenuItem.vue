@@ -35,8 +35,8 @@ export default defineComponent({
       concatPath(props.basePath, props.route.path)
     );
     function handleClick() {
-      console.log("targetpath: ", targetPath.value);
-      console.log("currentRoutePath: ", currentRoute.path);
+      console.log("targetpath:", targetPath.value);
+      console.log("currentRoutePath:", currentRoute.path);
       router.push(targetPath.value);
     }
 
