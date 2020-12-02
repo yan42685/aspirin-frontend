@@ -49,14 +49,16 @@ export default defineComponent({
       )
     });
 
-    onBeforeRouteUpdate(() => {
-      const { path, matched } = currentRoute;
+    onBeforeRouteUpdate((to, from, next) => {
+      const { path, matched } = to;
       // matched[0]表示第一个匹配的RouteRecord
       console.log("parentPath:", matched[0].path);
-      matched[0].children.length > 1
-        ? (data.selectedKeys = [path])
-        : (data.selectedKeys = [matched[0].path]);
+      // matched[0].children.length > 1
+      //   ? (data.selectedKeys = [path])
+      //   : (data.selectedKeys = [matched[0].path]);
+      data.selectedKeys = [to.path];
       data.openKeys = [matched[0].path];
+      next();
     });
 
     return {

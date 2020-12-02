@@ -9,7 +9,7 @@
     <template v-if="nonHiddenChildren.length">
       <dynamic-menu
         v-for="child in nonHiddenChildren"
-        :key="child.path"
+        :key="currentFullPath + child.path"
         :route="child"
         :basePath="currentFullPath"
       ></dynamic-menu>

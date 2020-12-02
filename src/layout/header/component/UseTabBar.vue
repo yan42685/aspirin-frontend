@@ -152,6 +152,7 @@ export default defineComponent({
     onBeforeRouteUpdate((to, from, next) => {
       addTab(to);
       data.activeTabKey = to.path;
+      next();
     });
     //
     return {
