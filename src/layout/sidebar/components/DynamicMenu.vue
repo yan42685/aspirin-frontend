@@ -4,12 +4,13 @@
     :is="itemType"
     v-if="!route.meta || (route.meta && !route.meta.hidden)"
     :route="route"
+    :key="currentFullPath"
     :basePath="basePath"
   >
     <template v-if="nonHiddenChildren.length">
       <dynamic-menu
         v-for="child in nonHiddenChildren"
-        :key="currentFullPath + child.path"
+        :key="concatPath(currentFullPath, child.path)"
         :route="child"
         :basePath="currentFullPath"
       ></dynamic-menu>
@@ -59,7 +60,7 @@ export default defineComponent({
       )
     });
 
-    return { ...toRefs(data) };
+    return { ...toRefs(data), concatPath };
   }
 });
 </script>

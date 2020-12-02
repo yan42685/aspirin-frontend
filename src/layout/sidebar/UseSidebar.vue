@@ -53,7 +53,6 @@ export default defineComponent({
       const { path, matched } = newRoute;
 
       // matched[0]表示第一个匹配的RouteRecord
-      console.log("parentPath:", matched[0].path);
       matched[0].children.length > 1
         ? (data.selectedKeys = [path])
         : (data.selectedKeys = [matched[0].path]);

@@ -113,7 +113,6 @@ export default defineComponent({
         const target = openTabs.value.find(tab => {
           return path === tab.path;
         });
-        console.log("target", target);
         if (target) {
           deleteTab(target);
         }

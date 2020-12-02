@@ -61,7 +61,6 @@ export function concatPath(base: string, current: string) {
     result = "/" + current;
   } else {
     result = base.trim() + "/" + current.trim();
-    console.log("result:", result);
   }
   // HACK:
   if (result.startsWith("//")) {
