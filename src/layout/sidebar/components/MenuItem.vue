@@ -9,10 +9,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed } from "vue";
+import { defineComponent, PropType, computed, reactive, toRefs } from "vue";
 import { RouteRecordRaw, useRoute } from "vue-router";
 import UseIcon from "@/components/UseIcon.vue";
 import { router } from "@/router";
+import { store } from "@/store";
 import { concatPath } from "@/utils/basic-lib";
 
 export default defineComponent({
@@ -27,18 +28,18 @@ export default defineComponent({
   components: { UseIcon },
 
   setup(props) {
-    const currentRoute = useRoute();
+    const data = reactive({
+      currentRoute: useRoute(),
+      targetPath: computed(() => concatPath(props.basePath, props.route.path)),
+      handleClick: () => {
+        console.log("targetpath:", data.targetPath);
+        console.log("currentRoutePath:", data.currentRoute.path);
+        router.push(data.targetPath);
+        console.log(store.state.tabBar.openTabs);
+      }
+    });
 
-    const targetPath = computed(() =>
-      concatPath(props.basePath, props.route.path)
-    );
-    function handleClick() {
-      console.log("targetpath:", targetPath.value);
-      console.log("currentRoutePath:", currentRoute.path);
-      router.push(targetPath.value);
-    }
-
-    return { handleClick, targetPath };
+    return { ...toRefs(data) };
   }
 });
 </script>

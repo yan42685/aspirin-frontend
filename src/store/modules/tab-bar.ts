@@ -3,7 +3,7 @@ import { AllState } from "../types";
 import { RouteLocation, RouteRecord } from "vue-router";
 
 export const tabBarMutations: MutationTree<AllState> = {
-  addTab({ tabBar, route }, newTab: RouteLocation | RouteRecord) {
+  addTab({ tabBar }, newTab: RouteLocation | RouteRecord) {
     const tabExists = !!tabBar.openTabs.find(
       (tab: RouteLocation) => tab.path == newTab.path
     );
