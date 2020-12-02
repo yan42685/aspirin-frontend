@@ -13,6 +13,7 @@ export const tabBarMutations: MutationTree<AllState> = {
   },
 
   deleteTab({ tabBar }, targetTab: RouteLocation) {
+    console.log(222);
     tabBar.openTabs.forEach((tab, index) => {
       if (tab.path === targetTab.path) {
         tabBar.openTabs.splice(index, 1);

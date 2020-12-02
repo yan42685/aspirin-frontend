@@ -52,7 +52,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, computed, Ref } from "vue";
+import {
+  defineComponent,
+  reactive,
+  toRefs,
+  computed,
+  Ref,
+  watch,
+  watchEffect
+} from "vue";
 import {
   useRoute,
   RouteLocation,
@@ -90,51 +98,27 @@ export default defineComponent({
       store.commit("deleteRightTabs", currentTab);
     const deleteAllTabs = () => store.commit("deleteAllTabs");
 
-    function goToLastTab() {
-      const tabPath = openTabs.value[openTabs.value.length - 1].path;
-      if (tabPath) {
-        router.push(tabPath);
-      }
-    }
-
-    function goToNextTab(currentTabIndex: number) {
-      console.log("currentTabIndex", currentTabIndex);
-      if (currentTabIndex >= 0) {
-        const nextTabIndex =
-          // 如果现在是最后一个tab
-          currentTabIndex === openTabs.value.length
-            ? currentTabIndex - 1
-            : currentTabIndex;
-        console.log("nextTabIndex", nextTabIndex);
-        const path = openTabs.value[nextTabIndex].path;
-        router.push(path);
-
-        // TODO: 关闭最后一个tab
-        // goToLastTab();
-        // data.activeTabKey = openTabs.value[openTabs.value.length - 1].path;
-      }
-    }
-
     const data = reactive({
       // 当前激活的tab的key(path)
       activeTabKey: "",
+      goToLastTab() {
+        const latestTab = openTabs.value.slice(-1)[0];
+        if (latestTab) router.push(latestTab);
+      },
 
       handleTabClick: (path: string) => {
         router.push(path);
       },
       handleTabClose: (path: string) => {
-        const currentPath = currentRoute.path;
-        const currentTabIndex = openTabs.value.findIndex(
-          tab => tab.path === currentPath
-        );
-
-        const targetTab = getTabByPath(path);
-        if (targetTab) {
-          deleteTab(targetTab);
+        const target = openTabs.value.find(tab => {
+          return path === tab.path;
+        });
+        console.log("target", target);
+        if (target) {
+          deleteTab(target);
         }
-        // 如果关闭的是当前页面
-        if (path === currentPath) {
-          goToNextTab(currentTabIndex);
+        if (target && target.path == currentRoute.path) {
+          data.goToLastTab();
         }
       },
 
@@ -158,8 +142,7 @@ export default defineComponent({
             break;
           case "CLOSE_ALL":
             deleteAllTabs();
-            goToLastTab();
-            data.activeTabKey = openTabs.value[openTabs.value.length - 1].path;
+            data.goToLastTab();
             break;
           default:
             break;
@@ -179,12 +162,12 @@ export default defineComponent({
     // 初始化固定标签页
     initAffixTabs(router.getRoutes());
 
-    onBeforeRouteUpdate((to, from, next) => {
-      addTab(to);
-      data.activeTabKey = to.path;
-      next();
+    //FIXME: watch有效但是会报警，onBeforeRouteUpdate也有坑，和watchEffect都有坑！
+    watch(currentRoute, newRoute => {
+      addTab(newRoute);
+      data.activeTabKey = newRoute.path;
     });
-    //
+
     return {
       ...toRefs(data),
       openTabs,

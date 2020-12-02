@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { onBeforeRouteUpdate, useRoute } from "vue-router";
-import { defineComponent, reactive, computed, toRefs } from "vue";
+import { defineComponent, reactive, computed, toRefs, watch } from "vue";
 import DynamicMenu from "./components/DynamicMenu.vue";
 import { hasPermission } from "@/utils/route";
 import { staticRootRoutes, dynamicRootRoutes } from "@/router";
@@ -49,16 +49,15 @@ export default defineComponent({
       )
     });
 
-    onBeforeRouteUpdate((to, from, next) => {
-      const { path, matched } = to;
+    watch(currentRoute, newRoute => {
+      const { path, matched } = newRoute;
+
       // matched[0]表示第一个匹配的RouteRecord
       console.log("parentPath:", matched[0].path);
-      // matched[0].children.length > 1
-      //   ? (data.selectedKeys = [path])
-      //   : (data.selectedKeys = [matched[0].path]);
-      data.selectedKeys = [to.path];
+      matched[0].children.length > 1
+        ? (data.selectedKeys = [path])
+        : (data.selectedKeys = [matched[0].path]);
       data.openKeys = [matched[0].path];
-      next();
     });
 
     return {
