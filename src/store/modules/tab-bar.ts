@@ -1,4 +1,4 @@
-import { MutationTree } from "vuex";
+import { MutationTree, GetterTree } from "vuex";
 import { AllState } from "../types";
 import { RouteLocation, RouteRecord } from "vue-router";
 
@@ -21,7 +21,6 @@ export const tabBarMutations: MutationTree<AllState> = {
   },
 
   deleteOtherTabs({ tabBar }, currentTab: RouteLocation) {
-    console.log("delete other");
     tabBar.openTabs = tabBar.openTabs.filter((tab: RouteLocation) => {
       if (tab.meta && tab.meta.affix) {
         return true;
@@ -57,7 +56,7 @@ export const tabBarMutations: MutationTree<AllState> = {
 
   deleteAllTabs({ tabBar }) {
     tabBar.openTabs = tabBar.openTabs.filter(
-      (tab: RouteLocation) => tab.meta.affix
+      (tab: RouteLocation) => tab.meta && tab.meta.affix
     );
   }
 };

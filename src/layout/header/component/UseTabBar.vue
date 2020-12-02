@@ -61,7 +61,7 @@ import {
 } from "vue-router";
 import { store } from "@/store";
 import { router } from "@/router";
-import { activateLastTab, getTabByPath } from "@/service/tab";
+import { getTabByPath } from "@/service/tab";
 import { DownOutlined } from "@ant-design/icons-vue";
 import { routeMetaContains } from "@/utils/route";
 
@@ -90,6 +90,31 @@ export default defineComponent({
       store.commit("deleteRightTabs", currentTab);
     const deleteAllTabs = () => store.commit("deleteAllTabs");
 
+    function goToLastTab() {
+      const tabPath = openTabs.value[openTabs.value.length - 1].path;
+      if (tabPath) {
+        router.push(tabPath);
+      }
+    }
+
+    function goToNextTab(currentTabIndex: number) {
+      console.log("currentTabIndex", currentTabIndex);
+      if (currentTabIndex >= 0) {
+        const nextTabIndex =
+          // 如果现在是最后一个tab
+          currentTabIndex === openTabs.value.length
+            ? currentTabIndex - 1
+            : currentTabIndex;
+        console.log("nextTabIndex", nextTabIndex);
+        const path = openTabs.value[nextTabIndex].path;
+        router.push(path);
+
+        // TODO: 关闭最后一个tab
+        // goToLastTab();
+        // data.activeTabKey = openTabs.value[openTabs.value.length - 1].path;
+      }
+    }
+
     const data = reactive({
       // 当前激活的tab的key(path)
       activeTabKey: "",
@@ -98,21 +123,23 @@ export default defineComponent({
         router.push(path);
       },
       handleTabClose: (path: string) => {
-        let shouldActivateLastTab = false;
-        if (currentRoute.path === path) {
-          shouldActivateLastTab = true;
-        }
+        const currentPath = currentRoute.path;
+        const currentTabIndex = openTabs.value.findIndex(
+          tab => tab.path === currentPath
+        );
+
         const targetTab = getTabByPath(path);
         if (targetTab) {
           deleteTab(targetTab);
         }
-        if (shouldActivateLastTab) {
-          activateLastTab();
+        // 如果关闭的是当前页面
+        if (path === currentPath) {
+          goToNextTab(currentTabIndex);
         }
       },
 
       // 注意这里是解构运算符
-      handleTabOperation: operation => {
+      handleTabOperation: (operation: any) => {
         const currentTab = getTabByPath(data.activeTabKey);
         if (!currentTab) {
           console.log("找不到当前tab");
@@ -128,11 +155,11 @@ export default defineComponent({
             break;
           case "CLOSE_OTHER":
             deleteOtherTabs(currentTab);
-            // console.log("currentTab:", currentTab.path, currentTab.matched);
             break;
           case "CLOSE_ALL":
             deleteAllTabs();
-            activateLastTab();
+            goToLastTab();
+            data.activeTabKey = openTabs.value[openTabs.value.length - 1].path;
             break;
           default:
             break;
@@ -141,7 +168,6 @@ export default defineComponent({
     });
 
     function initAffixTabs(routes: RouteRecord[]) {
-      console.log(routes);
       routes.forEach(route => {
         if (route.meta && route.meta.affix) {
           addTab(route);

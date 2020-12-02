@@ -13,7 +13,6 @@ import { defineComponent, PropType, computed, reactive, toRefs } from "vue";
 import { RouteRecordRaw, useRoute } from "vue-router";
 import UseIcon from "@/components/UseIcon.vue";
 import { router } from "@/router";
-import { store } from "@/store";
 import { concatPath } from "@/utils/basic-lib";
 
 export default defineComponent({
@@ -31,12 +30,7 @@ export default defineComponent({
     const data = reactive({
       currentRoute: useRoute(),
       targetPath: computed(() => concatPath(props.basePath, props.route.path)),
-      handleClick: () => {
-        console.log("targetpath:", data.targetPath);
-        console.log("currentRoutePath:", data.currentRoute.path);
-        router.push(data.targetPath);
-        console.log(store.state.tabBar.openTabs);
-      }
+      handleClick: () => router.push(data.targetPath)
     });
 
     return { ...toRefs(data) };
