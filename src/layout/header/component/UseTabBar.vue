@@ -16,7 +16,7 @@
               size="small"
               v-for="tab in openTabs"
               :key="tab.path"
-              :closable="!tab.meta || (tab.meta && !tab.meta.affix)"
+              :closable="!(tab.meta && tab.meta.affix)"
               :tab="tab.meta.title"
             ></a-tab-pane>
           </a-tabs>
@@ -77,7 +77,6 @@ export default defineComponent({
     const openTabs: Ref<RouteLocation[]> = computed(
       () => store.state.tabBar.openTabs
     );
-    const accessibleRoutes = computed(() => store.state.route.accessibleArray);
 
     const addTab = (newTab: RouteLocation | RouteRecord) =>
       store.commit("addTab", newTab);
@@ -92,8 +91,7 @@ export default defineComponent({
     const deleteAllTabs = () => store.commit("deleteAllTabs");
 
     const data = reactive({
-      affixTabs: [] as RouteLocation[],
-      // 当前激活的tab的key(fullPath)
+      // 当前激活的tab的key(path)
       activeTabKey: "",
 
       handleTabClick: (path: string) => {
@@ -155,7 +153,6 @@ export default defineComponent({
     initAffixTabs(router.getRoutes());
 
     onBeforeRouteUpdate((to, from, next) => {
-      console.log("333");
       addTab(to);
       data.activeTabKey = to.path;
     });

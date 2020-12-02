@@ -13,6 +13,8 @@ import { defineComponent, PropType, computed } from "vue";
 import { RouteRecordRaw, useRoute, RouteRecord } from "vue-router";
 import UseIcon from "@/components/UseIcon.vue";
 import { router } from "@/router";
+import { store } from "@/store";
+import { getTabByPath } from "@/service/tab";
 import { concatPath } from "@/utils/basic-lib";
 
 export default defineComponent({
@@ -29,13 +31,13 @@ export default defineComponent({
   setup(props) {
     const currentRoute = useRoute();
 
-    const targetFullPath = computed(() =>
+    const targetPath = computed(() =>
       concatPath(props.basePath, props.route.path)
     );
     function handleClick() {
-      if (targetFullPath.value != currentRoute.fullPath) {
-        router.push(targetFullPath.value);
-      }
+      console.log("targetpath: ", targetPath.value);
+      console.log("currentRoutePath: ", currentRoute.path);
+      router.push(targetPath.value);
     }
 
     return { handleClick };

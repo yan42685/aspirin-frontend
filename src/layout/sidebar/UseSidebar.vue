@@ -24,6 +24,7 @@ import { defineComponent, reactive, toRefs, watch, computed } from "vue";
 import UseAvatar from "../sidebar/components/UseAvatar.vue";
 import { store } from "@/store";
 import DynamicMenu from "./components/DynamicMenu.vue";
+import { onBeforeRouteUpdate } from "vue-router";
 
 export default defineComponent({
   name: "Sidebar",
@@ -46,6 +47,10 @@ export default defineComponent({
         .filter(route => !route.meta || (route.meta && !route.meta.hidden))
     );
 
+    // onBeforeRouteUpdate((to, from, next) => {
+    //   data.activeTabKey = to.path;
+    // });
+    //
     return {
       ...toRefs(data),
       nonHiddenRoutes

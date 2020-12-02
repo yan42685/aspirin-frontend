@@ -51,15 +51,15 @@ export const staticRootRoutes: Array<RouteRecordRaw> = [
   }
 ];
 
-export const dynamicRootRoutes: Array<RouteRecordRaw> = [
+export const dynamicRootRoutes: RouteRecordRaw[] = [
   {
     name: "Page",
     path: "/page",
     component: Framework,
     meta: {
       title: "首页",
-      icon: "home",
-      affix: true
+      icon: "home"
+      // affix: true // TODO: 取消注释
     },
     children: [
       {
@@ -69,12 +69,17 @@ export const dynamicRootRoutes: Array<RouteRecordRaw> = [
         meta: { title: "测试页面" }
       },
       {
+        name: "Test2",
+        path: "test-two",
+        component: () => import("../views/pages/Test2.vue"),
+        meta: { title: "测试页面 Two" }
+      },
+      {
         name: "UserCenter",
         path: "user-center",
         component: () => import("../views/pages/UserCenter.vue"),
         meta: {
-          title: "用户中心",
-          affix: true
+          title: "用户中心"
         }
       }
     ]
