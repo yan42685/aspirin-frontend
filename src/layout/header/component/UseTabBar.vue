@@ -110,14 +110,16 @@ export default defineComponent({
           activateLastTab();
         }
       },
-      handleTabOperation: (operation: TabOperation) => {
+
+      // 注意这里是解构运算符
+      handleTabOperation: operation => {
         const currentTab = getTabByPath(data.activeTabKey);
         if (!currentTab) {
           console.log("找不到当前tab");
           return;
         }
 
-        switch (operation) {
+        switch (operation.key as TabOperation) {
           case "CLOSE_LEFT":
             deleteLeftTabs(currentTab);
             break;
@@ -126,9 +128,11 @@ export default defineComponent({
             break;
           case "CLOSE_OTHER":
             deleteOtherTabs(currentTab);
+            // console.log("currentTab:", currentTab.path, currentTab.matched);
             break;
           case "CLOSE_ALL":
             deleteAllTabs();
+            activateLastTab();
             break;
           default:
             break;

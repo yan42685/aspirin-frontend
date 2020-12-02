@@ -21,6 +21,7 @@ export const tabBarMutations: MutationTree<AllState> = {
   },
 
   deleteOtherTabs({ tabBar }, currentTab: RouteLocation) {
+    console.log("delete other");
     tabBar.openTabs = tabBar.openTabs.filter((tab: RouteLocation) => {
       if (tab.meta && tab.meta.affix) {
         return true;
