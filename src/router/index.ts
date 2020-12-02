@@ -1,11 +1,17 @@
 import { internalConfig } from "@/config/app-settings";
 import { store } from "@/store";
 import { messenger } from "@/utils/my-ant-design-vue";
-import { hasPermission, addDynamicRoutes } from "@/utils/route";
+import { hasPermission, updateDynamicRoutes } from "@/utils/route";
 import { loginRedirect } from "@/utils/timeout-actions";
-import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
+import {
+  createRouter,
+  createWebHashHistory,
+  RouteRecordRaw,
+  useRoute
+} from "vue-router";
 import Framework from "../layout/framework/Framework.vue";
 
+// 旧版本是RouteConfig 新版本是RouteRecordRaw
 export const staticRootRoutes: Array<RouteRecordRaw> = [
   {
     path: "/",
@@ -91,6 +97,7 @@ const router = createRouter({
 const ROUTE_WHITE_LIST = ["/login", "/register", "/404"];
 
 router.beforeEach(async (to, from, next) => {
+  // await addDynamicRoutes();
   if (ROUTE_WHITE_LIST.includes(to.path)) {
     next();
   } else if (internalConfig.loginInterception && !store.state.user.role) {
@@ -98,8 +105,7 @@ router.beforeEach(async (to, from, next) => {
   } else if (internalConfig.accessControl && !hasPermission(to)) {
     messenger.warning("抱歉，您没有权限访问此资源");
   } else {
-    // 不检查登录或者已经登录了，才会动态添加 routes
-    await addDynamicRoutes();
+    /* updateDynamicRoutes(); */
     next();
   }
 });
@@ -108,6 +114,11 @@ router.afterEach(to => {
   if (to.meta && to.meta.title) {
     document.title = to.meta.title + " - " + internalConfig.appName;
   }
+});
+
+// 在vur-router 3.0是onReady()
+router.isReady().then(() => {
+  updateDynamicRoutes();
 });
 
 export { router };

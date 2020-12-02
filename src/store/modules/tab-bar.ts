@@ -1,26 +1,14 @@
 import { MutationTree } from "vuex";
 import { AllState } from "../types";
-import { RouteLocation } from "vue-router";
+import { RouteLocation, RouteRecord } from "vue-router";
 
 export const tabBarMutations: MutationTree<AllState> = {
-  addTab({ tabBar, route }, newTab: RouteLocation) {
-    // 不在可到达路由的tab不会添加
-    if (!route.accessibleArray.find(route => route.path === newTab.path)) {
-      return;
-    }
-    const oldSamePathTab = tabBar.openTabs.find(
-      // 注意RouteRecordRaw中path表示定义时的path, 比如foo或者bar, 而RouteLocation中的path是完整路径/foo/bar,
-      // RouteLocation中的fullPath表示带query参数
-      tab => tab.path === newTab.path
+  addTab({ tabBar, route }, newTab: RouteLocation | RouteRecord) {
+    const tabExists = !!tabBar.openTabs.find(
+      (tab: RouteLocation) => tab.path == newTab.path
     );
-    // 覆盖query参数不同但路径相同的tab
-    if (oldSamePathTab) {
-      if (oldSamePathTab.fullPath !== newTab.fullPath) {
-        Object.assign(oldSamePathTab, newTab);
-      }
-    } else {
-      // 浅克隆对象
-      tabBar.openTabs.push(Object.assign({}, newTab));
+    if (!tabExists) {
+      tabBar.openTabs.push(Object.assign({} as RouteLocation, newTab));
     }
   },
 

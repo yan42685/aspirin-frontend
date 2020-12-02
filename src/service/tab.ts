@@ -4,8 +4,8 @@ import { computed } from "vue";
 
 const openTabs = computed(() => store.state.tabBar.openTabs);
 
-export function getTabByFullPath(fullPath: string) {
-  return openTabs.value.find(tab => tab.fullPath === fullPath);
+export function getTabByPath(path: string) {
+  return openTabs.value.find(tab => tab.fullPath === path);
 }
 
 export function activateLastTab() {

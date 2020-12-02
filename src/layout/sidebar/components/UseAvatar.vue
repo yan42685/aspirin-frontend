@@ -19,6 +19,6 @@ export default defineComponent({
 .avatar-container {
   margin-top: -10px;
   height: $subheader1-height;
-  display: box;
+  display: block;
 }
 </style>

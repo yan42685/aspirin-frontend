@@ -1,4 +1,8 @@
-import { RouteRecordRaw, RouteLocation } from "vue-router";
+import {
+  RouteRecordRaw,
+  RouteLocation,
+  RouteRecordNormalized
+} from "vue-router";
 import { internalConfig } from "@/config/app-settings";
 import { store } from "@/store";
 import { RoleEnum } from "@/api/rest-api";
@@ -29,11 +33,11 @@ export function traverseRoutes(
   });
 }
 
-export async function addDynamicRoutes() {
+export async function updateDynamicRoutes() {
   // 已经动态添加过就不用加了
-  if (store.state.route.isRootDynamicallyAdded) {
-    return;
-  }
+  // if (store.state.route.isRootDynamicallyAdded) {
+  //   return;
+  // }
 
   let accessibleDynamicRootRoutes = [] as RouteRecordRaw[];
   if (internalConfig.accessControl) {
@@ -44,6 +48,19 @@ export async function addDynamicRoutes() {
     accessibleDynamicRootRoutes = await store.dispatch("setAllRootRoutes");
   }
 
+  // addRoute方法会自动替换同名的route
   accessibleDynamicRootRoutes.forEach(route => router.addRoute(route));
+
   store.commit("setIsRootRoutesDynamicAdded");
+}
+
+export function routeMetaContains(
+  route: RouteRecordNormalized | RouteLocation,
+  field: string
+): boolean {
+  let result = false;
+  if (route.meta && field in route.meta) {
+    result = true;
+  }
+  return result;
 }

@@ -9,11 +9,11 @@
 
 <script lang="ts">
 import { defineComponent, computed, reactive, toRefs } from "vue";
-import { store } from "@/store";
 import UseSidebar from "../sidebar/UseSidebar.vue";
 import UseContent from "../content/UseContent.vue";
 import UseHeader from "../header/UseHeader.vue";
-import { addDynamicRoutes } from "@/utils/route";
+import { updateDynamicRoutes } from "@/utils/route";
+import { store } from "@/store";
 
 export default defineComponent({
   name: "Framework",

@@ -15,8 +15,8 @@
               class="tab-pane"
               size="small"
               v-for="tab in openTabs"
-              :key="tab.fullPath"
-              :closable="!isAffix(tab)"
+              :key="tab.path"
+              :closable="!tab.meta || (tab.meta && !tab.meta.affix)"
               :tab="tab.meta.title"
             ></a-tab-pane>
           </a-tabs>
@@ -52,26 +52,18 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  reactive,
-  toRefs,
-  computed,
-  Ref,
-  watch,
-  watchEffect
-} from "vue";
+import { defineComponent, reactive, toRefs, computed, Ref } from "vue";
 import {
   useRoute,
   RouteLocation,
-  RouteRecordRaw,
-  RouteLocationNormalizedLoaded
+  RouteRecord,
+  onBeforeRouteUpdate
 } from "vue-router";
 import { store } from "@/store";
 import { router } from "@/router";
-import { activateLastTab, getTabByFullPath } from "@/service/tab";
+import { activateLastTab, getTabByPath } from "@/service/tab";
 import { DownOutlined } from "@ant-design/icons-vue";
-import { addDynamicRoutes } from "@/utils/route";
+import { routeMetaContains } from "@/utils/route";
 
 type TabOperation = "CLOSE_LEFT" | "CLOSE_RIGHT" | "CLOSE_OTHER" | "CLOSE_ALL";
 
@@ -87,7 +79,8 @@ export default defineComponent({
     );
     const accessibleRoutes = computed(() => store.state.route.accessibleArray);
 
-    const addTab = (newTab: RouteLocation) => store.commit("addTab", newTab);
+    const addTab = (newTab: RouteLocation | RouteRecord) =>
+      store.commit("addTab", newTab);
     const deleteTab = (targetTab: RouteLocation) =>
       store.commit("deleteTab", targetTab);
     const deleteOtherTabs = (currentTab: RouteLocation) =>
@@ -99,28 +92,31 @@ export default defineComponent({
     const deleteAllTabs = () => store.commit("deleteAllTabs");
 
     const data = reactive({
-      affixTabs: [] as Array<RouteLocation>,
+      affixTabs: [] as RouteLocation[],
       // 当前激活的tab的key(fullPath)
       activeTabKey: "",
 
-      isAffix: (tab: RouteLocation): boolean => tab.meta.affix,
-      handleTabClick: (fullPath: string) => {
+      handleTabClick: (path: string) => {
         // fullPath不一样才更新视图
-        if (currentRoute.fullPath !== fullPath) {
-          router.push(fullPath);
+        if (currentRoute.path !== path) {
+          router.push(path);
         }
       },
-      handleTabClose: (fullPath: string) => {
-        if (currentRoute.path === fullPath) {
-          activateLastTab();
+      handleTabClose: (path: string) => {
+        let shouldActivateLastTab = false;
+        if (currentRoute.path === path) {
+          shouldActivateLastTab = true;
         }
-        const targetTab = getTabByFullPath(fullPath);
+        const targetTab = getTabByPath(path);
         if (targetTab) {
           deleteTab(targetTab);
         }
+        if (shouldActivateLastTab) {
+          activateLastTab();
+        }
       },
       handleTabOperation: (operation: TabOperation) => {
-        const currentTab = getTabByFullPath(data.activeTabKey);
+        const currentTab = getTabByPath(data.activeTabKey);
         if (!currentTab) {
           console.log("找不到当前tab");
           return;
@@ -145,30 +141,29 @@ export default defineComponent({
       }
     });
 
-    function initAffixTabs(routeRecords: Array<RouteRecordRaw>) {
-      routeRecords.forEach(route => {
+    function initAffixTabs(routes: RouteRecord[]) {
+      console.log(routes);
+      routes.forEach(route => {
         if (route.meta && route.meta.affix) {
-          addTab(Object.assign({} as RouteLocation, route));
+          addTab(route);
           data.activeTabKey = route.path;
-          console.log(data.activeTabKey);
-          console.log(store.state.route.accessibleArray);
         }
       });
     }
 
     // 初始化固定标签页
-    initAffixTabs(accessibleRoutes.value);
+    initAffixTabs(router.getRoutes());
 
-    // route更新的时候添加tab; 用watchEffct是因为普通的watch是deep=true模式,依赖全部属性(包括组件的key，这个key在生产环境中会被清除，导致问题)
-    // watchEffect只追踪有必要的属性, 详见https://github.com/vuejs/vue-next/issues/2027
-    watchEffect(currentRoute, (newRoute: RouteLocationNormalizedLoaded) => {
-      addTab(newRoute);
-      data.activeTabKey = newRoute.fullPath;
+    onBeforeRouteUpdate((to, from, next) => {
+      console.log("333");
+      addTab(to);
+      data.activeTabKey = to.path;
     });
-
+    //
     return {
       ...toRefs(data),
-      openTabs
+      openTabs,
+      routeMetaContains
     };
   }
 });

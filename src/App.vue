@@ -3,11 +3,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, onMounted } from "vue";
+import { updateDynamicRoutes } from "./utils/route";
 
-export default defineComponent({
-  // components: { SideBar }
-});
+export default defineComponent({});
 </script>
 
 <style lang="scss">
