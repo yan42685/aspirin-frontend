@@ -10,11 +10,9 @@
 
 <script lang="ts">
 import { defineComponent, PropType, computed } from "vue";
-import { RouteRecordRaw, useRoute, RouteRecord } from "vue-router";
+import { RouteRecordRaw, useRoute } from "vue-router";
 import UseIcon from "@/components/UseIcon.vue";
 import { router } from "@/router";
-import { store } from "@/store";
-import { getTabByPath } from "@/service/tab";
 import { concatPath } from "@/utils/basic-lib";
 
 export default defineComponent({

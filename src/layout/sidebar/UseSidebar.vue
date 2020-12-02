@@ -35,26 +35,24 @@ export default defineComponent({
   },
 
   setup() {
+    const currentRoute = useRoute();
     const data = reactive({
       selectedKeys: [] as Array<string>,
       openKeys: [] as Array<string>,
       handleClick: (e: MouseEvent) => console.log("click", e),
-      titleClick: (e: MouseEvent) => console.log("titleClick", e)
+      titleClick: (e: MouseEvent) => console.log("titleClick", e),
+      nonHiddenRootRoutes: computed(() =>
+        [...staticRootRoutes, ...dynamicRootRoutes]
+          .filter(route => hasPermission(route))
+          .filter(route => route.path !== "/")
+          .filter(route => !route.meta || (route.meta && !route.meta.hidden))
+      )
     });
-
-    const currentRoute = useRoute();
-
-    const nonHiddenRootRoutes = computed(() =>
-      [...staticRootRoutes, ...dynamicRootRoutes]
-        .filter(route => hasPermission(route))
-        .filter(route => route.path !== "/")
-        .filter(route => !route.meta || (route.meta && !route.meta.hidden))
-    );
 
     onBeforeRouteUpdate(() => {
       const { path, matched } = currentRoute;
-      // matched[0]表示第一个匹配的路由，即当前路由的第一个父路由
-      console.log("matched[0].path = ", matched[0].path);
+      // matched[0]表示第一个匹配的RouteRecord
+      console.log("parentPath:", matched[0].path);
       matched[0].children.length > 1
         ? (data.selectedKeys = [path])
         : (data.selectedKeys = [matched[0].path]);
@@ -62,8 +60,7 @@ export default defineComponent({
     });
 
     return {
-      ...toRefs(data),
-      nonHiddenRootRoutes
+      ...toRefs(data)
     };
   }
 });

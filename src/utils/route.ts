@@ -33,22 +33,6 @@ export function traverseRoutes(
   });
 }
 
-export async function updateDynamicRoutes() {
-  let accessibleDynamicRootRoutes = [] as RouteRecordRaw[];
-  if (internalConfig.accessControl) {
-    accessibleDynamicRootRoutes = await store.dispatch(
-      "setAccessibleRootRoutes"
-    );
-  } else {
-    accessibleDynamicRootRoutes = await store.dispatch("setAllRootRoutes");
-  }
-
-  // addRoute方法会自动替换同名的route
-  accessibleDynamicRootRoutes.forEach(route => router.addRoute(route));
-
-  store.commit("setIsRootRoutesDynamicAdded");
-}
-
 export function routeMetaContains(
   route: RouteRecordNormalized | RouteLocation,
   field: string

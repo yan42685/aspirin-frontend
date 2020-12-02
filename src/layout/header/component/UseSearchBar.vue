@@ -1,22 +1,3 @@
-<!-- <script lang="ts">                     -->
-<!-- import { defineComponent } from "vue"; -->
-
-<!-- export default defineComponent({       -->
-<!--   name: "UseSearchBar",                -->
-<!--   setup() {                            -->
-<!--     return {};                         -->
-<!--   }                                    -->
-<!-- });                                    -->
-<!-- </script>                              -->
-
-<!-- <style scoped lang="scss">             -->
-<!-- .search-bar-container {                -->
-<!--   position: relative;                  -->
-<!--   width: 50%;                          -->
-<!--   text-align: left;                    -->
-<!--   left: 0;                             -->
-<!-- }                                      -->
-<!-- </style>                               -->
 <template>
   <div class="search-bar-container">
     <a-input-search

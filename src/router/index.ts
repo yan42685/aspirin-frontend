@@ -1,14 +1,9 @@
 import { internalConfig } from "@/config/app-settings";
 import { store } from "@/store";
 import { messenger } from "@/utils/my-ant-design-vue";
-import { hasPermission, updateDynamicRoutes } from "@/utils/route";
+import { hasPermission } from "@/utils/route";
 import { loginRedirect } from "@/utils/timeout-actions";
-import {
-  createRouter,
-  createWebHashHistory,
-  RouteRecordRaw,
-  useRoute
-} from "vue-router";
+import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import Framework from "../layout/framework/Framework.vue";
 
 // 旧版本是RouteConfig 新版本是RouteRecordRaw
@@ -123,7 +118,9 @@ router.afterEach(to => {
 // 在vur-router 3.0是onReady()
 router.isReady().then(async () => {
   // NOTE: 巨坑，因为这个函数是异步的，所以需要await, 不然找不到路由
-  await updateDynamicRoutes();
+  [...staticRootRoutes, ...dynamicRootRoutes]
+    .filter(route => hasPermission(route))
+    .forEach(route => router.addRoute(route));
 });
 
 export { router };
