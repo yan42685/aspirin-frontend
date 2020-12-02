@@ -1,7 +1,7 @@
 import { ref, Ref, onMounted, onUnmounted } from "vue";
 
 // 获取随机字符串
-export function randomString(length = 12) {
+export function randomString(length = 20) {
   const charset =
     "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
   let result = "";
@@ -51,4 +51,21 @@ export function isClickOutside(elementRef: Ref<null | HTMLElement>) {
     document.removeEventListener("click", handler);
   });
   return isClickOutside;
+}
+
+export function concatPath(base: string, current: string) {
+  let result = "";
+  if (current === "/") {
+    result = "/";
+  } else if (base === "" || base === "/") {
+    result = "/" + current;
+  } else {
+    result = base.trim() + "/" + current.trim();
+  }
+  // HACK:
+  if (result.startsWith("//")) {
+    result = result.slice(1);
+  }
+
+  return result;
 }

@@ -2,7 +2,22 @@
   <div id="login">
     <h2>This is Login</h2>
     <p>{{ message }}</p>
-    <button @click="loginRedirectMessage">redirect</button>
+    <button @click="loginRedirect">redirect</button>
+    <div class="box">
+      <a-form>
+        <a-form-item>
+          <a-input placeholder="Username"> </a-input>
+        </a-form-item>
+        <a-form-item>
+          <a-input type="password" placeholder="Password"> </a-input>
+        </a-form-item>
+        <a-form-item>
+          <a-button type="primary" html-type="submit">
+            登录
+          </a-button>
+        </a-form-item>
+      </a-form>
+    </div>
   </div>
 </template>
 
@@ -10,7 +25,7 @@
 import { getMousePosition } from "../utils/mouse-position";
 import { defineComponent, computed, onMounted, onUnmounted } from "vue";
 import { messenger } from "../utils/my-ant-design-vue";
-import { loginRedirectMessage } from "@/utils/timeout-actions";
+import { loginRedirect } from "@/utils/timeout-actions";
 
 export default defineComponent({
   name: "Login",
@@ -30,10 +45,17 @@ export default defineComponent({
     });
     return {
       message,
-      loginRedirectMessage
+      loginRedirect
     };
   }
 });
 </script>
 
-<style module lang="scss"></style>
+<style scoped lang="scss">
+.box {
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  border: 1px solid #42b983;
+}
+</style>

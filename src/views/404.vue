@@ -1,7 +1,6 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-    <!-- <button @click="redirect">redirect</button> -->
+  <div>
+    <h1>404</h1>
   </div>
 </template>
 
@@ -9,10 +8,11 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
+  name: "404",
   setup() {
     return {};
   }
 });
 </script>
 
-<style module lang="scss"></style>
+<style scoped lang="scss"></style>

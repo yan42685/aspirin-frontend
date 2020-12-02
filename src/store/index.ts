@@ -1,21 +1,29 @@
 import { createStore } from "vuex";
-/*
- * @description: 导入所有 vuex 模块，自动加入namespaced:true，避免命名冲突
- */
+import { tabBarMutations } from "./modules/tab-bar";
+import { AllState } from "./types";
 
-// state.testType = { ...state.testType, ...testType };
+export const store = createStore<AllState>({
+  state: {
+    user: { role: null },
+    tabBar: { openTabs: [] },
+    layout: { sidebarCollapsed: false }
+  },
 
-const files = require.context("./modules", false, /(\.js|\.ts)$/);
-const modules = {} as { [key: string]: any };
-// 获取所有modules对象
-files.keys().forEach(key => {
-  modules[key.replace(/(\.\/|\.js|\.ts)/g, "")] = files(key).default;
-});
-// 开启命名空间
-Object.keys(modules).forEach(key => {
-  modules[key]["namespaced"] = true;
-});
+  getters: {},
 
-export default createStore({
-  modules
+  mutations: {
+    // ==========================
+    //  路由
+    // ==========================
+    toggleSidebarCollapse({ layout }) {
+      layout.sidebarCollapsed = !layout.sidebarCollapsed;
+    },
+
+    // ==========================
+    //  标签页
+    // ==========================
+    ...tabBarMutations
+  },
+
+  actions: {}
 });

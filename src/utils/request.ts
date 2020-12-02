@@ -2,6 +2,8 @@ import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import qs from "qs";
 import { ExceptionEnum, JsonWrapper } from "@/api/rest-api";
 import { message } from "ant-design-vue";
+import { loginRedirect } from "./timeout-actions";
+import { router } from "@/router";
 
 // create an axios instance
 const httpClient = axios.create({
@@ -18,12 +20,10 @@ function handleError<T>(httpStatus: number, result: JsonWrapper<T>): void {
   } else {
     const errorCode: number = result.code;
     const errorMessage: string = result.message;
-    const messageDuration = 3;
 
     switch (errorCode) {
       case ExceptionEnum.NOT_LOGIN:
-        // TODO: 登录重定向
-        message.info(`您尚未登录，${messageDuration}秒后将返回登录界面`);
+        loginRedirect();
         break;
 
       default:
