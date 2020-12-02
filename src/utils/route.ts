@@ -34,11 +34,6 @@ export function traverseRoutes(
 }
 
 export async function updateDynamicRoutes() {
-  // 已经动态添加过就不用加了
-  // if (store.state.route.isRootDynamicallyAdded) {
-  //   return;
-  // }
-
   let accessibleDynamicRootRoutes = [] as RouteRecordRaw[];
   if (internalConfig.accessControl) {
     accessibleDynamicRootRoutes = await store.dispatch(

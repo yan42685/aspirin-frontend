@@ -9,7 +9,7 @@ export const store = createStore<AllState>({
   state: {
     user: { role: null },
     tabBar: { openTabs: [] },
-    route: { accessibleArray: [], isRootDynamicallyAdded: false },
+    route: { isRootDynamicallyAdded: false },
     layout: { sidebarCollapsed: false }
   },
 
@@ -19,9 +19,6 @@ export const store = createStore<AllState>({
     // ==========================
     //  路由
     // ==========================
-    setRoutes({ route }, routes: Array<RouteRecordRaw>) {
-      route.accessibleArray = routes;
-    },
     toggleSidebarCollapse({ layout }) {
       layout.sidebarCollapsed = !layout.sidebarCollapsed;
     },

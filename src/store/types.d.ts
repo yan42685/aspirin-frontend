@@ -17,7 +17,6 @@ export interface TabBarState {
 }
 
 export interface RouteState {
-  accessibleArray: Array<RouteRecordRaw>;
   isRootDynamicallyAdded: boolean;
 }
 
