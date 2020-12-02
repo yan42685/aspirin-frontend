@@ -1,5 +1,5 @@
 <template>
-  <a-menu-item :key="route.path" @click.capture="handleClick">
+  <a-menu-item :key="targetPath" @click.capture="handleClick">
     <span class="icon" v-if="route.meta && route.meta.icon">
       <use-icon :icon="route.meta.icon" />
     </span>
@@ -40,7 +40,7 @@ export default defineComponent({
       router.push(targetPath.value);
     }
 
-    return { handleClick };
+    return { handleClick, targetPath };
   }
 });
 </script>

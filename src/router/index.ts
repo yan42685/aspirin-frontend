@@ -102,7 +102,6 @@ const router = createRouter({
 const ROUTE_WHITE_LIST = ["/login", "/register", "/404"];
 
 router.beforeEach(async (to, from, next) => {
-  // await addDynamicRoutes();
   if (ROUTE_WHITE_LIST.includes(to.path)) {
     next();
   } else if (internalConfig.loginInterception && !store.state.user.role) {

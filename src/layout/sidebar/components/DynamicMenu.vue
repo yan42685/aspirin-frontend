@@ -12,9 +12,7 @@
         :key="child.path"
         :route="child"
         :basePath="currentFullPath"
-      >
-        ></dynamic-menu
-      >
+      ></dynamic-menu>
     </template>
   </component>
 </template>

@@ -10,7 +10,7 @@
       v-model:openKeys="openKeys"
     >
       <dynamic-menu
-        v-for="route in nonHiddenRoutes"
+        v-for="route in nonHiddenRootRoutes"
         :key="route.path"
         :route="route"
         basePath=""
@@ -20,11 +20,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, watch, computed } from "vue";
-import UseAvatar from "../sidebar/components/UseAvatar.vue";
-import { store } from "@/store";
+import { onBeforeRouteUpdate, useRoute } from "vue-router";
+import { defineComponent, reactive, computed, toRefs } from "vue";
 import DynamicMenu from "./components/DynamicMenu.vue";
-import { onBeforeRouteUpdate } from "vue-router";
+import { hasPermission } from "@/utils/route";
+import { staticRootRoutes, dynamicRootRoutes } from "@/router";
+import UseAvatar from "./components/UseAvatar.vue";
 
 export default defineComponent({
   name: "Sidebar",
@@ -41,19 +42,28 @@ export default defineComponent({
       titleClick: (e: MouseEvent) => console.log("titleClick", e)
     });
 
-    const nonHiddenRoutes = computed(() =>
-      store.state.route.accessibleArray
+    const currentRoute = useRoute();
+
+    const nonHiddenRootRoutes = computed(() =>
+      [...staticRootRoutes, ...dynamicRootRoutes]
+        .filter(route => hasPermission(route))
         .filter(route => route.path !== "/")
         .filter(route => !route.meta || (route.meta && !route.meta.hidden))
     );
 
-    // onBeforeRouteUpdate((to, from, next) => {
-    //   data.activeTabKey = to.path;
-    // });
-    //
+    onBeforeRouteUpdate(() => {
+      const { path, matched } = currentRoute;
+      // matched[0]表示第一个匹配的路由，即当前路由的第一个父路由
+      console.log("matched[0].path = ", matched[0].path);
+      matched[0].children.length > 1
+        ? (data.selectedKeys = [path])
+        : (data.selectedKeys = [matched[0].path]);
+      data.openKeys = [matched[0].path];
+    });
+
     return {
       ...toRefs(data),
-      nonHiddenRoutes
+      nonHiddenRootRoutes
     };
   }
 });
