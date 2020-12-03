@@ -1,22 +1,58 @@
 <template>
-  <a-layout-content class="content">
+  <!-- 不要在router-view上写css样式, 应在外层container上写 -->
+  <a-layout-content v-if="showRouterView" class="content">
+    <!-- :key="currentRoute.path" -->
+    <!-- TODO: 加上key -->
     <router-view v-slot="{ Component }">
-      <transition mode="out-in" name="fade-transform">
-        <component :is="Component" />
-      </transition>
+      <keep-alive :include="cachedTabNames" :max="keepAliveMaxNum">
+        <transition mode="out-in" name="fade-transform">
+          <component :is="Component" />
+        </transition>
+      </keep-alive>
     </router-view>
   </a-layout-content>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, reactive, computed, toRefs, nextTick } from "vue";
 import { router } from "@/router";
+import { useRoute } from "vue-router";
+import { internalConfig } from "@/config/app-settings";
+import { store } from "@/store";
+import { eventBus } from "@/utils/event-bus";
 
 export default defineComponent({
   name: "UseContent",
 
   setup() {
-    return { router };
+    const data = reactive({
+      // 用于content刷新
+      showRouterView: true,
+      keepAliveMaxNum: internalConfig.keepAliveMaxNum,
+      cachedTabNames: computed(() => {
+        const cachedTabNames = [] as string[];
+        store.state.tabBar.openTabs.forEach(tab => {
+          if (!(tab.meta && tab.meta.noKeepAlive)) {
+            if (tab.name) {
+              cachedTabNames.push(tab.name as string);
+            } else {
+              console.log("待缓存路由没有name字段");
+            }
+          }
+        });
+        return cachedTabNames;
+      })
+    });
+
+    const currentRoute = useRoute();
+
+    eventBus.on("reloadTab", () => {
+      data.showRouterView = false;
+      nextTick(() => {
+        data.showRouterView = true;
+      });
+    });
+    return { router, currentRoute, ...toRefs(data) };
   }
 });
 </script>
