@@ -43,7 +43,7 @@ export default defineComponent({
   padding: $medium-padding;
   margin: $medium-margin;
   /* top: $medium-margin !important; */
-  background: #fff;
+  /* background: #fff; */
   box-shadow: 0 8px 8px rgba(10, 16, 20, 0.24), 0 0 8px rgba(10, 16, 20, 0.12);
 }
 </style>

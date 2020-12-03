@@ -12,7 +12,6 @@ import { defineComponent, computed, reactive, toRefs } from "vue";
 import UseSidebar from "../sidebar/UseSidebar.vue";
 import UseContent from "../content/UseContent.vue";
 import UseHeader from "../header/UseHeader.vue";
-import { updateDynamicRoutes } from "@/utils/route";
 import { store } from "@/store";
 
 export default defineComponent({

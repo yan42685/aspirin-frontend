@@ -30,14 +30,12 @@ export default defineComponent({
   height: $header-height;
 }
 .header {
+  z-index: 10; /* 确保不会被content覆盖 */
   position: fixed;
   width: 100%;
   height: $header-height;
   border: $common-border;
   background-color: white;
-
-  .sub-header1 {
-  }
 
   .sub-header2 {
     margin-top: -8px;
