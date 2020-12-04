@@ -1,7 +1,7 @@
 <template>
   <div class="card-container">
     <use-card class="card-left" :loading="cardLeftLoading">
-      <a-avatar :size="80">
+      <a-avatar :size="85" class="avatar">
         <template #icon><img :src="userInfo.avatarUrl" alt=""/></template>
       </a-avatar>
       <h2>{{ userInfo.realName }}</h2>
@@ -11,7 +11,7 @@
         <li>{{ userInfo.faculty }}</li>
         <li>{{ userInfo.specialty }}</li>
         <li>{{ userInfo.number }}</li>
-        <li>{{ userInfo.admissionYear }}</li>
+        <li>{{ userInfo.admissionYear }}级</li>
         <li>{{ userInfo.phoneNumber }}</li>
         <li>{{ userInfo.contactInformation }}</li>
       </ul>
@@ -51,14 +51,27 @@ export default defineComponent({
 .card-container {
   display: flex;
   justify-content: space-between;
+
   .card-left,
   .card-right {
     min-height: 80vh;
   }
+
   .card-left {
     width: 34%;
     &:hover {
       box-shadow: $base-card-box-shadow;
+    }
+    .avatar {
+      display: inline-block;
+      margin-bottom: 15px;
+    }
+    ul {
+      font-size: 20px;
+      display: inline-block;
+      padding-top: 10px;
+      width: 60%;
+      border-top: 1px solid lightgray;
     }
   }
   .card-right {
