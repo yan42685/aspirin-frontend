@@ -4,6 +4,7 @@ import { ExceptionEnum, JsonWrapper } from "@/api/rest-api";
 import { message } from "ant-design-vue";
 import { loginRedirect } from "./timeout-actions";
 import { router } from "@/router";
+import { messenger } from "./my-ant-design-vue";
 
 // create an axios instance
 const httpClient = axios.create({
@@ -14,22 +15,19 @@ const httpClient = axios.create({
 });
 
 // 处理response异常
-function handleError<T>(httpStatus: number, result: JsonWrapper<T>): void {
-  if (httpStatus === 404) {
-    // TODO: 404界面
-  } else {
-    const errorCode: number = result.code;
-    const errorMessage: string = result.message;
+function handleError<T>(result: JsonWrapper<T>): void {
+  const errorCode: number = result.code;
+  const errorMessage: string = result.message;
 
-    switch (errorCode) {
-      case ExceptionEnum.NOT_LOGIN:
-        loginRedirect();
-        break;
+  switch (errorCode) {
+    case ExceptionEnum.NOT_LOGIN:
+      // TODO: 正式运行再开启
+      // loginRedirect();
+      break;
 
-      default:
-        message.error(errorMessage);
-        break;
-    }
+    default:
+      // 没有统一处理的errorCode部分
+      break;
   }
 }
 
@@ -47,16 +45,23 @@ httpClient.interceptors.request.use(
 
 // response interceptor
 httpClient.interceptors.response.use(
+  // HTTP状态码为200时才经过这段代码
   (response: AxiosResponse) => {
-    return response.data;
+    const result = response.data;
+    handleError(result);
+    return result;
   },
 
   error => {
-    if (error) {
-      handleError(error.status, error.data);
-    } else {
-      message.error("请求超时，当前网络状况不佳");
+    // 异常处理
+
+    const { code, message } = error;
+    if (code === "ECONNABORTED" || message === "Network Error") {
+      // 请求超时
+      messenger.error(`请求超时，网络状况不佳`);
     }
+
+    // 可以进行相关提示等处理
     return Promise.reject(error);
   }
 );
