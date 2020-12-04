@@ -11,6 +11,8 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from "vue";
+import { StudentDTO } from "@/api/rest-api";
+import { getRequest } from "@/utils/request";
 import UseCard from "@/components/basic/UseCard.vue";
 
 export default defineComponent({
@@ -19,7 +21,12 @@ export default defineComponent({
   setup() {
     const data = reactive({
       cardLeftLoading: false,
-      cardRightLoading: false
+      cardRightLoading: false,
+      userInfo: {}
+    });
+    getRequest("/api/student/information").then(result => {
+      data.userInfo = result.data as StudentDTO;
+      data.cardLeftLoading;
     });
     return { ...toRefs(data) };
   }
