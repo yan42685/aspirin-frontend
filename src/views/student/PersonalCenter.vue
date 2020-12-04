@@ -1,20 +1,22 @@
 <template>
   <div class="card-container">
     <use-card class="card-left" :loading="cardLeftLoading">
-      <a-avatar :size="85" class="avatar">
-        <template #icon><img :src="userInfo.avatarUrl" alt=""/></template>
-      </a-avatar>
-      <h2>{{ userInfo.realName }}</h2>
-      <ul>
-        <li>{{ userInfo.nickname }}</li>
-        <li>{{ userInfo.gender }}</li>
-        <li>{{ userInfo.faculty }}</li>
-        <li>{{ userInfo.specialty }}</li>
-        <li>{{ userInfo.number }}</li>
-        <li>{{ userInfo.admissionYear }}级</li>
-        <li>{{ userInfo.phoneNumber }}</li>
-        <li>{{ userInfo.contactInformation }}</li>
-      </ul>
+      <div v-if="!cardLeftLoading">
+        <a-avatar :size="120" class="avatar">
+          <template #icon><img :src="userInfo.avatarUrl" alt=""/></template>
+        </a-avatar>
+        <h1>{{ userInfo.realName }}</h1>
+        <ul class="text-ul">
+          <li>{{ userInfo.nickname }}</li>
+          <li>{{ userInfo.gender }}</li>
+          <li>{{ userInfo.faculty }}</li>
+          <li>{{ userInfo.specialty }}</li>
+          <li>{{ userInfo.number }}</li>
+          <li>{{ userInfo.admissionYear }}级</li>
+          <li>{{ userInfo.phoneNumber }}</li>
+          <li>{{ userInfo.contactInformation }}</li>
+        </ul>
+      </div>
     </use-card>
     <use-card class="card-right" :loading="cardRightLoading">
       whatever content
@@ -62,16 +64,18 @@ export default defineComponent({
     &:hover {
       box-shadow: $base-card-box-shadow;
     }
+
     .avatar {
       display: inline-block;
-      margin-bottom: 15px;
+      margin: {
+        top: 35px;
+        bottom: 15px;
+      }
     }
+
     ul {
-      font-size: 20px;
-      display: inline-block;
-      padding-top: 10px;
-      width: 60%;
       border-top: 1px solid lightgray;
+      padding-top: 35px;
     }
   }
   .card-right {
