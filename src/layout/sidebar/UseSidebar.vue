@@ -68,8 +68,10 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .sidebar-containter {
-  z-index: 100;
+  z-index: 201;
   position: fixed;
+  height: 100%;
+  background: white;
   .top-title {
     display: flex;
     justify-content: center;
