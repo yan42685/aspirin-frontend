@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-spin :spinning="loading" :delay="delayTime">
+    <a-spin :spinning="loading" :delay="loadingDelay">
       <slot></slot>
     </a-spin>
   </div>
@@ -18,7 +18,7 @@ export default defineComponent({
       default: true
     },
     // 延迟显示
-    delayTime: {
+    loadingDelay: {
       type: Number,
       default: 500
     }
