@@ -1,6 +1,21 @@
 <template>
   <div class="card-container">
-    <use-card class="card-left" :loading="cardLeftLoading"> </use-card>
+    <use-card class="card-left" :loading="cardLeftLoading">
+      <a-avatar :size="80">
+        <template #icon><img :src="userInfo.avatarUrl" alt=""/></template>
+      </a-avatar>
+      <h2>{{ userInfo.realName }}</h2>
+      <ul>
+        <li>{{ userInfo.nickname }}</li>
+        <li>{{ userInfo.gender }}</li>
+        <li>{{ userInfo.faculty }}</li>
+        <li>{{ userInfo.specialty }}</li>
+        <li>{{ userInfo.number }}</li>
+        <li>{{ userInfo.admissionYear }}</li>
+        <li>{{ userInfo.phoneNumber }}</li>
+        <li>{{ userInfo.contactInformation }}</li>
+      </ul>
+    </use-card>
     <use-card class="card-right" :loading="cardRightLoading">
       whatever content
     </use-card>
@@ -18,13 +33,14 @@ export default defineComponent({
   name: "PersonalCenter",
   setup() {
     const data = reactive({
-      cardLeftLoading: false,
-      cardRightLoading: false,
-      userInfo: {}
+      cardLeftLoading: true,
+      cardRightLoading: true,
+      userInfo: {} as StudentDTO
     });
     getRequest("/api/student/information").then(result => {
       data.userInfo = result.data as StudentDTO;
-      data.cardLeftLoading;
+      data.cardLeftLoading = false;
+      data.cardLeftLoading = false;
     });
     return { ...toRefs(data) };
   }

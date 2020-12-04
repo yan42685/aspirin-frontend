@@ -1,10 +1,8 @@
 <template>
-  <i :class="'ri-' + icon" aria-hidden="true"></i>
+  <div></div>
 </template>
 
 <script>
-import "remixicon/fonts/remixicon.css";
-
 export default {
   name: "UseIcon",
   props: {

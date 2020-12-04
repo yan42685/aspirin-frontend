@@ -1,12 +1,14 @@
 <template>
   <!-- 不要在router-view上写css样式, 应在外层container上写 -->
   <a-layout-content v-if="showRouterView" class="content">
-    <router-view v-slot="{ Component }" :key="$route.fullPath">
-      <keep-alive :include="cachedTabNames" :max="keepAliveMaxNum">
-        <transition mode="out-in" name="fade-transform">
-          <component :is="Component" />
-        </transition>
+    <router-view v-slot="{ Component }" :key="$route.path">
+      <!-- <transition mode="out-in" name="fade-transform"> -->
+      <!-- <keep-alive :include="cachedTabNames" :max="keepAliveMaxNum"> -->
+      <keep-alive>
+        <component :is="Component"></component>
       </keep-alive>
+      <!-- </keep-alive> -->
+      <!-- </transition> -->
     </router-view>
   </a-layout-content>
 </template>
@@ -38,10 +40,10 @@ export default defineComponent({
             }
           }
         });
+        console.log(cachedTabNames);
         return cachedTabNames;
       })
     });
-
     const currentRoute = useRoute();
 
     eventBus.on("reloadTab", () => {
