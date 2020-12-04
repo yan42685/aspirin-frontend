@@ -2,8 +2,6 @@ import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import qs from "qs";
 import { ExceptionEnum, JsonWrapper } from "@/api/rest-api";
 import { message } from "ant-design-vue";
-import { loginRedirect } from "./timeout-actions";
-import { router } from "@/router";
 import { messenger } from "./my-ant-design-vue";
 
 // create an axios instance
@@ -11,7 +9,7 @@ const httpClient = axios.create({
   // npm run serve 默认指向.env.development
   baseURL: process.env.VUE_APP_API_BASE_URL,
   withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000 // request timeout
+  timeout: 10000 // request timeout
 });
 
 // 处理response异常

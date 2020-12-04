@@ -1,14 +1,15 @@
 <template>
   <!-- 不要在router-view上写css样式, 应在外层container上写 -->
   <a-layout-content v-if="showRouterView" class="content">
-    <router-view v-slot="{ Component }" :key="$route.path">
-      <!-- <transition mode="out-in" name="fade-transform"> -->
-      <!-- <keep-alive :include="cachedTabNames" :max="keepAliveMaxNum"> -->
-      <keep-alive>
-        <component :is="Component"></component>
-      </keep-alive>
-      <!-- </keep-alive> -->
-      <!-- </transition> -->
+    <!-- NOTE: 和router3.x版本不一样，这里加:key="$router.path"会不缓存, 因为router4会自动绑定this了 -->
+    <router-view v-slot="{ Component }">
+      <transition mode="out-in" name="fade-transform">
+        <!-- <keep-alive :include="cachedTabNames" :max="keepAliveMaxNum"> -->
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+        <!-- </keep-alive> -->
+      </transition>
     </router-view>
   </a-layout-content>
 </template>
