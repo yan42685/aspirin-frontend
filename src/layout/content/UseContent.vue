@@ -1,9 +1,7 @@
 <template>
   <!-- 不要在router-view上写css样式, 应在外层container上写 -->
   <a-layout-content v-if="showRouterView" class="content">
-    <!-- :key="currentRoute.path" -->
-    <!-- TODO: 加上key -->
-    <router-view v-slot="{ Component }">
+    <router-view v-slot="{ Component }" :key="$route.fullPath">
       <keep-alive :include="cachedTabNames" :max="keepAliveMaxNum">
         <transition mode="out-in" name="fade-transform">
           <component :is="Component" />

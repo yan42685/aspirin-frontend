@@ -1,8 +1,6 @@
 <template>
   <div class="card-container">
-    <use-card class="card-left" :loading="cardLeftLoading">
-      whatever content
-    </use-card>
+    <use-card class="card-left" :loading="cardLeftLoading"> </use-card>
     <use-card class="card-right" :loading="cardRightLoading">
       whatever content
     </use-card>
