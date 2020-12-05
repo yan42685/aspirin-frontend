@@ -1,6 +1,7 @@
 import { RoleEnum } from "@/api/rest-api";
 import { getRequest } from "../request";
 import { store } from "@/store";
+import { eventBus } from "../event-bus";
 import { messenger } from "../my-ant-design-vue";
 
 export function loginHook() {
@@ -22,4 +23,6 @@ export function loginHook() {
 
     default:
   }
+
+  eventBus.on("reloadTab", () => store.commit("getStudentInfo"));
 }

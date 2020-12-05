@@ -27,7 +27,6 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs, computed } from "vue";
 import UseCard from "@/components/basic/UseCard.vue";
-import { eventBus } from "@/utils/event-bus";
 import { store } from "@/store";
 
 export default defineComponent({
@@ -39,8 +38,6 @@ export default defineComponent({
       cardRightLoading: true,
       userInfo: computed(() => store.state.student.info)
     });
-
-    eventBus.on("reloadTab", () => store.commit("getStudentInfo"));
 
     return { ...toRefs(data) };
   }

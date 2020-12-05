@@ -11,7 +11,7 @@ const httpClient = axios.create({
   // npm run serve 默认指向.env.development
   baseURL: process.env.VUE_APP_API_BASE_URL,
   withCredentials: true, // send cookies when cross-domain requests
-  timeout: 10000 // request timeout
+  timeout: 15000 // request timeout
 });
 
 // 处理response异常

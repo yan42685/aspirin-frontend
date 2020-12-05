@@ -3,21 +3,41 @@
     <div v-if="!loading">
       <h1>选课界面</h1>
       <div>
-        <a-tabs size="default" type="card">
+        <a-tabs size="default" type="card" class="tables">
           <a-tab-pane key="1" tab="公共必修">
-            {{ commonCompulsory[0].id }}
+            <a-table
+              :columns="electColumns"
+              :data-source="commonCompulsory"
+              :pagination="false"
+            >
+            </a-table>
           </a-tab-pane>
           <a-tab-pane key="2" tab="公共选修">
-            Content of tab 2
+            <a-table
+              :columns="electColumns"
+              :data-source="commonElective"
+              :pagination="false"
+            >
+            </a-table>
           </a-tab-pane>
           <a-tab-pane key="3" tab="专业必修">
-            Content of tab 3
+            <a-table
+              :columns="electColumns"
+              :data-source="professionalCompulsory"
+              :pagination="false"
+            >
+            </a-table>
           </a-tab-pane>
           <a-tab-pane key="4" tab="专业选修">
-            Content of tab 4
+            <a-table
+              :columns="electColumns"
+              :data-source="professionalElective"
+              :pagination="false"
+            >
+            </a-table>
           </a-tab-pane>
-          <a-tab-pane key="4" tab="退选记录">
-            Content of tab 5
+          <a-tab-pane key="5" tab="退选记录">
+            退课记录
           </a-tab-pane>
         </a-tabs>
       </div>
@@ -42,7 +62,27 @@ export default defineComponent({
       commonCompulsory: [] as CourseDetailDTO[],
       commonElective: [] as CourseDetailDTO[],
       professionalCompulsory: [] as CourseDetailDTO[],
-      professionalElective: [] as CourseDetailDTO[]
+      professionalElective: [] as CourseDetailDTO[],
+      electColumns: [
+        { title: "课程名", dataIndex: "courseName" },
+        { title: "教师名", dataIndex: "teacherName" },
+        {
+          title: "星期",
+          dataIndex: "dayOfTheWeek",
+          // 点击排序的规则
+          sorter: (a: CourseDetailDTO, b: CourseDetailDTO) =>
+            a.dayOfTheWeek - b.dayOfTheWeek
+        },
+        {
+          title: "第几节课",
+          dataIndex: "schedulingTime",
+          sorter: (a: CourseDetailDTO, b: CourseDetailDTO) =>
+            a.schedulingTime - b.schedulingTime
+        },
+        { title: "地点", dataIndex: "classroomName" },
+        { title: "学时", dataIndex: "period" },
+        { title: "学分", dataIndex: "credit" }
+      ]
     });
 
     async function fetchCourseDetail() {
@@ -82,4 +122,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.tables {
+  margin: 30px 45px;
+}
+</style>
