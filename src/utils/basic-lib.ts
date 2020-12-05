@@ -69,3 +69,32 @@ export function concatPath(base: string, current: string) {
 
   return result;
 }
+
+export class AutoRetryConfig {
+  // 重试计数器
+  retryCount = 0;
+  maxRetryCount = 20;
+  retryDelay = 500;
+}
+
+// HACK: 失败自动重复的通用函数
+export function autoRetry(fn: () => boolean, config: AutoRetryConfig) {
+  if (config.retryCount > config.maxRetryCount) {
+    // 表示最终重试失败
+    return false;
+  }
+  if (!fn()) {
+    // console.log(`第${callSelfCount + 1}次调用失败`);
+    autoRetry(fn, { ...config, retryCount: config.retryCount + 1 });
+  }
+  // console.log(`第${callSelfCount + 1}次调用成功`);
+  return true;
+}
+
+export function isStrEmpty(str: string) {
+  return !str || 0 === str.length;
+}
+
+export function isStrBlank(str: string) {
+  return !str || /^\s*$/.test(str);
+}
