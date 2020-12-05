@@ -23,6 +23,4 @@ export function loginHook() {
 
     default:
   }
-
-  eventBus.on("reloadTab", () => store.commit("getStudentInfo"));
 }

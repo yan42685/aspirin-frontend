@@ -85,7 +85,21 @@ export default defineComponent({
       ]
     });
 
-    async function fetchCourseDetail() {
+    async function fetchCourseDetail(callSelfCount: number) {
+      // 防止无限递归
+      if (callSelfCount > 20) {
+        return;
+      }
+
+      // 因为刚开始vuex还没来得及获取数据，所以这里会获取不到semester, 需要延时重试
+      // HACK:  如果vuex没有对应的数据就过一段时间再调用自己
+      if (!store.state.student.info.username) {
+        setTimeout(() => fetchCourseDetail(++callSelfCount), 400);
+        // console.log(`第${callSelfCount + 1}次调用失败`);
+        return;
+      }
+      // console.log(`第${callSelfCount + 1}次调用成功`);
+
       const semester = store.state.student.info.semester;
       const result1 = await getRequest("/api/student/available-course-list", {
         semester: semester,
@@ -113,9 +127,7 @@ export default defineComponent({
     }
 
     // 每次更新学生信息都会重新获取选课信息
-    eventBus.on("studentInfoFetched", () => {
-      fetchCourseDetail();
-    });
+    fetchCourseDetail(0);
 
     return { ...toRefs(data) };
   }

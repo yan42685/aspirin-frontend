@@ -27,6 +27,8 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs, computed } from "vue";
 import UseCard from "@/components/basic/UseCard.vue";
+import { StudentDTO } from "@/api/rest-api";
+import { getRequest } from "@/utils/request";
 import { store } from "@/store";
 
 export default defineComponent({
@@ -34,9 +36,14 @@ export default defineComponent({
   name: "PersonalCenter",
   setup() {
     const data = reactive({
-      cardLeftLoading: computed(() => !store.state.student.isInfoFetched),
+      cardLeftLoading: true,
       cardRightLoading: true,
-      userInfo: computed(() => store.state.student.info)
+      userInfo: {} as StudentDTO
+    });
+
+    getRequest("/api/student/information").then(result => {
+      data.userInfo = result.data as StudentDTO;
+      data.cardLeftLoading = false;
     });
 
     return { ...toRefs(data) };
