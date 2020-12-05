@@ -1,4 +1,5 @@
 <template>
+  <!-- NOTE: 暂时不在Header中显示搜索框 -->
   <div class="search-bar-container">
     <a-input-search
       v-model:value="value"

@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from "vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "DelayedSpin",
@@ -15,7 +15,7 @@ export default defineComponent({
     // 正在加载中
     loading: {
       type: Boolean,
-      default: true
+      default: false
     },
     // 延迟显示
     loadingDelay: {
@@ -34,5 +34,12 @@ export default defineComponent({
   border: 1px solid #91d5ff;
   background-color: #e6f7ff;
   padding: 30px;
+}
+::v-deep .ant-spin-nested-loading,
+::v-deep .ant-spin-container {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 </style>

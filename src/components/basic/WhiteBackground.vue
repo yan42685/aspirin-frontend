@@ -1,11 +1,9 @@
 <template>
-  <div class="card-container">
-    <delayed-spin :loading="loading" :loadingDelay="loadingDelay" class="spin">
-      <a-card class="card">
-        <slot></slot>
-      </a-card>
-    </delayed-spin>
-  </div>
+  <delayed-spin :loading="loading" :loadingDelay="loadingDelay" class="spin">
+    <div class="background">
+      <slot></slot>
+    </div>
+  </delayed-spin>
 </template>
 
 <script lang="ts">
@@ -13,8 +11,8 @@ import { defineComponent } from "vue";
 import DelayedSpin from "./DelayedSpin.vue";
 
 export default defineComponent({
-  components: { DelayedSpin },
-  name: "UseCard",
+  name: "WhiteBackground",
+
   props: {
     // 正在加载中
     loading: {
@@ -25,12 +23,11 @@ export default defineComponent({
     loadingDelay: {
       type: Number,
       default: 500
-    },
-    boxShadow: {
-      type: Boolean,
-      default: true
     }
   },
+
+  components: { DelayedSpin },
+
   setup() {
     return {};
   }
@@ -38,11 +35,9 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.spin,
-::v-deep .ant-card-bordered {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
+.background {
+  min-height: 80vh;
+  background: #fff;
+  box-shadow: 0 8px 8px rgba(10, 16, 20, 0.24), 0 0 8px rgba(10, 16, 20, 0.12);
 }
 </style>

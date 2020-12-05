@@ -77,7 +77,7 @@ export default defineComponent({
 
 .content {
   /* position: relative; */
-  min-height: 90vh;
+  min-height: $tab-content-min-height;
   padding: $medium-padding;
   margin: $medium-margin;
   /* top: $medium-margin !important; */
