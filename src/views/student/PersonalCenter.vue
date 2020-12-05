@@ -73,6 +73,10 @@ export default defineComponent({
       }
     }
 
+    h1 {
+      font-size: 30px;
+    }
+
     ul {
       border-top: 1px solid lightgray;
       padding-top: 35px;
