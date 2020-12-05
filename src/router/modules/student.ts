@@ -13,7 +13,8 @@ export const studentRoutes: RouteRecordRaw[] = [
       {
         name: "PersonalCenter",
         path: "personal-center",
-        component: () => import("@/views/student/PersonalCenter.vue"),
+        component: () =>
+          import("@/views/student/personal-center/PersonalCenter.vue"),
         meta: {
           title: "个人中心"
         }
@@ -21,7 +22,7 @@ export const studentRoutes: RouteRecordRaw[] = [
       {
         name: "ElectCourse",
         path: "elect-course",
-        component: () => import("@/views/student/ElectCourse.vue"),
+        component: () => import("@/views/student/elect-course/ElectCourse.vue"),
         meta: {
           title: "选课"
         }
