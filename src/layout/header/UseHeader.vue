@@ -54,7 +54,7 @@ export default defineComponent({
   }
 
   .sub-header2 {
-    margin-top: -8px;
+    padding-top: 1.7px;
     justify-content: left;
 
     border: {

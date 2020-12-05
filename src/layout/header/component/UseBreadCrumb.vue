@@ -27,7 +27,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .ant-breadcrumb {
   text-align: left;
-  height: 100%;
+  height: 80%;
   line-height: $subheader1-height;
 }
 </style>

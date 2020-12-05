@@ -182,8 +182,9 @@ export default defineComponent({
     width: calc(100% - 52px - 30px);
   }
   &-right-panel {
+    align-items: center !important;
     ::v-deep .ant-btn {
-      top: 8px !important;
+      top: 10px !important;
       padding: 0 10px !important;
       height: 22px !important;
     }
