@@ -669,9 +669,9 @@ export const enum ExceptionEnum {
 }
 
 export const enum GenderEnum {
-  SECRETE = "SECRETE",
-  MALE = "MALE",
-  FEMALE = "FEMALE"
+  SECRETE = "保密",
+  MALE = "男",
+  FEMALE = "女"
 }
 
 export const enum RoleEnum {
