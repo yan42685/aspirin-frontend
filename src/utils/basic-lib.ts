@@ -77,17 +77,46 @@ export class AutoRetryConfig {
   retryDelay = 500;
 }
 
+// fn 需要是一个失败return false, 成功返回true的函数
 // HACK: 失败自动重复的通用函数
-export function autoRetry(fn: () => boolean, config: AutoRetryConfig) {
-  if (config.retryCount > config.maxRetryCount) {
+export function autoRetry(
+  fn: () => boolean,
+  config: AutoRetryConfig = new AutoRetryConfig()
+) {
+  const retryCount = config.retryCount;
+  if (retryCount > config.maxRetryCount) {
     // 表示最终重试失败
     return false;
   }
   if (!fn()) {
     // console.log(`第${callSelfCount + 1}次调用失败`);
-    autoRetry(fn, { ...config, retryCount: config.retryCount + 1 });
+    setTimeout(
+      () => autoRetry(fn, { ...config, retryCount: retryCount + 1 }),
+      config.retryDelay
+    );
+    return false;
   }
   // console.log(`第${callSelfCount + 1}次调用成功`);
+  return true;
+}
+
+export async function autoRetryAsync(
+  fn: () => Promise<boolean>,
+  config: AutoRetryConfig = new AutoRetryConfig()
+) {
+  const retryCount = config.retryCount;
+  if (retryCount > config.maxRetryCount) {
+    return false;
+  }
+
+  const isSuccess = await fn();
+  if (!isSuccess) {
+    setTimeout(
+      () => autoRetryAsync(fn, { ...config, retryCount: retryCount + 1 }),
+      config.retryDelay
+    );
+    return false;
+  }
   return true;
 }
 
