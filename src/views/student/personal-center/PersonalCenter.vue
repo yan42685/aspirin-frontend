@@ -25,25 +25,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from "vue";
-import { StudentDTO } from "@/api/rest-api";
-import { getRequest } from "@/utils/request";
+import { defineComponent, reactive, toRefs, computed } from "vue";
 import UseCard from "@/components/basic/UseCard.vue";
+import { eventBus } from "@/utils/event-bus";
+import { store } from "@/store";
 
 export default defineComponent({
   components: { UseCard },
   name: "PersonalCenter",
   setup() {
     const data = reactive({
-      cardLeftLoading: true,
+      cardLeftLoading: computed(() => !store.state.student.isInfoFetched),
       cardRightLoading: true,
-      userInfo: {} as StudentDTO
+      userInfo: computed(() => store.state.student.info)
     });
-    getRequest("/api/student/information").then(result => {
-      data.userInfo = result.data as StudentDTO;
-      data.cardLeftLoading = false;
-      data.cardLeftLoading = false;
-    });
+
+    eventBus.on("reloadTab", () => store.commit("getStudentInfo"));
+
     return { ...toRefs(data) };
   }
 });

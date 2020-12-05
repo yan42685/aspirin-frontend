@@ -7,22 +7,11 @@ import { defineComponent, reactive } from "vue";
 import { getRequest } from "./utils/request";
 import { RoleEnum } from "@/api/rest-api";
 import { LoginParams } from "./api/request-params";
+import { loginHook } from "./utils/hooks/on-login";
 
 export default defineComponent({
   setup() {
-    const data = reactive({
-      loginParams: {} as LoginParams
-    });
-    // 测试用的登录
-    data.loginParams = {
-      role: RoleEnum.STUDENT,
-      username: "stu",
-      password: "123456",
-      rememberMe: true
-    };
-    getRequest("/api/account/user-login", data.loginParams).then(data =>
-      console.log(data)
-    );
+    loginHook();
   }
 });
 </script>

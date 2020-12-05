@@ -15,6 +15,7 @@ export interface UserState {
 
 export interface StudentState {
   info: StudentDTO;
+  isInfoFetched: boolean;
 }
 
 export interface TabBarState {

@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
 import { tabBarMutations } from "./modules/tab-bar";
-import { GenderEnum } from "@/api/rest-api";
+import { GenderEnum, RoleEnum } from "@/api/rest-api";
 import { AllState } from "./types";
 import { StudentMutations, StudentActions } from "./modules/student";
 
@@ -21,7 +21,8 @@ export const store = createStore<AllState>({
         number: "",
         admissionYear: 0,
         semester: 0
-      }
+      },
+      isInfoFetched: false
     },
     tabBar: { openTabs: [] },
     layout: { sidebarCollapsed: false }
@@ -35,6 +36,12 @@ export const store = createStore<AllState>({
     // ==========================
     toggleSidebarCollapse({ layout }) {
       layout.sidebarCollapsed = !layout.sidebarCollapsed;
+    },
+    // ==========================
+    //  用户
+    // ==========================
+    setUserRole({ user }, role: RoleEnum) {
+      user.role = role;
     },
 
     // ==========================
