@@ -22,7 +22,7 @@
           </a-tabs>
         </div>
       </a-col>
-      <a-col :span="4">
+      <a-col :span="1">
         <div class="tab-bar-right-panel">
           <a-dropdown>
             <template v-slot:overlay>
@@ -182,15 +182,8 @@ export default defineComponent({
     width: calc(100% - 52px - 30px);
   }
   &-right-panel {
-    position: relative;
-    width: 100%;
-    text-align: left;
-    top: 5px;
-    right: -23px;
     ::v-deep .ant-btn {
-      right: -9px !important;
-      top: 5px !important;
-
+      top: 8px !important;
       padding: 0 10px !important;
       height: 22px !important;
     }
