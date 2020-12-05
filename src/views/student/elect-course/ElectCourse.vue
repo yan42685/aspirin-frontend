@@ -5,10 +5,12 @@
       <div>
         <a-tabs size="default" type="card" class="tables">
           <a-tab-pane key="1" tab="公共必修">
+            <!-- scroll可以固定table的长度，然后内部滑动 -->
             <a-table
               :columns="electColumns"
               :data-source="commonCompulsory"
               :pagination="false"
+              :scroll="{ y: 240 }"
             >
             </a-table>
           </a-tab-pane>
@@ -51,8 +53,7 @@ import WhiteBackground from "@/components/basic/WhiteBackground.vue";
 import { getRequest } from "@/utils/request";
 import { CourseDetailDTO, CourseTypeEnum } from "@/api/rest-api";
 import { store } from "@/store";
-import { autoRetry, autoRetryAsync } from "@/utils/basic-lib";
-import { autoRetry } from "@/utils/basic-lib";
+import { autoRetryAsync } from "@/utils/basic-lib";
 
 export default defineComponent({
   components: { WhiteBackground },
@@ -66,19 +67,22 @@ export default defineComponent({
       professionalElective: [] as CourseDetailDTO[],
       electColumns: [
         { title: "课程名", dataIndex: "courseName" },
+        { title: "课程编号", dataIndex: "courseNumber" },
         { title: "教师名", dataIndex: "teacherName" },
         {
-          title: "星期",
+          title: "星期几",
           dataIndex: "dayOfTheWeek",
           // 点击排序的规则
           sorter: (a: CourseDetailDTO, b: CourseDetailDTO) =>
-            a.dayOfTheWeek - b.dayOfTheWeek
+            a.dayOfTheWeek - b.dayOfTheWeek,
+          width: 150
         },
         {
           title: "第几节课",
           dataIndex: "schedulingTime",
           sorter: (a: CourseDetailDTO, b: CourseDetailDTO) =>
-            a.schedulingTime - b.schedulingTime
+            a.schedulingTime - b.schedulingTime,
+          width: 150
         },
         { title: "地点", dataIndex: "classroomName" },
         { title: "学时", dataIndex: "period" },
@@ -87,12 +91,12 @@ export default defineComponent({
     });
 
     async function fetchCourseDetail() {
-      // HACK:  如果vuex没有对应的数据就过一段时间再调用自己
       if (!store.state.student.info.username) {
         return false;
       }
 
       const semester = store.state.student.info.semester;
+
       const result1 = await getRequest("/api/student/available-course-list", {
         semester: semester,
         courseType: CourseTypeEnum.COMMON_COMPULSORY
