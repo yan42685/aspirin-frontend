@@ -4,6 +4,8 @@ import { ExceptionEnum, JsonWrapper } from "@/api/rest-api";
 import { message } from "ant-design-vue";
 import { messenger } from "./my-ant-design-vue";
 
+// 直接调用Axios可以处理多个请求, Axios.all([request1, ...]).then(() => Axios.spread(result1, ...) => {})
+
 // create an axios instance
 const httpClient = axios.create({
   // npm run serve 默认指向.env.development
