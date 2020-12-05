@@ -42,7 +42,6 @@ export default defineComponent({
             }
           }
         });
-        console.log(cachedTabNames);
         return cachedTabNames;
       })
     });
