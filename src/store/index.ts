@@ -1,10 +1,28 @@
 import { createStore } from "vuex";
 import { tabBarMutations } from "./modules/tab-bar";
+import { GenderEnum } from "@/api/rest-api";
 import { AllState } from "./types";
+import { StudentMutations, StudentActions } from "./modules/student";
 
 export const store = createStore<AllState>({
   state: {
     user: { role: null },
+    student: {
+      info: {
+        username: "",
+        realName: "",
+        gender: GenderEnum.SECRETE,
+        phoneNumber: "",
+        contactInformation: "",
+        nickname: "",
+        avatarUrl: "",
+        faculty: "",
+        specialty: "",
+        number: "",
+        admissionYear: 0,
+        semester: 0
+      }
+    },
     tabBar: { openTabs: [] },
     layout: { sidebarCollapsed: false }
   },
@@ -22,8 +40,13 @@ export const store = createStore<AllState>({
     // ==========================
     //  标签页
     // ==========================
-    ...tabBarMutations
+    ...tabBarMutations,
+
+    // 学生
+    ...StudentMutations
   },
 
-  actions: {}
+  actions: {
+    ...StudentActions
+  }
 });
