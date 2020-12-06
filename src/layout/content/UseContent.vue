@@ -21,6 +21,7 @@ import { RouteLocation, useRoute } from "vue-router";
 import { internalConfig } from "@/config/app-settings";
 import { store } from "@/store";
 import { eventBus } from "@/utils/event-bus";
+import { router } from "@/router";
 
 export default defineComponent({
   name: "UseContent",
