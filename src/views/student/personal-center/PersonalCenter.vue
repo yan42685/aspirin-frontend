@@ -73,6 +73,14 @@ export default defineComponent({
         top: 35px;
         bottom: 15px;
       }
+
+      & > img {
+        transition: all 0.5s;
+        &:hover {
+          cursor: pointer;
+          transform: scale(1.15);
+        }
+      }
     }
 
     h1 {
