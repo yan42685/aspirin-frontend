@@ -7,3 +7,14 @@ export interface LoginParams {
   rememberMe: boolean;
   verificationCode?: string;
 }
+
+export const bigPage = {
+  current: 1,
+  size: 999999,
+  [Symbol.iterator]: function*() {
+    let properties = Object.keys(this);
+    for (let i of properties) {
+      yield [i, this[i]];
+    }
+  }
+};

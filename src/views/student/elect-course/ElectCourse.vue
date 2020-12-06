@@ -10,7 +10,7 @@
               :columns="electColumns"
               :data-source="commonCompulsory"
               :pagination="false"
-              :scroll="{ y: 240 }"
+              :scroll="{ y: 350 }"
             >
             </a-table>
           </a-tab-pane>
@@ -39,7 +39,13 @@
             </a-table>
           </a-tab-pane>
           <a-tab-pane key="5" tab="退选记录">
-            退课记录
+            <a-table
+              :columns="dropColumns"
+              :data-source="dropCourseRecords"
+              :pagination="false"
+              :scroll="{ y: 350 }"
+            >
+            </a-table>
           </a-tab-pane>
         </a-tabs>
       </div>
@@ -51,8 +57,15 @@
 import { defineComponent, reactive, toRefs } from "vue";
 import WhiteBackground from "@/components/basic/WhiteBackground.vue";
 import { getRequest } from "@/utils/request";
-import { CourseDetailDTO, CourseTypeEnum } from "@/api/rest-api";
+import {
+  CourseDetailDTO,
+  CourseTypeEnum,
+  CourseDropDTO,
+  JsonWrapper,
+  IPage
+} from "@/api/rest-api";
 import { store } from "@/store";
+import { bigPage } from "@/api/request-params";
 import { autoRetryAsync } from "@/utils/basic-lib";
 
 export default defineComponent({
@@ -87,10 +100,20 @@ export default defineComponent({
         { title: "地点", dataIndex: "classroomName" },
         { title: "学时", dataIndex: "period" },
         { title: "学分", dataIndex: "credit" }
+      ],
+      dropCourseRecords: [] as CourseDropDTO[],
+      dropColumns: [
+        { title: "课程名", dataIndex: "courseName" },
+        { title: "教师名", dataIndex: "teacherName" },
+        { title: "课程类型", dataIndex: "type" },
+        { title: "地点", dataIndex: "classroomName" },
+        { title: "学时", dataIndex: "period" },
+        { title: "学分", dataIndex: "credit" },
+        { title: "退课时间", dataIndex: "createTime" }
       ]
     });
 
-    async function fetchCourseDetail() {
+    async function fetchAllInfo() {
       if (!store.state.student.info.username) {
         return false;
       }
@@ -113,18 +136,24 @@ export default defineComponent({
         semester: semester,
         courseType: CourseTypeEnum.PROFESSIONAL_ELECTIVE
       });
+      // NOTE: 如果后面要级联获取属性，这里必须写any类型，省略类型就是unknown类型会报错
+      const result5: any = await getRequest(
+        "/api/student/course-drop-record",
+        bigPage
+      );
 
       data.commonCompulsory = result1.data as CourseDetailDTO[];
       data.commonElective = result2.data as CourseDetailDTO[];
       data.professionalCompulsory = result3.data as CourseDetailDTO[];
       data.professionalElective = result4.data as CourseDetailDTO[];
+      data.dropCourseRecords = result5.data.records as CourseDropDTO[];
 
       data.loading = false;
       return true;
     }
 
     // 因为刚开始vuex还没来得及获取数据，所以这里会获取不到semester, 需要延时重试
-    autoRetryAsync(fetchCourseDetail);
+    autoRetryAsync(fetchAllInfo);
 
     return { ...toRefs(data) };
   }
