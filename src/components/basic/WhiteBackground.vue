@@ -38,6 +38,6 @@ export default defineComponent({
 .background {
   min-height: 81vh;
   background: #fff;
-  box-shadow: 0 8px 8px rgba(10, 16, 20, 0.24), 0 0 8px rgba(10, 16, 20, 0.12);
+  box-shadow: 0 4px 12px rgba(0, 21, 41, 0.12), 0 0 8px rgba(0, 21, 41, 0.08);
 }
 </style>
