@@ -11,21 +11,10 @@
               :columns="electColumns"
               :data-source="commonCompulsory"
               :pagination="false"
-              :scroll="{ y: 350 }"
+              :scroll="{ y: 420 }"
             >
               <template #action="{record}">
-                <!-- <a                                 -->
-                <!--   @click="                         -->
-                <!--     onElect(                       -->
-                <!--       $event,                      -->
-                <!--       record.courseNumber,         -->
-                <!--       courseType.COMMON_COMPULSORY -->
-                <!--     )                              -->
-                <!--   "                                -->
-                <!--   >选课</a                       -->
-                <!-- >                                  -->
                 <elect-course-button :courseDetailId="record.id" />
-                <a-divider type="vertical" />
               </template>
             </a-table>
           </a-tab-pane>
@@ -35,33 +24,10 @@
               :columns="electColumns"
               :data-source="commonElective"
               :pagination="false"
-              :scroll="{ y: 350 }"
+              :scroll="{ y: 450 }"
             >
               <template #action="{record}">
-                <a
-                  @click="
-                    onElect(
-                      $event,
-                      record.courseNumber,
-                      courseType.COMMON_ELECTIVE
-                    )
-                  "
-                  >选课</a
-                >
-                <a-divider type="vertical" />
-                <a-popconfirm
-                  v-if="commonElective.length"
-                  title="确定退选吗?"
-                  @confirm="
-                    onDrop(
-                      $event,
-                      record.courseNumber,
-                      courseType.COMMON_ELECTIVE
-                    )
-                  "
-                >
-                  <a disabled>退选</a>
-                </a-popconfirm>
+                <elect-course-button :courseDetailId="record.id" />
               </template>
             </a-table>
           </a-tab-pane>
@@ -71,33 +37,10 @@
               :columns="electColumns"
               :data-source="professionalCompulsory"
               :pagination="false"
-              :scroll="{ y: 350 }"
+              :scroll="{ y: 450 }"
             >
               <template #action="{record}">
-                <a
-                  @click="
-                    onElect(
-                      $event,
-                      record.courseNumber,
-                      courseType.PROFESSIONAL_COMPULSORY
-                    )
-                  "
-                  >选课</a
-                >
-                <a-divider type="vertical" />
-                <a-popconfirm
-                  v-if="professionalCompulsory.length"
-                  title="确定退选吗?"
-                  @confirm="
-                    onDrop(
-                      $event,
-                      record.courseNumber,
-                      courseType.PROFESSIONAL_COMPULSORY
-                    )
-                  "
-                >
-                  <a disabled>退选</a>
-                </a-popconfirm>
+                <elect-course-button :courseDetailId="record.id" />
               </template>
             </a-table>
           </a-tab-pane>
@@ -107,33 +50,10 @@
               :columns="electColumns"
               :data-source="professionalElective"
               :pagination="false"
-              :scroll="{ y: 350 }"
+              :scroll="{ y: 450 }"
             >
               <template #action="{record}">
-                <a
-                  @click="
-                    onElect(
-                      $event,
-                      record.courseNumber,
-                      courseType.PROFESSIONAL_ELECTIVE
-                    )
-                  "
-                  >选课</a
-                >
-                <a-divider type="vertical" />
-                <a-popconfirm
-                  v-if="professionalElective.length"
-                  title="确定退选吗?"
-                  @confirm="
-                    onDrop(
-                      $event,
-                      record.courseNumber,
-                      courseType.PROFESSIONAL_ELECTIVE
-                    )
-                  "
-                >
-                  <a disabled>退选</a>
-                </a-popconfirm>
+                <elect-course-button :courseDetailId="record.id" />
               </template>
             </a-table>
           </a-tab-pane>
@@ -142,7 +62,7 @@
               :columns="dropColumns"
               :data-source="dropCourseRecords"
               :pagination="false"
-              :scroll="{ y: 350 }"
+              :scroll="{ y: 450 }"
             >
             </a-table>
           </a-tab-pane>

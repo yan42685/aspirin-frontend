@@ -29,7 +29,7 @@ import { defineComponent, reactive, toRefs } from "vue";
 export default defineComponent({
   name: "ElectCourseButton",
   props: {
-    courseDetailId: Number
+    courseDetailId: String
   },
   setup(props) {
     const data = reactive({
@@ -37,7 +37,7 @@ export default defineComponent({
       electDisabled: false,
       electText: "选课",
       dropLoading: false,
-      dropDisabled: true,
+      dropDisabled: false,
       onElect: async () => {
         data.electLoading = true;
         const result: any = await postRequest("/api/student/elective", {
@@ -55,14 +55,16 @@ export default defineComponent({
       },
       onDrop: async () => {
         data.dropLoading = true;
+        console.log(props.courseDetailId);
         const result: any = await deleteRequest("/api/student/elective", {
           courseDetailId: props.courseDetailId
         });
         data.dropLoading = false;
         if (result.code === 0) {
-          messenger.success("退课成功");
+          messenger.success("退选成功");
           data.dropDisabled = true;
           data.electDisabled = false;
+          data.electText = "选课";
         } else {
           messenger.error(`退选失败: ${result.message}`);
         }
