@@ -12,6 +12,24 @@
               :pagination="false"
               :scroll="{ y: 350 }"
             >
+              <template #action="{record}">
+                <a
+                  @click="
+                    onElect(record.courseNumber, courseType.COMMON_COMPULSORY)
+                  "
+                  >选课</a
+                >
+                <a-divider type="vertical" />
+                <a-popconfirm
+                  v-if="commonCompulsory.length"
+                  title="确定退选吗?"
+                  @confirm="
+                    onDrop(record.courseNumber, courseType.COMMON_COMPULSORY)
+                  "
+                >
+                  <a>退选</a>
+                </a-popconfirm>
+              </template>
             </a-table>
           </a-tab-pane>
           <a-tab-pane key="2" tab="公共选修">
@@ -19,7 +37,26 @@
               :columns="electColumns"
               :data-source="commonElective"
               :pagination="false"
+              :scroll="{ y: 350 }"
             >
+              <template #action="{record}">
+                <a
+                  @click="
+                    onElect(record.courseNumber, courseType.COMMON_ELECTIVE)
+                  "
+                  >选课</a
+                >
+                <a-divider type="vertical" />
+                <a-popconfirm
+                  v-if="commonElective.length"
+                  title="确定退选吗?"
+                  @confirm="
+                    onDrop(record.courseNumber, courseType.COMMON_ELECTIVE)
+                  "
+                >
+                  <a>退选</a>
+                </a-popconfirm>
+              </template>
             </a-table>
           </a-tab-pane>
           <a-tab-pane key="3" tab="专业必修">
@@ -27,7 +64,32 @@
               :columns="electColumns"
               :data-source="professionalCompulsory"
               :pagination="false"
+              :scroll="{ y: 350 }"
             >
+              <template #action="{record}">
+                <a
+                  @click="
+                    onElect(
+                      record.courseNumber,
+                      courseType.PROFESSIONAL_COMPULSORY
+                    )
+                  "
+                  >选课</a
+                >
+                <a-divider type="vertical" />
+                <a-popconfirm
+                  v-if="professionalCompulsory.length"
+                  title="确定退选吗?"
+                  @confirm="
+                    onDrop(
+                      record.courseNumber,
+                      courseType.PROFESSIONAL_COMPULSORY
+                    )
+                  "
+                >
+                  <a>退选</a>
+                </a-popconfirm>
+              </template>
             </a-table>
           </a-tab-pane>
           <a-tab-pane key="4" tab="专业选修">
@@ -35,7 +97,32 @@
               :columns="electColumns"
               :data-source="professionalElective"
               :pagination="false"
+              :scroll="{ y: 350 }"
             >
+              <template #action="{record}">
+                <a
+                  @click="
+                    onElect(
+                      record.courseNumber,
+                      courseType.PROFESSIONAL_ELECTIVE
+                    )
+                  "
+                  >选课</a
+                >
+                <a-divider type="vertical" />
+                <a-popconfirm
+                  v-if="professionalElective.length"
+                  title="确定退选吗?"
+                  @confirm="
+                    onDrop(
+                      record.courseNumber,
+                      courseType.PROFESSIONAL_ELECTIVE
+                    )
+                  "
+                >
+                  <a>退选</a>
+                </a-popconfirm>
+              </template>
             </a-table>
           </a-tab-pane>
           <a-tab-pane key="5" tab="退选记录">
@@ -57,13 +144,7 @@
 import { defineComponent, reactive, toRefs } from "vue";
 import WhiteBackground from "@/components/basic/WhiteBackground.vue";
 import { getRequest } from "@/utils/request";
-import {
-  CourseDetailDTO,
-  CourseTypeEnum,
-  CourseDropDTO,
-  JsonWrapper,
-  IPage
-} from "@/api/rest-api";
+import { CourseDetailDTO, CourseTypeEnum, CourseDropDTO } from "@/api/rest-api";
 import { store } from "@/store";
 import { bigPage } from "@/api/request-params";
 import { autoRetryAsync } from "@/utils/basic-lib";
@@ -73,6 +154,7 @@ export default defineComponent({
   name: "ElectCourse",
   setup() {
     const data = reactive({
+      courseType: CourseTypeEnum,
       loading: true,
       commonCompulsory: [] as CourseDetailDTO[],
       commonElective: [] as CourseDetailDTO[],
@@ -99,7 +181,12 @@ export default defineComponent({
         },
         { title: "地点", dataIndex: "classroomName" },
         { title: "学时", dataIndex: "period" },
-        { title: "学分", dataIndex: "credit" }
+        { title: "学分", dataIndex: "credit" },
+        {
+          title: "操作",
+          key: "action",
+          slots: { customRender: "action" }
+        }
       ],
       dropCourseRecords: [] as CourseDropDTO[],
       dropColumns: [
@@ -110,7 +197,41 @@ export default defineComponent({
         { title: "学时", dataIndex: "period" },
         { title: "学分", dataIndex: "credit" },
         { title: "退课时间", dataIndex: "createTime" }
-      ]
+      ],
+
+      getDataSourceByCourseType: (type: CourseTypeEnum) => {
+        switch (type) {
+          case CourseTypeEnum.COMMON_COMPULSORY:
+            return data.commonCompulsory;
+          case CourseTypeEnum.COMMON_ELECTIVE:
+            return data.commonElective;
+          case CourseTypeEnum.PROFESSIONAL_COMPULSORY:
+            return data.professionalCompulsory;
+          case CourseTypeEnum.PROFESSIONAL_ELECTIVE:
+            return data.professionalElective;
+          default:
+            return null;
+        }
+      },
+      onElect: (courseNumber: string, type: CourseTypeEnum) => {
+        const dataSource = data.getDataSourceByCourseType(type);
+        if (dataSource) {
+          const target = dataSource.find(
+            record => record.courseNumber === courseNumber
+          );
+          console.log(target);
+        }
+      },
+
+      onDrop: (courseNumber: string, type: CourseTypeEnum) => {
+        const dataSource = data.getDataSourceByCourseType(type);
+        if (dataSource) {
+          const target = dataSource.find(
+            record => record.courseNumber === courseNumber
+          );
+          console.log(target);
+        }
+      }
     });
 
     async function fetchAllInfo() {
@@ -162,6 +283,6 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .tables {
-  margin: 30px 45px;
+  margin: 30px 80px;
 }
 </style>

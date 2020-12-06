@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// NOTE: const enum是inline内联的，不能用在reactive属性中，不能在模板中使用，所以需要去掉const,直接用enum
 
 export interface AdministratorDTO {
   username: string;
@@ -624,24 +625,24 @@ export interface RestApplication {
 
 export type RestResponse<R> = Promise<R>;
 
-export const enum ApplicationSwitchEnum {
+export enum ApplicationSwitchEnum {
   ELECT_SWITCH = "ELECT_SWITCH",
   MARK_SWITCH = "MARK_SWITCH"
 }
 
-export const enum CourseTypeEnum {
+export enum CourseTypeEnum {
   COMMON_COMPULSORY = "COMMON_COMPULSORY",
   PROFESSIONAL_COMPULSORY = "PROFESSIONAL_COMPULSORY",
   COMMON_ELECTIVE = "COMMON_ELECTIVE",
   PROFESSIONAL_ELECTIVE = "PROFESSIONAL_ELECTIVE"
 }
 
-export const enum ElectiveStatusEnum {
+export enum ElectiveStatusEnum {
   CHOSEN = "CHOSEN",
   DROPPED = "DROPPED"
 }
 
-export const enum ExceptionEnum {
+export enum ExceptionEnum {
   FILE_IO_EXCEPTION = 51,
   TO_BE_IMPLEMENTED = 50,
   UNKNOWN_EXCEPTION = 99,
@@ -668,13 +669,13 @@ export const enum ExceptionEnum {
   FUNCTION_DISABLED = -21
 }
 
-export const enum GenderEnum {
+export enum GenderEnum {
   SECRETE = "保密",
   MALE = "男",
   FEMALE = "女"
 }
 
-export const enum RoleEnum {
+export enum RoleEnum {
   ADMINISTRATOR = "ADMINISTRATOR",
   TEACHER = "TEACHER",
   STUDENT = "STUDENT"
