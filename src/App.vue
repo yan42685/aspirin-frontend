@@ -4,9 +4,6 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from "vue";
-import { getRequest } from "./utils/request";
-import { RoleEnum } from "@/api/rest-api";
-import { LoginParams } from "./api/request-params";
 import { loginHook } from "./utils/hooks/on-login";
 
 export default defineComponent({

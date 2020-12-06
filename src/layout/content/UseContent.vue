@@ -17,8 +17,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed, toRefs, nextTick } from "vue";
-import { router } from "@/router";
-import { useRoute } from "vue-router";
+import { RouteLocation, useRoute } from "vue-router";
 import { internalConfig } from "@/config/app-settings";
 import { store } from "@/store";
 import { eventBus } from "@/utils/event-bus";
@@ -33,7 +32,7 @@ export default defineComponent({
       keepAliveMaxNum: internalConfig.keepAliveMaxNum,
       cachedTabNames: computed(() => {
         const cachedTabNames = [] as string[];
-        store.state.tabBar.openTabs.forEach(tab => {
+        store.state.tabBar.openTabs.forEach((tab: RouteLocation) => {
           if (!(tab.meta && tab.meta.noKeepAlive)) {
             if (tab.name) {
               cachedTabNames.push(tab.name as string);
