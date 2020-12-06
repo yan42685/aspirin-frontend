@@ -7,6 +7,7 @@
           <a-tab-pane key="1" tab="公共必修">
             <!-- scroll可以固定table的长度，然后内部滑动 -->
             <a-table
+              rowKey="courseNumber"
               :columns="electColumns"
               :data-source="commonCompulsory"
               :pagination="false"
@@ -34,6 +35,7 @@
           </a-tab-pane>
           <a-tab-pane key="2" tab="公共选修">
             <a-table
+              rowKey="courseNumber"
               :columns="electColumns"
               :data-source="commonElective"
               :pagination="false"
@@ -61,6 +63,7 @@
           </a-tab-pane>
           <a-tab-pane key="3" tab="专业必修">
             <a-table
+              rowKey="courseNumber"
               :columns="electColumns"
               :data-source="professionalCompulsory"
               :pagination="false"
@@ -94,6 +97,7 @@
           </a-tab-pane>
           <a-tab-pane key="4" tab="专业选修">
             <a-table
+              rowKey="courseNumber"
               :columns="electColumns"
               :data-source="professionalElective"
               :pagination="false"
