@@ -2,7 +2,7 @@ import { message } from "ant-design-vue";
 
 message.config({
   top: 100,
-  duration: 1.5,
+  duration: 3,
   maxCount: 3
 });
 

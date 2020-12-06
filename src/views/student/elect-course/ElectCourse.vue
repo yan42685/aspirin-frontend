@@ -14,22 +14,18 @@
               :scroll="{ y: 350 }"
             >
               <template #action="{record}">
-                <a
-                  @click="
-                    onElect(record.courseNumber, courseType.COMMON_COMPULSORY)
-                  "
-                  >选课</a
-                >
+                <!-- <a                                 -->
+                <!--   @click="                         -->
+                <!--     onElect(                       -->
+                <!--       $event,                      -->
+                <!--       record.courseNumber,         -->
+                <!--       courseType.COMMON_COMPULSORY -->
+                <!--     )                              -->
+                <!--   "                                -->
+                <!--   >选课</a                       -->
+                <!-- >                                  -->
+                <elect-course-button :courseDetailId="record.id" />
                 <a-divider type="vertical" />
-                <a-popconfirm
-                  v-if="commonCompulsory.length"
-                  title="确定退选吗?"
-                  @confirm="
-                    onDrop(record.courseNumber, courseType.COMMON_COMPULSORY)
-                  "
-                >
-                  <a>退选</a>
-                </a-popconfirm>
               </template>
             </a-table>
           </a-tab-pane>
@@ -44,7 +40,11 @@
               <template #action="{record}">
                 <a
                   @click="
-                    onElect(record.courseNumber, courseType.COMMON_ELECTIVE)
+                    onElect(
+                      $event,
+                      record.courseNumber,
+                      courseType.COMMON_ELECTIVE
+                    )
                   "
                   >选课</a
                 >
@@ -53,10 +53,14 @@
                   v-if="commonElective.length"
                   title="确定退选吗?"
                   @confirm="
-                    onDrop(record.courseNumber, courseType.COMMON_ELECTIVE)
+                    onDrop(
+                      $event,
+                      record.courseNumber,
+                      courseType.COMMON_ELECTIVE
+                    )
                   "
                 >
-                  <a>退选</a>
+                  <a disabled>退选</a>
                 </a-popconfirm>
               </template>
             </a-table>
@@ -73,6 +77,7 @@
                 <a
                   @click="
                     onElect(
+                      $event,
                       record.courseNumber,
                       courseType.PROFESSIONAL_COMPULSORY
                     )
@@ -85,12 +90,13 @@
                   title="确定退选吗?"
                   @confirm="
                     onDrop(
+                      $event,
                       record.courseNumber,
                       courseType.PROFESSIONAL_COMPULSORY
                     )
                   "
                 >
-                  <a>退选</a>
+                  <a disabled>退选</a>
                 </a-popconfirm>
               </template>
             </a-table>
@@ -107,6 +113,7 @@
                 <a
                   @click="
                     onElect(
+                      $event,
                       record.courseNumber,
                       courseType.PROFESSIONAL_ELECTIVE
                     )
@@ -119,12 +126,13 @@
                   title="确定退选吗?"
                   @confirm="
                     onDrop(
+                      $event,
                       record.courseNumber,
                       courseType.PROFESSIONAL_ELECTIVE
                     )
                   "
                 >
-                  <a>退选</a>
+                  <a disabled>退选</a>
                 </a-popconfirm>
               </template>
             </a-table>
@@ -152,9 +160,10 @@ import { CourseDetailDTO, CourseTypeEnum, CourseDropDTO } from "@/api/rest-api";
 import { store } from "@/store";
 import { bigPage } from "@/api/request-params";
 import { autoRetryAsync } from "@/utils/basic-lib";
+import ElectCourseButton from "./ElectCourseButton.vue";
 
 export default defineComponent({
-  components: { WhiteBackground },
+  components: { WhiteBackground, ElectCourseButton },
   name: "ElectCourse",
   setup() {
     const data = reactive({
@@ -189,6 +198,7 @@ export default defineComponent({
         {
           title: "操作",
           key: "action",
+          width: 260,
           slots: { customRender: "action" }
         }
       ],
@@ -217,7 +227,10 @@ export default defineComponent({
             return null;
         }
       },
-      onElect: (courseNumber: string, type: CourseTypeEnum) => {
+      onElect: (event: any, courseNumber: string, type: CourseTypeEnum) => {
+        const element = event.target as HTMLElement;
+        element.textContent = "已选";
+        element.setAttribute("disabled", "true");
         const dataSource = data.getDataSourceByCourseType(type);
         if (dataSource) {
           const target = dataSource.find(
@@ -227,7 +240,8 @@ export default defineComponent({
         }
       },
 
-      onDrop: (courseNumber: string, type: CourseTypeEnum) => {
+      onDrop: (event: any, courseNumber: string, type: CourseTypeEnum) => {
+        const element = event.target as HTMLElement;
         const dataSource = data.getDataSourceByCourseType(type);
         if (dataSource) {
           const target = dataSource.find(

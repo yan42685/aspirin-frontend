@@ -36,8 +36,10 @@ export function isClickOutside(elementRef: Ref<null | HTMLElement>) {
   const isClickOutside = ref(false);
 
   const handler = (event: MouseEvent) => {
-    // TODO: 视频里写的是HTMLElement而不是Node, 不知道有没有区别
-    if (elementRef.value && elementRef.value.contains(event.target as Node)) {
+    if (
+      elementRef.value &&
+      elementRef.value.contains(event.target as HTMLElement)
+    ) {
       isClickOutside.value = true;
     } else {
       isClickOutside.value = false;
