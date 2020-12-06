@@ -9,6 +9,7 @@ export class InternalConfig {
   loginInterception = false; // 是否开启登录拦截
   appName = "Aspirin Platform";
   keepAliveMaxNum = 10;
+  isDebug = true;
 }
 
 export const internalConfig = new InternalConfig();
