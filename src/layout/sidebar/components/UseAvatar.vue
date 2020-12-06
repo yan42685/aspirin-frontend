@@ -17,8 +17,6 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .avatar-container {
-  margin-top: -10px;
-  height: $subheader1-height;
   display: block;
 }
 </style>
