@@ -1,16 +1,22 @@
 <template>
   <div class="avatar-container">
-    <a-avatar class="avatar" :size="60" icon="user" />
+    <a-avatar :size="65" class="avatar">
+      <template #icon><img :src="avatarUrl" alt=""/></template>
+    </a-avatar>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, reactive, computed, toRefs } from "vue";
+import { store } from "@/store";
 
 export default defineComponent({
   name: "UseAvatar",
   setup() {
-    return {};
+    const data = reactive({
+      avatarUrl: computed(() => store.state.student.info.avatarUrl)
+    });
+    return { ...toRefs(data) };
   }
 });
 </script>
