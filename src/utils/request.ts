@@ -111,7 +111,7 @@ export function deleteRequest<T>(
   url: string,
   params?: any
 ): Promise<JsonWrapper<T>> {
-  return httpClient.delete(url, { params: qs.stringify(params) });
+  return httpClient.delete(url, { params: params });
 }
 
 export function patchRequest<T>(
