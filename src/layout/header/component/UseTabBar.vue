@@ -98,6 +98,9 @@ export default defineComponent({
       store.commit("deleteRightTabs", currentTab);
     const deleteAllTabs = () => store.commit("deleteAllTabs");
 
+    // 手动给watchEffect监听oldPath, 注意不能直接监听Route，因为监听的是对象的引用，而基本类型是值
+    let oldPath = "";
+
     const data = reactive({
       // 当前激活的tab的key(path)
       activeTabKey: "",
@@ -107,7 +110,9 @@ export default defineComponent({
       },
 
       handleTabClick: (path: string) => {
-        router.push(path);
+        if (currentRoute.path !== path) {
+          router.push(path);
+        }
       },
       handleTabClose: (path: string) => {
         const target = openTabs.value.find(tab => {
@@ -121,7 +126,6 @@ export default defineComponent({
         }
       },
 
-      // 注意这里是解构运算符
       handleTabOperation: (operation: any) => {
         const currentTab = getTabByPath(data.activeTabKey);
         if (!currentTab) {
@@ -161,10 +165,13 @@ export default defineComponent({
     // 初始化固定标签页
     initAffixTabs(router.getRoutes());
 
-    //FIXME: watch有效但是会报警，onBeforeRouteUpdate也有坑，和watchEffect都有坑！
-    watch(currentRoute, newRoute => {
-      addTab(newRoute);
-      data.activeTabKey = newRoute.path;
+    watchEffect(() => {
+      const newRoute = currentRoute;
+      if (newRoute.path !== oldPath) {
+        addTab(newRoute);
+        data.activeTabKey = newRoute.path;
+        oldPath = newRoute.path;
+      }
     });
 
     return {
