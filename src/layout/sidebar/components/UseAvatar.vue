@@ -1,8 +1,17 @@
 <template>
   <div class="avatar-container">
-    <a-avatar :size="65" class="avatar">
-      <template #icon><img :src="avatarUrl" alt=""/></template>
-    </a-avatar>
+    <a-popover placement="rightTop">
+      <template #content>
+        <div>
+          <router-link to="/student/personal-center">个人中心</router-link>
+        </div>
+        <!-- TODO: 登出 -->
+        <div class="logout-container"><a>登出</a></div>
+      </template>
+      <a-avatar :size="65" class="avatar">
+        <template #icon><img :src="avatarUrl" alt=""/></template>
+      </a-avatar>
+    </a-popover>
   </div>
 </template>
 
@@ -22,6 +31,9 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+.logout-container {
+  margin-top: 8px;
+}
 .avatar-container {
   display: block;
 }
