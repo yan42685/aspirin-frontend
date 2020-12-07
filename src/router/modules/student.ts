@@ -26,6 +26,14 @@ export const studentRoutes: RouteRecordRaw[] = [
         meta: {
           title: "选课"
         }
+      },
+      {
+        name: "grade",
+        path: "grade",
+        component: () => import("@/views/student/grade/UseGrade.vue"),
+        meta: {
+          title: "成绩单"
+        }
       }
     ]
   }

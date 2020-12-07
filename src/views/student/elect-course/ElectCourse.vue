@@ -101,7 +101,6 @@ import {
 import { store } from "@/store";
 import { bigPage } from "@/api/request-params";
 import { autoRetryAsync } from "@/utils/basic-lib";
-import Axios from "axios";
 import ElectCourseButton from "./ElectCourseButton.vue";
 
 export default defineComponent({
