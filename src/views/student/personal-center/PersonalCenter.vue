@@ -9,12 +9,12 @@
         :model="form"
         :label-col="{ span: 5 }"
         :wrapper-col="{ span: 16 }"
-        class="form"
+        :rules="rules"
       >
         <a-form-item label="姓名">
           <a-input :value="userInfo.realName" disabled />
         </a-form-item>
-        <a-form-item label="昵称">
+        <a-form-item label="昵称" name="nickname">
           <a-input v-model:value="form.nickname" />
         </a-form-item>
         <a-form-item label="性别">
@@ -30,7 +30,7 @@
             </a-radio>
           </a-radio-group>
         </a-form-item>
-        <a-form-item label="  手机号">
+        <a-form-item label="  手机号" name="phoneNumber">
           <a-input v-model:value="form.phoneNumber" />
         </a-form-item>
         <a-form-item label="联系方式">
@@ -99,10 +99,26 @@ export default defineComponent({
         data.modalVisible = true;
       },
       form: {
-        nickName: "",
+        nickname: "",
         gender: "",
         phoneNumber: "",
         contactInformation: ""
+      },
+      rules: {
+        nickname: [
+          {
+            required: true,
+            message: "昵称不能为空",
+            trigger: "blur"
+          }
+        ],
+        phoneNumber: [
+          {
+            required: true,
+            message: "手机号不能为空",
+            trigger: "blur"
+          }
+        ]
       },
       cardLeftLoading: true,
       cardRightLoading: true,
