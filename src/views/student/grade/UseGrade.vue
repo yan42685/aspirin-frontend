@@ -1,6 +1,7 @@
 <template>
   <white-background :loading="loading">
     <div v-if="!loading">
+      <br />
       <a-dropdown>
         <template #overlay>
           <a-menu @click="handleItemClick">
@@ -13,6 +14,7 @@
         <a-button> 第 {{ chosenSemester }} 学期 <DownOutlined /> </a-button>
       </a-dropdown>
       <a-table
+        class="table"
         rowKey="courseNumber"
         :columns="columns"
         :data-source="dataSource"
@@ -100,4 +102,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.table {
+  margin: 30px 60px;
+}
+</style>
