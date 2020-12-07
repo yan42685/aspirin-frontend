@@ -14,7 +14,7 @@
               :columns="electColumns"
               :data-source="commonCompulsory"
               :pagination="false"
-              :scroll="{ y: 420 }"
+              :scroll="{ y: 400 }"
             >
               <template #action="{record}">
                 <elect-course-button
@@ -30,7 +30,7 @@
               :columns="electColumns"
               :data-source="commonElective"
               :pagination="false"
-              :scroll="{ y: 450 }"
+              :scroll="{ y: 400 }"
             >
               <template #action="{record}">
                 <elect-course-button
@@ -46,7 +46,7 @@
               :columns="electColumns"
               :data-source="professionalCompulsory"
               :pagination="false"
-              :scroll="{ y: 450 }"
+              :scroll="{ y: 400 }"
             >
               <template #action="{record}">
                 <elect-course-button
@@ -62,7 +62,7 @@
               :columns="electColumns"
               :data-source="professionalElective"
               :pagination="false"
-              :scroll="{ y: 450 }"
+              :scroll="{ y: 400 }"
             >
               <template #action="{record}">
                 <elect-course-button
@@ -78,7 +78,7 @@
               :columns="dropColumns"
               :data-source="dropCourseRecords"
               :pagination="false"
-              :scroll="{ y: 450 }"
+              :scroll="{ y: 400 }"
             >
             </a-table>
           </a-tab-pane>

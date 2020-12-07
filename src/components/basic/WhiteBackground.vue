@@ -36,7 +36,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .background {
-  min-height: 81vh;
+  min-height: $white-background-min-height;
   background: #fff;
   box-shadow: 0 4px 12px rgba(0, 21, 41, 0.12), 0 0 8px rgba(0, 21, 41, 0.08);
 }
