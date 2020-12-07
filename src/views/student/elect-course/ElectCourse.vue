@@ -1,7 +1,10 @@
 <template>
   <white-background :loading="loading">
     <div v-if="!loading">
-      <h1>选课界面</h1>
+      <div>
+        <br />
+        <h1>{{ title }}</h1>
+      </div>
       <div>
         <a-tabs size="default" type="card" class="tables">
           <a-tab-pane key="1" tab="公共必修">
@@ -100,6 +103,7 @@ export default defineComponent({
   name: "ElectCourse",
   setup() {
     const data = reactive({
+      title: "",
       courseType: CourseTypeEnum,
       loading: true,
       commonCompulsory: [] as ElectiveDTO[],
@@ -214,6 +218,7 @@ export default defineComponent({
         bigPage
       );
 
+      data.title = `第 ${semester} 学期选课表`;
       data.commonCompulsory = result1.data as ElectiveDTO[];
       data.commonElective = result2.data as ElectiveDTO[];
       data.professionalCompulsory = result3.data as ElectiveDTO[];
@@ -234,6 +239,6 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .tables {
-  margin: 30px 80px;
+  margin: 30px 60px;
 }
 </style>
