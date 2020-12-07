@@ -65,7 +65,6 @@ export default defineComponent({
       },
       onDrop: async () => {
         data.dropLoading = true;
-        console.log(props.courseDetailId);
         const result: any = await deleteRequest("/api/student/elective", {
           courseDetailId: props.courseDetailId
         });

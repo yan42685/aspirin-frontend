@@ -19,7 +19,7 @@
       </div>
     </use-card>
     <use-card class="card-right" :loading="cardRightLoading">
-      whatever content
+      <h1 style="font-size:30px">功能开发中...</h1>
     </use-card>
   </div>
 </template>

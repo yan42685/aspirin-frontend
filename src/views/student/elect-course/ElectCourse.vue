@@ -71,6 +71,7 @@
           </a-tab-pane>
           <a-tab-pane key="5" tab="退选记录">
             <a-table
+              rowKey="courseDetailId"
               :columns="dropColumns"
               :data-source="dropCourseRecords"
               :pagination="false"
@@ -193,19 +194,19 @@ export default defineComponent({
 
       const result1 = await getRequest("/api/student/available-course-list", {
         semester: semester,
-        courseType: CourseTypeEnum.COMMON_COMPULSORY
+        courseType: "COMMON_COMPULSORY"
       });
       const result2 = await getRequest("/api/student/available-course-list", {
         semester: semester,
-        courseType: CourseTypeEnum.COMMON_ELECTIVE
+        courseType: "COMMON_ELECTIVE"
       });
       const result3 = await getRequest("/api/student/available-course-list", {
         semester: semester,
-        courseType: CourseTypeEnum.PROFESSIONAL_COMPULSORY
+        courseType: "PROFESSIONAL_COMPULSORY"
       });
       const result4 = await getRequest("/api/student/available-course-list", {
         semester: semester,
-        courseType: CourseTypeEnum.PROFESSIONAL_ELECTIVE
+        courseType: "PROFESSIONAL_ELECTIVE"
       });
       // NOTE: 如果后面要级联获取属性，这里必须写any类型，省略类型就是unknown类型会报错
       const result5: any = await getRequest(
