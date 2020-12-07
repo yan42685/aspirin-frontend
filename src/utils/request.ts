@@ -9,7 +9,7 @@ import * as rax from "retry-axios";
 // 直接调用Axios可以处理多个请求, Axios.all([request1, ...]).then(() => Axios.spread(result1, ...) => {})
 
 // 请求超时的时限
-const REQUEST_TIMEOUT = 10000;
+const REQUEST_TIMEOUT = 13000;
 
 // create an axios instance
 const httpClient = axios.create({

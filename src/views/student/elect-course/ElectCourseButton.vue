@@ -23,21 +23,31 @@
 
 <script lang="ts">
 import { getRequest, postRequest, deleteRequest } from "@/utils/request";
+import { defineComponent, reactive, toRefs, PropType, computed } from "vue";
+import { ElectiveStatusEnum } from "@/api/rest-api";
 import { messenger } from "@/utils/my-ant-design-vue";
-import { defineComponent, reactive, toRefs } from "vue";
 
 export default defineComponent({
   name: "ElectCourseButton",
   props: {
-    courseDetailId: String
+    courseDetailId: String,
+    courseStatus: null as null | PropType<ElectiveStatusEnum>
   },
   setup(props) {
+    const initialElectText: string =
+      props.courseStatus && props.courseStatus === ElectiveStatusEnum.CHOSEN
+        ? "已选"
+        : "选课";
+
     const data = reactive({
       electLoading: false,
-      electDisabled: false,
-      electText: "选课",
+      electDisabled:
+        props.courseStatus && props.courseStatus === ElectiveStatusEnum.CHOSEN,
+      electText: initialElectText,
       dropLoading: false,
-      dropDisabled: false,
+      dropDisabled:
+        props.courseStatus && props.courseStatus !== ElectiveStatusEnum.CHOSEN,
+
       onElect: async () => {
         data.electLoading = true;
         const result: any = await postRequest("/api/student/elective", {

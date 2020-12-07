@@ -28,6 +28,10 @@ export interface ApplicationSwitchDTO {
   status: boolean;
 }
 
+export interface ElectiveDTO extends CourseDetailDTO {
+  status: ElectiveStatusEnum;
+}
+
 export interface BulletinDTO extends Serializable {
   id: number;
   createTime: Date;
@@ -639,7 +643,8 @@ export enum CourseTypeEnum {
 
 export enum ElectiveStatusEnum {
   CHOSEN = "CHOSEN",
-  DROPPED = "DROPPED"
+  DROPPED = "DROPPED",
+  UNCHOSEN = "UNCHOSEN"
 }
 
 export enum ExceptionEnum {

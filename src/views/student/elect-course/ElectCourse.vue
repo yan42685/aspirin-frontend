@@ -14,7 +14,10 @@
               :scroll="{ y: 420 }"
             >
               <template #action="{record}">
-                <elect-course-button :courseDetailId="record.id" />
+                <elect-course-button
+                  :courseDetailId="record.id"
+                  :courseStatus="record.status"
+                />
               </template>
             </a-table>
           </a-tab-pane>
@@ -27,7 +30,10 @@
               :scroll="{ y: 450 }"
             >
               <template #action="{record}">
-                <elect-course-button :courseDetailId="record.id" />
+                <elect-course-button
+                  :courseDetailId="record.id"
+                  :courseStatus="record.status"
+                />
               </template>
             </a-table>
           </a-tab-pane>
@@ -40,7 +46,10 @@
               :scroll="{ y: 450 }"
             >
               <template #action="{record}">
-                <elect-course-button :courseDetailId="record.id" />
+                <elect-course-button
+                  :courseDetailId="record.id"
+                  :courseStatus="record.status"
+                />
               </template>
             </a-table>
           </a-tab-pane>
@@ -53,7 +62,10 @@
               :scroll="{ y: 450 }"
             >
               <template #action="{record}">
-                <elect-course-button :courseDetailId="record.id" />
+                <elect-course-button
+                  :courseDetailId="record.id"
+                  :courseStatus="record.status"
+                />
               </template>
             </a-table>
           </a-tab-pane>
@@ -76,7 +88,7 @@
 import { defineComponent, reactive, toRefs } from "vue";
 import WhiteBackground from "@/components/basic/WhiteBackground.vue";
 import { getRequest } from "@/utils/request";
-import { CourseDetailDTO, CourseTypeEnum, CourseDropDTO } from "@/api/rest-api";
+import { ElectiveDTO, CourseTypeEnum, CourseDropDTO } from "@/api/rest-api";
 import { store } from "@/store";
 import { bigPage } from "@/api/request-params";
 import { autoRetryAsync } from "@/utils/basic-lib";
@@ -89,10 +101,10 @@ export default defineComponent({
     const data = reactive({
       courseType: CourseTypeEnum,
       loading: true,
-      commonCompulsory: [] as CourseDetailDTO[],
-      commonElective: [] as CourseDetailDTO[],
-      professionalCompulsory: [] as CourseDetailDTO[],
-      professionalElective: [] as CourseDetailDTO[],
+      commonCompulsory: [] as ElectiveDTO[],
+      commonElective: [] as ElectiveDTO[],
+      professionalCompulsory: [] as ElectiveDTO[],
+      professionalElective: [] as ElectiveDTO[],
       electColumns: [
         { title: "课程名", dataIndex: "courseName" },
         { title: "课程编号", dataIndex: "courseNumber" },
@@ -101,14 +113,14 @@ export default defineComponent({
           title: "星期几",
           dataIndex: "dayOfTheWeek",
           // 点击排序的规则
-          sorter: (a: CourseDetailDTO, b: CourseDetailDTO) =>
+          sorter: (a: ElectiveDTO, b: ElectiveDTO) =>
             a.dayOfTheWeek - b.dayOfTheWeek,
           width: 150
         },
         {
           title: "第几节课",
           dataIndex: "schedulingTime",
-          sorter: (a: CourseDetailDTO, b: CourseDetailDTO) =>
+          sorter: (a: ElectiveDTO, b: ElectiveDTO) =>
             a.schedulingTime - b.schedulingTime,
           width: 150
         },
@@ -201,10 +213,10 @@ export default defineComponent({
         bigPage
       );
 
-      data.commonCompulsory = result1.data as CourseDetailDTO[];
-      data.commonElective = result2.data as CourseDetailDTO[];
-      data.professionalCompulsory = result3.data as CourseDetailDTO[];
-      data.professionalElective = result4.data as CourseDetailDTO[];
+      data.commonCompulsory = result1.data as ElectiveDTO[];
+      data.commonElective = result2.data as ElectiveDTO[];
+      data.professionalCompulsory = result3.data as ElectiveDTO[];
+      data.professionalElective = result4.data as ElectiveDTO[];
       data.dropCourseRecords = result5.data.records as CourseDropDTO[];
 
       data.loading = false;
