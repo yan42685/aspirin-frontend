@@ -1,5 +1,5 @@
 <template>
-  <a-breadcrumb>
+  <a-breadcrumb separator="/">
     <a-breadcrumb-item v-for="route in matched" :key="route.path">
       {{ route.meta.title }}
     </a-breadcrumb-item>
@@ -36,6 +36,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+@import "@/styles/transitions.scss";
 .ant-breadcrumb {
   text-align: left;
   height: 80%;

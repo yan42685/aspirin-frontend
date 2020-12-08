@@ -53,14 +53,16 @@
         </h1>
 
         <ul class="text-ul">
-          <li>{{ userInfo.nickname }}</li>
-          <li>{{ userInfo.gender }}</li>
-          <li>{{ userInfo.faculty }}</li>
-          <li>{{ userInfo.specialty }}</li>
-          <li>{{ userInfo.number }}</li>
-          <li>{{ userInfo.admissionYear }}级</li>
-          <li>{{ userInfo.phoneNumber }}</li>
-          <li>{{ userInfo.contactInformation }}</li>
+          <li><UserOutlined />&nbsp;&nbsp;{{ userInfo.nickname }}</li>
+          <li><SmileOutlined />&nbsp;&nbsp;{{ userInfo.gender }}</li>
+          <li><EnvironmentOutlined />&nbsp;&nbsp;{{ userInfo.faculty }}</li>
+          <li><StarOutlined />&nbsp;&nbsp;{{ userInfo.specialty }}</li>
+          <li><IdcardOutlined />&nbsp;&nbsp;{{ userInfo.number }}</li>
+          <li><FireOutlined />&nbsp;&nbsp;{{ userInfo.admissionYear }}级</li>
+          <li><PhoneOutlined />&nbsp;&nbsp;{{ userInfo.phoneNumber }}</li>
+          <li>
+            <ContactsOutlined />&nbsp;&nbsp;{{ userInfo.contactInformation }}
+          </li>
         </ul>
       </div>
     </use-card>
@@ -76,12 +78,33 @@ import { defineComponent, reactive, toRefs, computed } from "vue";
 import UseCard from "@/components/basic/UseCard.vue";
 import { getRequest, putRequest } from "@/utils/request";
 import { store } from "@/store";
-import { FormOutlined } from "@ant-design/icons-vue";
+import {
+  FormOutlined,
+  EnvironmentOutlined,
+  IdcardOutlined,
+  UserOutlined,
+  SmileOutlined,
+  PhoneOutlined,
+  ContactsOutlined,
+  FireOutlined,
+  StarOutlined
+} from "@ant-design/icons-vue";
 import { messenger } from "@/utils/my-ant-design-vue";
 import { StudentDTO } from "@/api/rest-api";
 
 export default defineComponent({
-  components: { UseCard, FormOutlined },
+  components: {
+    UseCard,
+    FormOutlined,
+    EnvironmentOutlined,
+    IdcardOutlined,
+    UserOutlined,
+    SmileOutlined,
+    PhoneOutlined,
+    ContactsOutlined,
+    FireOutlined,
+    StarOutlined
+  },
   name: "PersonalCenter",
   setup() {
     const data = reactive({
