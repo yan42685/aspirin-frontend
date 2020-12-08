@@ -1,25 +1,36 @@
 <template>
   <a-breadcrumb>
-    <a-breadcrumb-item href="">
-      <a-icon type="home" />
-    </a-breadcrumb-item>
-    <a-breadcrumb-item href="">
-      <a-icon type="user" />
-      <span>Application List</span>
-    </a-breadcrumb-item>
-    <a-breadcrumb-item>
-      Application
+    <a-breadcrumb-item v-for="route in matched" :key="route.path">
+      {{ route.meta.title }}
     </a-breadcrumb-item>
   </a-breadcrumb>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, reactive, toRefs, watchEffect } from "vue";
+import { useRoute, RouteLocationMatched } from "vue-router";
 
 export default defineComponent({
   name: "UseBreadCrumb",
   setup() {
-    return {};
+    const currentRoute = useRoute();
+    const data = reactive({
+      matched: [] as RouteLocationMatched[]
+    });
+
+    watchEffect(() => {
+      const newRoute = currentRoute;
+      const matched = newRoute.matched.filter(
+        route => route.meta && route.meta.title
+      );
+      if (matched.length > 0) {
+        data.matched = matched;
+      }
+    });
+
+    return {
+      ...toRefs(data)
+    };
   }
 });
 </script>
@@ -29,5 +40,6 @@ export default defineComponent({
   text-align: left;
   height: 80%;
   line-height: $subheader1-height;
+  margin-left: 20px;
 }
 </style>
