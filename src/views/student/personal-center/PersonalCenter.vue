@@ -33,7 +33,7 @@
         <a-form-item label="  手机号" name="phoneNumber">
           <a-input v-model:value="form.phoneNumber" />
         </a-form-item>
-        <a-form-item label="联系方式">
+        <a-form-item label="联系方式" name="contactInformation">
           <a-input v-model:value="form.contactInformation" />
         </a-form-item>
       </a-form>
@@ -140,6 +140,13 @@ export default defineComponent({
           {
             required: true,
             message: "手机号不能为空",
+            trigger: "blur"
+          }
+        ],
+        contactInformation: [
+          {
+            required: true,
+            message: "其他联系方式不能为空",
             trigger: "blur"
           }
         ]
