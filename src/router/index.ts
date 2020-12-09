@@ -6,6 +6,7 @@ import { loginRedirect } from "@/utils/timeout-actions";
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import Framework from "../layout/framework/Framework.vue";
 import { studentRoutes } from "./modules/student";
+import { teacherRoutes } from "./modules/teacher";
 
 // 旧版本是RouteConfig 新版本是RouteRecordRaw
 export const staticRootRoutes: Array<RouteRecordRaw> = [
@@ -83,6 +84,7 @@ export const dynamicRootRoutes: RouteRecordRaw[] = [
 
   // 模块
   ...studentRoutes,
+  ...teacherRoutes,
 
   // 在动态路由注入后，再注入404重定向规则，以确保该规则至于路由表最底部
   {
