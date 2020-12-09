@@ -86,7 +86,7 @@ export const dynamicRootRoutes: RouteRecordRaw[] = [
   ...studentRoutes,
   ...teacherRoutes,
 
-  // 在动态路由注入后，再注入404重定向规则，以确保该规则至于路由表最底部
+  // 在动态路由注入后，再注入404重定向规则，以确保该规则置于路由表最底部
   {
     path: "/:catchAll(.*)",
     redirect: "/404",
