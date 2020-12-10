@@ -53,15 +53,62 @@
         </h1>
 
         <ul class="text-ul">
-          <li><UserOutlined />&nbsp;&nbsp;{{ userInfo.nickname }}</li>
-          <li><SmileOutlined />&nbsp;&nbsp;{{ userInfo.gender }}</li>
-          <li><EnvironmentOutlined />&nbsp;&nbsp;{{ userInfo.faculty }}</li>
-          <li><StarOutlined />&nbsp;&nbsp;{{ userInfo.specialty }}</li>
-          <li><IdcardOutlined />&nbsp;&nbsp;{{ userInfo.number }}</li>
-          <li><FireOutlined />&nbsp;&nbsp;{{ userInfo.admissionYear }}级</li>
-          <li><PhoneOutlined />&nbsp;&nbsp;{{ userInfo.phoneNumber }}</li>
           <li>
-            <ContactsOutlined />&nbsp;&nbsp;{{ userInfo.contactInformation }}
+            <UserOutlined />&nbsp;&nbsp;
+            <transition mode="out-in" name="fade-in">
+              <!-- 绑定key就可以在信息更新的时候重新渲染tag，然后触发过渡动画 -->
+              <span :key="userInfo.nickname"> {{ userInfo.nickname }} </span>
+            </transition>
+          </li>
+          <li>
+            <SmileOutlined />&nbsp;&nbsp;
+            <transition mode="out-in" name="fade-in">
+              <span :key="userInfo.gender"> {{ userInfo.gender }} </span>
+            </transition>
+          </li>
+          <li>
+            <EnvironmentOutlined />&nbsp;&nbsp;
+            <transition mode="out-in" name="fade-in">
+              <span :key="userInfo.faculty"> {{ userInfo.faculty }} </span>
+            </transition>
+          </li>
+          <li>
+            <StarOutlined />&nbsp;&nbsp;
+            <transition mode="out-in" name="fade-in">
+              <span :key="userInfo.specialty"> {{ userInfo.specialty }}</span>
+            </transition>
+          </li>
+          <li>
+            <IdcardOutlined />&nbsp;&nbsp;
+            <transition mode="out-in" name="fade-in">
+              <span :key="userInfo.number">{{ userInfo.number }}</span>
+            </transition>
+          </li>
+
+          <li>
+            <FireOutlined />&nbsp;&nbsp;
+            <transition mode="out-in" name="fade-in">
+              <span :key="userInfo.admissionYear">{{
+                userInfo.admissionYear
+              }}</span>
+            </transition>
+            级
+          </li>
+          <li>
+            <PhoneOutlined />&nbsp;&nbsp;
+            <transition mode="out-in" name="fade-in">
+              <span :key="userInfo.phoneNumber">{{
+                userInfo.phoneNumber
+              }}</span>
+            </transition>
+          </li>
+          <li>
+            <ContactsOutlined />&nbsp;&nbsp;
+            <transition mode="out-in" name="fade-in">
+              <span :key="userInfo.contactInformation">{{
+                userInfo.contactInformation
+              }}</span>
+            </transition>
           </li>
         </ul>
       </div>
@@ -172,6 +219,8 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+@import "@/styles/transitions.scss";
+
 .card-container {
   display: flex;
   justify-content: space-between;
