@@ -1,7 +1,9 @@
 <template>
   <a-breadcrumb separator="/">
     <a-breadcrumb-item v-for="route in matched" :key="route.path">
-      {{ route.meta.title }}
+      <transition mode="out-in" name="fade-in">
+        <span :key="route.path"> {{ route.meta.title }} </span>
+      </transition>
     </a-breadcrumb-item>
   </a-breadcrumb>
 </template>
