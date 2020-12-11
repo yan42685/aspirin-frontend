@@ -11,9 +11,9 @@ import { Route } from "ant-design-vue/lib/breadcrumb/Breadcrumb";
 
 export function hasPermission(route: RouteRecordRaw | RouteLocation) {
   if (internalConfig.accessControl && route.meta && route.meta.roles) {
-    const requiredRoles: Array<RoleEnum> = route.meta.roles;
-    const currentRole = store.state.user?.role;
-    return !!currentRole && requiredRoles.includes(currentRole);
+    const requiredRoles: string[] = route.meta.roles;
+    const currentRole = localStorage.getItem("aspirin-role");
+    return currentRole && requiredRoles.includes(currentRole);
   }
   return true;
 }

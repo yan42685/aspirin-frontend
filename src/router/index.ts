@@ -98,7 +98,7 @@ export const dynamicRootRoutes: RouteRecordRaw[] = [
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes: [...staticRootRoutes, ...dynamicRootRoutes]
+  routes: staticRootRoutes
 });
 
 const ROUTE_WHITE_LIST = ["/login", "/register", "/404"];
@@ -122,12 +122,9 @@ router.afterEach(to => {
   }
 });
 
-// 在vur-router 3.0是onReady()
-router.isReady().then(async () => {
-  // NOTE: 巨坑，因为这个函数是异步的，所以需要await, 不然找不到路由
-  [...staticRootRoutes, ...dynamicRootRoutes]
-    .filter(route => hasPermission(route))
-    .forEach(route => router.addRoute(route));
-});
+// 根据权限动态添加路由
+dynamicRootRoutes
+  .filter(route => hasPermission(route))
+  .forEach(route => router.addRoute(route));
 
 export { router };

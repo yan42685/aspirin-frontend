@@ -76,7 +76,7 @@ export function concatPath(base: string, current: string) {
 export class AutoRetryConfig {
   // 重试计数器
   retryCount = 0;
-  maxRetryCount = 20;
+  maxRetryCount = 30;
   retryDelay = 500;
 }
 

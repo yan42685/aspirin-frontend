@@ -5,7 +5,7 @@ export class AppSetting {
 }
 
 export class InternalConfig {
-  accessControl = false; // 是否开启权限控制
+  accessControl = true; // 是否开启权限控制
   loginInterception = false; // 是否开启登录拦截
   appName = "Aspirin Platform";
   keepAliveMaxNum = 10;

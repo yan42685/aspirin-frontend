@@ -7,7 +7,8 @@ export const studentRoutes: RouteRecordRaw[] = [
     path: "/student",
     component: Framework,
     meta: {
-      title: "学生"
+      title: "学生",
+      roles: ["student"]
     },
     children: [
       {
@@ -28,11 +29,19 @@ export const studentRoutes: RouteRecordRaw[] = [
         }
       },
       {
-        name: "grade",
+        name: "Grade",
         path: "grade",
         component: () => import("@/views/student/grade/UseGrade.vue"),
         meta: {
           title: "成绩单"
+        }
+      },
+      {
+        name: "CourseTable",
+        path: "course-table",
+        component: () => import("@/views/student/course-table/CourseTable.vue"),
+        meta: {
+          title: "课程表"
         }
       }
     ]
