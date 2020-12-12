@@ -4,10 +4,6 @@ import {
   RouteRecordNormalized
 } from "vue-router";
 import { internalConfig } from "@/config/app-settings";
-import { store } from "@/store";
-import { RoleEnum } from "@/api/rest-api";
-import { router } from "@/router";
-import { Route } from "ant-design-vue/lib/breadcrumb/Breadcrumb";
 
 export function hasPermission(route: RouteRecordRaw | RouteLocation) {
   if (internalConfig.accessControl && route.meta && route.meta.roles) {
