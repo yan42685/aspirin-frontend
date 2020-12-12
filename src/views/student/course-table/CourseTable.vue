@@ -145,7 +145,7 @@ export default defineComponent({
 }
 
 ::v-deep .grid-active {
-  z-index: 9999;
+  z-index: 1000;
 }
 
 ::v-deep .grid-active span {
