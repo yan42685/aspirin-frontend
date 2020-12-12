@@ -22,7 +22,7 @@ const courseList = [] as string[][];
 // courseList[0][2] = "高等数学@张阳\n教四305333333333333";
 
 const styles = {
-  // 表格高度
+  // 格子高度
   Gheight: 47,
   leftHandWidth: 100,
   palette: ["#ff6633"]
