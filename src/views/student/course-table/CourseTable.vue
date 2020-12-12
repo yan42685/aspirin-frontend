@@ -1,7 +1,7 @@
 <template>
   <white-background :loading="loading">
     <div v-if="!loading">
-      <h1>课程表</h1>
+      <h1>第 {{ semester }} 学期课程表</h1>
     </div>
     <!-- NOTE: courseTable节点不能根据loading状态动态渲染，否则会报错 -->
     <div id="courseTable"></div>
@@ -33,9 +33,9 @@ export default defineComponent({
 
     async function helper(render: (list: CourseDetailDTO[]) => void) {
       data.loading = true;
-      const semester = store.state.student.info.semester;
+      data.semester = store.state.student.info.semester;
       const result = await getRequest("/api/student/course-schedule", {
-        semester: semester
+        semester: data.semester
       });
       const list = result.data as CourseDetailDTO[];
       render(list);
@@ -65,8 +65,8 @@ export default defineComponent({
 /* scoped样式需要加上::v-deep才能对动态生成的dom起作用 */
 ::v-deep .Courses-head > div {
   text-align: center;
-  font-size: 14px;
-  line-height: 1.7em;
+  /* font-size: 18px; */
+  line-height: 1.5em;
 }
 
 ::v-deep .left-hand-TextDom,
@@ -76,16 +76,15 @@ export default defineComponent({
 
 ::v-deep .Courses-leftHand {
   background-color: #f9f9fa;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 ::v-deep .Courses-leftHand .left-hand-index {
-  color: #9c9c9c;
-  margin-bottom: 4px !important;
+  color: #666;
 }
 
 ::v-deep .Courses-leftHand .left-hand-name {
-  color: #666;
+  color: #9c9c9c;
 }
 
 ::v-deep .Courses-leftHand p {
@@ -127,8 +126,6 @@ export default defineComponent({
 ::v-deep .Courses-content li {
   text-align: center;
   color: #666666;
-  font-size: 14px;
-  line-height: 1.7em;
 }
 
 ::v-deep .Courses-content li span {
@@ -139,11 +136,12 @@ export default defineComponent({
 
   padding: 6px 2px;
   box-sizing: border-box;
+  font-size: 16px;
   line-height: 1.7em;
-  border-radius: 4px;
+  border-radius: 8px;
   white-space: normal;
   word-break: break-all;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 ::v-deep .grid-active {
