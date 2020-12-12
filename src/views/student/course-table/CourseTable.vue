@@ -10,6 +10,11 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs, onMounted } from "vue";
 import Timetables from "timetables";
+import { store } from "@/store";
+import { CourseDetailDTO, JsonWrapper } from "@/api/rest-api";
+import { getRequest } from "@/utils/request";
+import { autoRetryUtilFetchedStudentInfo } from "@/utils/basic-lib";
+import { renderCourseTable } from "@/service/student/course-table";
 import WhiteBackground from "@/components/basic/WhiteBackground.vue";
 
 export default defineComponent({
@@ -17,7 +22,8 @@ export default defineComponent({
   components: { WhiteBackground },
   setup() {
     const data = reactive({
-      loading: false
+      loading: false,
+      semester: 0
     });
 
     const timetableType = [
@@ -54,21 +60,31 @@ export default defineComponent({
       palette: ["#ff6633", "#eeeeee"]
     };
 
-    let timeTable = null;
-    const renderCourseTable = () => {
-      timeTable = new Timetables({
-        el: "#courseTable",
-        timetables: courseList,
-        week: week,
-        timetableType: timetableType,
-        gridOnClick: function(e: any) {
-          console.log(e);
-        },
-        styles: styles
-      });
-    };
+    // let timeTable = null;
+    // const renderCourseTable = () => {
+    //   new Timetables({
+    //     el: "#courseTable",
+    //     timetables: courseList,
+    //     week: week,
+    //     timetableType: timetableType,
+    //     gridOnClick: function(e: any) {
+    //       console.log(e);
+    //     },
+    //     styles: styles
+    //   });
+    // };
 
-    onMounted(() => renderCourseTable());
+    async function fetchInfo() {
+      const semester = store.state.student.info.semester;
+      const result = await getRequest("/api/student/course-schedule", {
+        semester: semester
+      });
+      const courseList = result.data as CourseDetailDTO[];
+      renderCourseTable(courseList);
+    }
+    onMounted(() => {
+      autoRetryUtilFetchedStudentInfo(fetchInfo);
+    });
 
     return { ...toRefs(data) };
   }
