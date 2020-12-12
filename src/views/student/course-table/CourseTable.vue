@@ -48,7 +48,8 @@ export default defineComponent({
     courseList[0][2] = "高等数学@张阳\n教四305333333333333";
 
     const styles = {
-      Gheight: 50,
+      // 表格高度
+      Gheight: 47,
       leftHandWidth: 100,
       palette: ["#ff6633", "#eeeeee"]
     };
@@ -145,6 +146,11 @@ export default defineComponent({
 }
 
 ::v-deep .Courses-content li span {
+  /* 让文字居中 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   padding: 6px 2px;
   box-sizing: border-box;
   line-height: 1.7em;
