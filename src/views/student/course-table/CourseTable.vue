@@ -1,12 +1,8 @@
 <template>
   <white-background :loading="loading">
-    <div>hahahaah</div>
-    <button @click="onClick">click me</button>
-    <div class="course-table-container">
-      <div id="courseTable"></div>
-    </div>
+    <h1>课程表</h1>
     <div v-if="!loading">
-      <!-- <div id="courseTable"></div> -->
+      <div id="courseTable"></div>
     </div>
   </white-background>
 </template>
@@ -43,12 +39,13 @@ export default defineComponent({
     const courseList = [] as string[][];
     for (let i = 0; i < 7; i++) {
       const oneDayCourses = [];
-      for (let j = 0; j < 7; j++) {
+      for (let j = 0; j < 12; j++) {
         oneDayCourses.push("");
       }
       courseList.push(oneDayCourses);
     }
-    courseList[0][3] = "语文";
+    courseList[0][3] = "高等数学@张阳\n教四305333333333333";
+    courseList[0][2] = "高等数学@张阳\n教四305333333333333";
 
     const styles = {
       Gheight: 50,
@@ -57,7 +54,7 @@ export default defineComponent({
     };
 
     let timeTable = null;
-    const onClick = () => {
+    const renderCourseTable = () => {
       timeTable = new Timetables({
         el: "#courseTable",
         timetables: courseList,
@@ -70,26 +67,19 @@ export default defineComponent({
       });
     };
 
-    return { ...toRefs(data), onClick };
+    onMounted(() => renderCourseTable());
+
+    return { ...toRefs(data) };
   }
 });
 </script>
 
 <style scoped lang="scss">
 /* scoped样式需要加上::v-deep才能对动态生成的dom起作用 */
-v::deep #coursesTable {
-  padding: 15px 90px;
-}
-/* v::deep .course-table-container { */
-/*   height: 40px;                   */
-/*   width: 300px;                   */
-/*   padding: 40px 40px;             */
-/* }                                 */
-
 ::v-deep .Courses-head > div {
   text-align: center;
   font-size: 14px;
-  line-height: 28px;
+  line-height: 1.7em;
 }
 
 ::v-deep .left-hand-TextDom,
@@ -151,13 +141,13 @@ v::deep #coursesTable {
   text-align: center;
   color: #666666;
   font-size: 14px;
-  line-height: 50px;
+  line-height: 1.7em;
 }
 
 ::v-deep .Courses-content li span {
   padding: 6px 2px;
   box-sizing: border-box;
-  line-height: 18px;
+  line-height: 1.7em;
   border-radius: 4px;
   white-space: normal;
   word-break: break-all;
