@@ -18,8 +18,6 @@ const timetableType = [
 
 const week = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
 const courseList = [] as string[][];
-// courseList[0][3] = "高等数学@张阳\n教四305333333333333";
-// courseList[0][2] = "高等数学@张阳\n教四305333333333333";
 
 const styles = {
   // 格子高度
