@@ -26,6 +26,7 @@ import { getRequest, postRequest, deleteRequest } from "@/utils/request";
 import { defineComponent, reactive, toRefs, PropType, computed } from "vue";
 import { ElectiveStatusEnum } from "@/api/rest-api";
 import { messenger } from "@/utils/my-ant-design-vue";
+import { eventBus } from "@/utils/event-bus";
 
 export default defineComponent({
   name: "ElectCourseButton",
@@ -59,6 +60,8 @@ export default defineComponent({
           data.electDisabled = true;
           data.electText = "已选";
           data.dropDisabled = false;
+          // 让courseTable知道需要更新了
+          eventBus.emit("electiveUpdated");
         } else {
           messenger.error(`选课失败: ${result.message}`);
         }
@@ -74,6 +77,8 @@ export default defineComponent({
           data.dropDisabled = true;
           data.electDisabled = false;
           data.electText = "选课";
+          // 让courseTable知道需要更新了
+          eventBus.emit("electiveUpdated");
         } else {
           messenger.error(`退选失败: ${result.message}`);
         }

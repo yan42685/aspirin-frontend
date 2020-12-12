@@ -1,9 +1,10 @@
 <template>
   <white-background :loading="loading">
-    <h1>课程表</h1>
     <div v-if="!loading">
-      <div id="courseTable"></div>
+      <h1>课程表</h1>
     </div>
+    <!-- NOTE: courseTable节点不能根据loading状态动态渲染，否则会报错 -->
+    <div id="courseTable"></div>
   </white-background>
 </template>
 
@@ -14,7 +15,11 @@ import { store } from "@/store";
 import { CourseDetailDTO, JsonWrapper } from "@/api/rest-api";
 import { getRequest } from "@/utils/request";
 import { autoRetryUtilFetchedStudentInfo } from "@/utils/basic-lib";
-import { renderCourseTable } from "@/service/student/course-table";
+import {
+  renderCourseTable,
+  updateCourseTable
+} from "@/service/student/course-table";
+import { eventBus } from "@/utils/event-bus";
 import WhiteBackground from "@/components/basic/WhiteBackground.vue";
 
 export default defineComponent({
@@ -22,69 +27,34 @@ export default defineComponent({
   components: { WhiteBackground },
   setup() {
     const data = reactive({
-      loading: false,
+      loading: true,
       semester: 0
     });
 
-    const timetableType = [
-      [{ index: "1", name: "8:00-8:45" }, 1],
-      [{ index: "2", name: "8:55-9:40" }, 1],
-      [{ index: "3", name: "9:55-10:40" }, 1],
-      [{ index: "4", name: "10:50-11:35" }, 1],
-      [{ index: "5", name: "14:00-14:45" }, 1],
-      [{ index: "6", name: "14:55-15:40" }, 1],
-      [{ index: "7", name: "15:55-16:40" }, 1],
-      [{ index: "8", name: "16:55-17:40" }, 1],
-      [{ index: "9", name: "19:00-19:45" }, 1],
-      [{ index: "10", name: "19:55-20:40" }, 1],
-      [{ index: "11", name: "20:55-21:40" }, 1],
-      [{ index: "12", name: "21:55-22:40" }, 1]
-    ];
-
-    const week = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
-    const courseList = [] as string[][];
-    for (let i = 0; i < 7; i++) {
-      const oneDayCourses = [];
-      for (let j = 0; j < 12; j++) {
-        oneDayCourses.push("");
-      }
-      courseList.push(oneDayCourses);
-    }
-    courseList[0][3] = "高等数学@张阳\n教四305333333333333";
-    courseList[0][2] = "高等数学@张阳\n教四305333333333333";
-
-    const styles = {
-      // 表格高度
-      Gheight: 47,
-      leftHandWidth: 100,
-      palette: ["#ff6633", "#eeeeee"]
-    };
-
-    // let timeTable = null;
-    // const renderCourseTable = () => {
-    //   new Timetables({
-    //     el: "#courseTable",
-    //     timetables: courseList,
-    //     week: week,
-    //     timetableType: timetableType,
-    //     gridOnClick: function(e: any) {
-    //       console.log(e);
-    //     },
-    //     styles: styles
-    //   });
-    // };
-
-    async function fetchInfo() {
+    async function helper(render: (list: CourseDetailDTO[]) => void) {
+      data.loading = true;
       const semester = store.state.student.info.semester;
       const result = await getRequest("/api/student/course-schedule", {
         semester: semester
       });
-      const courseList = result.data as CourseDetailDTO[];
-      renderCourseTable(courseList);
+      const list = result.data as CourseDetailDTO[];
+      render(list);
+      data.loading = false;
     }
-    onMounted(() => {
-      autoRetryUtilFetchedStudentInfo(fetchInfo);
-    });
+
+    async function initTable() {
+      helper(renderCourseTable);
+    }
+
+    async function updateTable() {
+      helper(updateCourseTable);
+    }
+
+    onMounted(() => autoRetryUtilFetchedStudentInfo(initTable));
+    // BUG: 由于courseTable库的作者代码有问题，更新信息的时候侧栏会消失
+    // eventBus.on("electiveUpdated", () =>
+    //   autoRetryUtilFetchedStudentInfo(updateTable)
+    // );
 
     return { ...toRefs(data) };
   }
