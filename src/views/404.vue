@@ -296,6 +296,10 @@ export default defineComponent({
   }
 }
 
+.text-404__info {
+  font-size: 16px !important;
+}
+
 .button {
   font-size: 15px;
 }
