@@ -72,6 +72,7 @@ import { router } from "@/router";
 import { getTabByPath } from "@/service/tab";
 import { DownOutlined } from "@ant-design/icons-vue";
 import { routeMetaContains } from "@/utils/route";
+import { eventBus } from "@/utils/event-bus";
 
 type TabOperation = "CLOSE_LEFT" | "CLOSE_RIGHT" | "CLOSE_OTHER" | "CLOSE_ALL";
 
@@ -173,6 +174,8 @@ export default defineComponent({
         oldPath = newRoute.path;
       }
     });
+
+    eventBus.on("close-tab-by-path", (e: any) => data.handleTabClose(e.path));
 
     return {
       ...toRefs(data),

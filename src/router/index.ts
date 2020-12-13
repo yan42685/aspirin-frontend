@@ -39,12 +39,23 @@ export const staticRootRoutes: Array<RouteRecordRaw> = [
     }
   },
   {
-    name: "404",
-    path: "/404",
-    component: () => import("@/views/404.vue"),
+    name: "error-page",
+    path: "/error-page",
+    component: Framework,
     meta: {
       hidden: true
-    }
+    },
+    children: [
+      {
+        name: "404",
+        path: "404",
+        component: () => import("@/views/404.vue"),
+        meta: {
+          hidden: true,
+          title: "404"
+        }
+      }
+    ]
   }
 ];
 
@@ -89,7 +100,7 @@ export const dynamicRootRoutes: RouteRecordRaw[] = [
   // 在动态路由注入后，再注入404重定向规则，以确保该规则置于路由表最底部
   {
     path: "/:catchAll(.*)",
-    redirect: "/404",
+    redirect: "/error-page/404",
     meta: {
       hidden: true
     }
