@@ -8,22 +8,21 @@ export const teacherRoutes: RouteRecordRaw[] = [
     component: Framework,
     meta: {
       title: "教师"
+      // roles: ["teacher"]
     },
     children: [
       {
         name: "TeacherInfo",
         path: "teacher-info",
-        component: () =>
-          import("@/views/teacher/info/info.vue"),
+        component: () => import("@/views/teacher/info/info.vue"),
         meta: {
           title: "个人中心"
-        } 
+        }
       },
       {
         name: "TeacherScore",
         path: "teacher-score",
-        component: () =>
-          import("@/views/teacher/score/score.vue"),
+        component: () => import("@/views/teacher/score/score.vue"),
         meta: {
           title: "评分"
         }
@@ -31,8 +30,7 @@ export const teacherRoutes: RouteRecordRaw[] = [
       {
         name: "TeacherTeach",
         path: "teacher-teach",
-        component: () =>
-          import("@/views/teacher/teach/teach.vue"),
+        component: () => import("@/views/teacher/teach/teach.vue"),
         meta: {
           title: "授课表"
         }
