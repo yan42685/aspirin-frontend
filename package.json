@@ -16,6 +16,7 @@
     "qs": "^6.9.4",
     "retry-axios": "^2.4.0",
     "screenfull": "^5.0.2",
+    "timetables": "^1.1.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-rc.6",
     "vuex": "^4.0.0-rc.2"

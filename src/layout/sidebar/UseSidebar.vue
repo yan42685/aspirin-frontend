@@ -21,7 +21,14 @@
 
 <script lang="ts">
 import { onBeforeRouteUpdate, useRoute } from "vue-router";
-import { defineComponent, reactive, computed, toRefs, watch } from "vue";
+import {
+  defineComponent,
+  reactive,
+  computed,
+  toRefs,
+  watch,
+  watchEffect
+} from "vue";
 import DynamicMenu from "./components/DynamicMenu.vue";
 import { hasPermission } from "@/utils/route";
 import { staticRootRoutes, dynamicRootRoutes } from "@/router";
@@ -49,7 +56,8 @@ export default defineComponent({
       )
     });
 
-    watch(currentRoute, newRoute => {
+    watchEffect(() => {
+      const newRoute = currentRoute;
       const { path, matched } = newRoute;
 
       // matched[0]表示第一个匹配的RouteRecord

@@ -40,13 +40,14 @@ function handleError<T>(result: JsonWrapper<T>): void {
   const errorMessage: string = result.message;
 
   switch (errorCode) {
+    // 全局统一处理的部分
     case ExceptionEnum.NOT_LOGIN:
       // TODO: 正式运行再开启
       // loginRedirect();
       break;
 
     default:
-      // 没有统一处理的errorCode部分
+      // 不需要统一处理的errorCode部分
       break;
   }
 }

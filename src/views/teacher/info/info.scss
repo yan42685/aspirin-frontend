@@ -1,0 +1,14 @@
+@import "@/styles/transitions.scss";
+
+.card-container {
+  display: flex;
+  justify-content: space-between;
+
+  .card-right {
+    width: 100%;
+    height: 80vh;
+    &:hover {
+      box-shadow: $base-card-box-shadow;
+    }
+  }
+}

@@ -1,3 +1,4 @@
+import { store } from "@/store";
 import { ref, Ref, onMounted, onUnmounted } from "vue";
 
 // 获取随机字符串
@@ -75,7 +76,7 @@ export function concatPath(base: string, current: string) {
 export class AutoRetryConfig {
   // 重试计数器
   retryCount = 0;
-  maxRetryCount = 20;
+  maxRetryCount = 30;
   retryDelay = 500;
 }
 
@@ -120,6 +121,21 @@ export async function autoRetryAsync(
     return false;
   }
   return true;
+}
+
+export async function autoRetryUtilFetchedStudentInfo(
+  fn: () => void,
+  config: AutoRetryConfig = new AutoRetryConfig()
+) {
+  const fnWrapper = async () => {
+    if (!store.state.student.info.username) {
+      return false;
+    } else {
+      fn();
+      return true;
+    }
+  };
+  autoRetryAsync(fnWrapper);
 }
 
 export function isStrEmpty(str: string) {

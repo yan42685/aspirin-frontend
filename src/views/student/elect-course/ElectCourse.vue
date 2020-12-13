@@ -92,7 +92,12 @@
 import { defineComponent, reactive, toRefs } from "vue";
 import WhiteBackground from "@/components/basic/WhiteBackground.vue";
 import { getRequest } from "@/utils/request";
-import { ElectiveDTO, CourseTypeEnum, CourseDropDTO } from "@/api/rest-api";
+import {
+  ElectiveDTO,
+  CourseTypeEnum,
+  CourseDropDTO,
+  IPage
+} from "@/api/rest-api";
 import { store } from "@/store";
 import { bigPage } from "@/api/request-params";
 import { autoRetryAsync } from "@/utils/basic-lib";
@@ -196,36 +201,42 @@ export default defineComponent({
 
       const semester = store.state.student.info.semester;
 
-      const result1 = await getRequest("/api/student/available-course-list", {
+      const request1 = getRequest("/api/student/available-course-list", {
         semester: semester,
         courseType: "COMMON_COMPULSORY"
       });
-      const result2 = await getRequest("/api/student/available-course-list", {
+      const request2 = getRequest("/api/student/available-course-list", {
         semester: semester,
         courseType: "COMMON_ELECTIVE"
       });
-      const result3 = await getRequest("/api/student/available-course-list", {
+      const request3 = getRequest("/api/student/available-course-list", {
         semester: semester,
         courseType: "PROFESSIONAL_COMPULSORY"
       });
-      const result4 = await getRequest("/api/student/available-course-list", {
+      const request4 = getRequest("/api/student/available-course-list", {
         semester: semester,
         courseType: "PROFESSIONAL_ELECTIVE"
       });
-      // NOTE: 如果后面要级联获取属性，这里必须写any类型，省略类型就是unknown类型会报错
-      const result5: any = await getRequest(
-        "/api/student/course-drop-record",
-        bigPage
-      );
+      const request5 = getRequest("/api/student/course-drop-record", bigPage);
+
+      // 并发异步请求
+      const [res1, res2, res3, res4, res5] = await Promise.all([
+        request1,
+        request2,
+        request3,
+        request4,
+        request5
+      ]);
 
       data.title = `第 ${semester} 学期选课表`;
-      data.commonCompulsory = result1.data as ElectiveDTO[];
-      data.commonElective = result2.data as ElectiveDTO[];
-      data.professionalCompulsory = result3.data as ElectiveDTO[];
-      data.professionalElective = result4.data as ElectiveDTO[];
-      data.dropCourseRecords = result5.data.records as CourseDropDTO[];
-
+      data.commonCompulsory = res1.data as ElectiveDTO[];
+      data.commonElective = res2.data as ElectiveDTO[];
+      data.professionalCompulsory = res3.data as ElectiveDTO[];
+      data.professionalElective = res4.data as ElectiveDTO[];
+      const data5 = res5.data as IPage<CourseDropDTO>;
+      data.dropCourseRecords = data5.records;
       data.loading = false;
+
       return true;
     }
 

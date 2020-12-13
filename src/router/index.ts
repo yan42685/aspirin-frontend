@@ -6,6 +6,7 @@ import { loginRedirect } from "@/utils/timeout-actions";
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import Framework from "../layout/framework/Framework.vue";
 import { studentRoutes } from "./modules/student";
+import { teacherRoutes } from "./modules/teacher";
 
 // 旧版本是RouteConfig 新版本是RouteRecordRaw
 export const staticRootRoutes: Array<RouteRecordRaw> = [
@@ -38,12 +39,23 @@ export const staticRootRoutes: Array<RouteRecordRaw> = [
     }
   },
   {
-    name: "404",
-    path: "/404",
-    component: () => import("@/views/404.vue"),
+    name: "error-page",
+    path: "/error-page",
+    component: Framework,
     meta: {
       hidden: true
-    }
+    },
+    children: [
+      {
+        name: "404",
+        path: "404",
+        component: () => import("@/views/404.vue"),
+        meta: {
+          hidden: true,
+          title: "404"
+        }
+      }
+    ]
   }
 ];
 
@@ -83,11 +95,12 @@ export const dynamicRootRoutes: RouteRecordRaw[] = [
 
   // 模块
   ...studentRoutes,
+  ...teacherRoutes,
 
-  // 在动态路由注入后，再注入404重定向规则，以确保该规则至于路由表最底部
+  // 在动态路由注入后，再注入404重定向规则，以确保该规则置于路由表最底部
   {
     path: "/:catchAll(.*)",
-    redirect: "/404",
+    redirect: "/error-page/404",
     meta: {
       hidden: true
     }
@@ -96,7 +109,7 @@ export const dynamicRootRoutes: RouteRecordRaw[] = [
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes: [...staticRootRoutes, ...dynamicRootRoutes]
+  routes: staticRootRoutes
 });
 
 const ROUTE_WHITE_LIST = ["/login", "/register", "/404"];
@@ -120,12 +133,9 @@ router.afterEach(to => {
   }
 });
 
-// 在vur-router 3.0是onReady()
-router.isReady().then(async () => {
-  // NOTE: 巨坑，因为这个函数是异步的，所以需要await, 不然找不到路由
-  [...staticRootRoutes, ...dynamicRootRoutes]
-    .filter(route => hasPermission(route))
-    .forEach(route => router.addRoute(route));
-});
+// 根据权限动态添加路由
+dynamicRootRoutes
+  .filter(route => hasPermission(route))
+  .forEach(route => router.addRoute(route));
 
 export { router };

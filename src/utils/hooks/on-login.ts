@@ -6,9 +6,9 @@ import { RoleEnum } from "@/api/rest-api";
 import { internalConfig } from "@/config/app-settings";
 
 export function loginHook() {
-  // 测试用的登录
-  //
   if (internalConfig.isDebug) {
+    // 测试用的虚拟学生登录
+
     const loginParams = {
       role: RoleEnum.STUDENT,
       username: "stu",
@@ -17,6 +17,9 @@ export function loginHook() {
     };
 
     getRequest("/api/account/user-login", loginParams);
+
+    // 权限过滤的依据
+    localStorage.setItem("aspirin-role", "student");
 
     store.commit("setUserRole", loginParams.role);
     switch (loginParams.role) {
