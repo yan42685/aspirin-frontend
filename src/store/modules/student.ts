@@ -9,6 +9,7 @@ export const StudentMutations: MutationTree<AllState> = {
   getStudentInfo({ student }) {
     store.commit("setIsInfoFetched", false);
     getRequest("/api/student/information").then(result => {
+      console.log(result.data);
       student.info = result.data as StudentDTO;
       store.commit("setIsInfoFetched", true);
     });
