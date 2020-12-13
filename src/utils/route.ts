@@ -4,11 +4,12 @@ import {
   RouteRecordNormalized
 } from "vue-router";
 import { internalConfig } from "@/config/app-settings";
+import { cookies } from "./basic-lib";
 
 export function hasPermission(route: RouteRecordRaw | RouteLocation) {
   if (internalConfig.accessControl && route.meta && route.meta.roles) {
     const requiredRoles: string[] = route.meta.roles;
-    const currentRole = localStorage.getItem("aspirin-role");
+    const currentRole = cookies.get("aspirin-role");
     return currentRole && requiredRoles.includes(currentRole);
   }
   return true;

@@ -1,5 +1,6 @@
 import { store } from "@/store";
 import { ref, Ref, onMounted, onUnmounted } from "vue";
+import Cookies from "js-cookie";
 
 // 获取随机字符串
 export function randomString(length = 20) {
@@ -145,3 +146,5 @@ export function isStrEmpty(str: string) {
 export function isStrBlank(str: string) {
   return !str || /^\s*$/.test(str);
 }
+
+export const cookies = Cookies;
