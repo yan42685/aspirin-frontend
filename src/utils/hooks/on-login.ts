@@ -30,7 +30,10 @@ export function loginHook() {
       default:
     }
   } else {
-    store.commit("setUserRole", RoleEnum.STUDENT);
-    store.commit("getStudentInfo");
+    const role = localStorage.getItem("aspirin-role");
+    store.commit("setUserRole");
+    if (role === "STUDENT") {
+      store.commit("getStudentInfo");
+    }
   }
 }
