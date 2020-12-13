@@ -9,7 +9,7 @@
         </div>
         <!-- TODO: 登出 -->
         <div class="logout-container">
-          <a><LogoutOutlined /> 登出</a>
+          <a @click.stop.prevent="logout"><LogoutOutlined /> 登出</a>
         </div>
       </template>
       <a-avatar :size="65" class="avatar">
@@ -23,6 +23,7 @@
 import { defineComponent, reactive, computed, toRefs } from "vue";
 import { store } from "@/store";
 import { UserOutlined, LogoutOutlined } from "@ant-design/icons-vue";
+import { logout } from "@/service/account";
 
 export default defineComponent({
   name: "UseAvatar",
@@ -34,7 +35,7 @@ export default defineComponent({
     const data = reactive({
       avatarUrl: computed(() => store.state.student.info.avatarUrl)
     });
-    return { ...toRefs(data) };
+    return { ...toRefs(data), logout };
   }
 });
 </script>
