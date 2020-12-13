@@ -66,8 +66,8 @@ export default defineComponent({
     const path = currentRoute.path;
     const data = reactive({
       handleClick() {
-        router.replace("/home");
         eventBus.emit("close-tab-by-path", { path: path });
+        router.replace("/home");
       }
     });
 
