@@ -7,8 +7,8 @@ export const teacherRoutes: RouteRecordRaw[] = [
     path: "/teacher",
     component: Framework,
     meta: {
-      title: "教师"
-      // roles: ["teacher"]
+      title: "教师",
+      roles: ["teacher"]
     },
     children: [
       {
