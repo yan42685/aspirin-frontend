@@ -10,7 +10,7 @@ export class InternalConfig {
   appName = "Aspirin Platform";
   keepAliveMaxNum = 10;
   isDebug = false;
-  // debug模式下自动登录的角色
+  // debug 模式下自动登录的角色
   debugRole: "ADMINISTRATOR" | "STUDENT" | "TEACHER" = "STUDENT";
 }
 
