@@ -24,6 +24,7 @@ import { defineComponent, reactive, computed, toRefs } from "vue";
 import { store } from "@/store";
 import { UserOutlined, LogoutOutlined } from "@ant-design/icons-vue";
 import { logout } from "@/service/account";
+import { autoRetryUtilFetchedStudentInfo, cookies } from "@/utils/basic-lib";
 
 export default defineComponent({
   name: "UseAvatar",
@@ -33,8 +34,18 @@ export default defineComponent({
   },
   setup() {
     const data = reactive({
-      avatarUrl: computed(() => store.state.student.info.avatarUrl)
+      avatarUrl: ""
     });
+    let fetchInfo: () => void = () => console.log("未获取到role信息");
+
+    if (cookies.get("aspirin-role") === "STUDENT") {
+      fetchInfo = () => (data.avatarUrl = store.state.student.info.avatarUrl);
+    } else if (cookies.get("aspirin-role") === "TEACHER") {
+      // TODO
+      console.log("待获取教师头像url");
+    }
+
+    autoRetryUtilFetchedStudentInfo(fetchInfo);
     return { ...toRefs(data), logout };
   }
 });
