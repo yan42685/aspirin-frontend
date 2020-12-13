@@ -24,7 +24,7 @@ import { defineComponent, reactive, computed, toRefs } from "vue";
 import { store } from "@/store";
 import { UserOutlined, LogoutOutlined } from "@ant-design/icons-vue";
 import { logout } from "@/service/account";
-import { autoRetryUtilFetchedStudentInfo, cookies } from "@/utils/basic-lib";
+import { autoRetryUtilFetchedUserInfo, cookies } from "@/utils/basic-lib";
 
 export default defineComponent({
   name: "UseAvatar",
@@ -45,7 +45,7 @@ export default defineComponent({
       console.log("待获取教师头像url");
     }
 
-    autoRetryUtilFetchedStudentInfo(fetchInfo);
+    autoRetryUtilFetchedUserInfo(fetchInfo);
     return { ...toRefs(data), logout };
   }
 });

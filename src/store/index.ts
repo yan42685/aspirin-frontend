@@ -6,7 +6,7 @@ import { StudentMutations, StudentActions } from "./modules/student";
 
 export const store = createStore<AllState>({
   state: {
-    user: { role: null },
+    user: { role: null, isInfoFetched: false },
     student: {
       info: {
         username: "",
@@ -21,8 +21,7 @@ export const store = createStore<AllState>({
         number: "",
         admissionYear: 0,
         semester: 0
-      },
-      isInfoFetched: false
+      }
     },
     tabBar: { openTabs: [] },
     layout: { sidebarCollapsed: false }
@@ -42,6 +41,10 @@ export const store = createStore<AllState>({
     // ==========================
     setUserRole({ user }, role: RoleEnum) {
       user.role = role;
+    },
+
+    setIsInfoFetched({ user }, status: boolean) {
+      user.isInfoFetched = status;
     },
 
     // ==========================

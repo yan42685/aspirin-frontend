@@ -14,7 +14,7 @@ import Timetables from "timetables";
 import { store } from "@/store";
 import { CourseDetailDTO, JsonWrapper } from "@/api/rest-api";
 import { getRequest } from "@/utils/request";
-import { autoRetryUtilFetchedStudentInfo } from "@/utils/basic-lib";
+import { autoRetryUtilFetchedUserInfo } from "@/utils/basic-lib";
 import {
   renderCourseTable,
   updateCourseTable
@@ -50,10 +50,10 @@ export default defineComponent({
       helper(updateCourseTable);
     }
 
-    onMounted(() => autoRetryUtilFetchedStudentInfo(initTable));
+    onMounted(() => autoRetryUtilFetchedUserInfo(initTable));
     // BUG: 由于courseTable库的作者代码有问题，更新信息的时候侧栏会消失
     // eventBus.on("electiveUpdated", () =>
-    //   autoRetryUtilFetchedStudentInfo(updateTable)
+    //   autoRetryUtilFetchedUserInfo(updateTable)
     // );
 
     return { ...toRefs(data) };

@@ -124,15 +124,15 @@ export async function autoRetryAsync(
   return true;
 }
 
-export async function autoRetryUtilFetchedStudentInfo(
+export async function autoRetryUtilFetchedUserInfo(
   fn: () => void,
   config: AutoRetryConfig = new AutoRetryConfig()
 ) {
   const fnWrapper = async () => {
-    if (!store.state.student.info.username) {
+    if (!store.state.user.isInfoFetched) {
       return false;
     } else {
-      fn();
+      await fn();
       return true;
     }
   };

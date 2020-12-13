@@ -28,6 +28,7 @@ export function loginHook() {
       store.commit("getStudentInfo");
     } else if (internalConfig.debugRole === "TEACHER") {
       cookies.set("aspirin-role", "TEACHER");
+      store.commit("setUserRole", "TEACHER");
       // TODO: 获取教师信息
     }
   } else {
@@ -37,6 +38,7 @@ export function loginHook() {
     store.commit("setUserRole", role);
     if (role === "STUDENT") {
       store.commit("getStudentInfo");
+      console.log(3);
     }
   }
 }

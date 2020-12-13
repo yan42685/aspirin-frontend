@@ -11,12 +11,7 @@ export const StudentMutations: MutationTree<AllState> = {
     getRequest("/api/student/information").then(result => {
       student.info = result.data as StudentDTO;
       store.commit("setIsInfoFetched", true);
-      eventBus.emit("studentInfoFetched");
     });
-  },
-
-  setIsInfoFetched({ student }, status: boolean) {
-    student.isInfoFetched = status;
   }
 };
 
