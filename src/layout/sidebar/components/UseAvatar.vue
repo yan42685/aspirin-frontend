@@ -13,7 +13,9 @@
         </div>
       </template>
       <a-avatar :size="65" class="avatar">
-        <template #icon><img :src="avatarUrl" alt=""/></template>
+        <template #icon
+          ><img :src="avatarUrl" alt=""/ v-if="avatarUrl"></template
+        >
       </a-avatar>
     </a-popover>
   </div>
