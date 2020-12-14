@@ -12,9 +12,9 @@
           <a @click.stop.prevent="logout"><LogoutOutlined /> 登出</a>
         </div>
       </template>
-      <a-avatar :size="65" class="avatar">
+      <a-avatar :size="65" class="avatar" v-if="avatarUrl">
         <template #icon>
-          <img :src="avatarUrl" alt="" v-if="avatarUrl" />
+          <img :src="avatarUrl" alt="" />
         </template>
       </a-avatar>
     </a-popover>
