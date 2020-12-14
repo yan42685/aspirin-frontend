@@ -36,16 +36,17 @@ export default defineComponent({
     const data = reactive({
       avatarUrl: ""
     });
-    let fetchInfo: () => void = () => console.log("未获取到role信息");
+    let fetchAvatarUrl: () => void = () => console.log("未获取到role信息");
 
     if (cookies.get("aspirin-role") === "STUDENT") {
-      fetchInfo = () => (data.avatarUrl = store.state.student.info.avatarUrl);
+      fetchAvatarUrl = () =>
+        (data.avatarUrl = store.state.student.info.avatarUrl);
     } else if (cookies.get("aspirin-role") === "TEACHER") {
       // TODO
       console.log("待获取教师头像url");
     }
 
-    autoRetryUtilFetchedUserInfo(fetchInfo);
+    autoRetryUtilFetchedUserInfo(fetchAvatarUrl);
     return { ...toRefs(data), logout };
   }
 });

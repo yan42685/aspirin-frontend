@@ -8,6 +8,7 @@ import { cookies } from "../basic-lib";
 
 export function loginHook() {
   if (internalConfig.isDebug) {
+    // 测试环境
     if (internalConfig.debugRole === "STUDENT") {
       // 测试用的虚拟学生登录
 
@@ -32,13 +33,34 @@ export function loginHook() {
       // TODO: 获取教师信息
     }
   } else {
+    // 生产环境
+    // NOTE: 应付检查用的，因多个前端项目共享JSESSIONID有问题, 所以直接登录测试账号好了，
+    // 以后可以考虑把鉴权方式从cookies改成JWT
+    const testStudentLoginParams = {
+      role: RoleEnum.STUDENT,
+      username: "stu",
+      password: "123456",
+      rememberMe: true
+    };
+
+    const testTeacherLoginParams = {
+      role: RoleEnum.TEACHER,
+      username: "2222",
+      password: "123456",
+      rememberMe: true
+    };
+
     // NOTE: localStorage在同一个IP不同端口之间不能共享，但是cookies可以在同一个IP不同端口共享
     // const role = localStorage.getItem("aspirin-role");
     const role = cookies.get("aspirin-role");
     store.commit("setUserRole", role);
+
     if (role === "STUDENT") {
+      getRequest("/api/account/user-login", testStudentLoginParams);
       store.commit("getStudentInfo");
-      console.log(3);
+    } else if (role === "TEACHER") {
+      getRequest("/api/account/user-login", testTeacherLoginParams);
+      // TODO: 获取教师信息
     }
   }
 }
