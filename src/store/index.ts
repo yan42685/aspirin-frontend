@@ -7,7 +7,7 @@ import { TeacherMutations, TeacherActions } from "./modules/teacher";
 
 export const store = createStore<AllState>({
   state: {
-    user: { role: null },
+    user: { role: null, isInfoFetched: false },
     student: {
       info: {
         username: "",
@@ -22,8 +22,7 @@ export const store = createStore<AllState>({
         number: "",
         admissionYear: 0,
         semester: 0
-      },
-      isInfoFetched: false
+      }
     },
     teacher: {
       info: {
@@ -57,6 +56,10 @@ export const store = createStore<AllState>({
     // ==========================
     setUserRole({ user }, role: RoleEnum) {
       user.role = role;
+    },
+
+    setIsInfoFetched({ user }, status: boolean) {
+      user.isInfoFetched = status;
     },
 
     // ==========================

@@ -2,7 +2,7 @@ import { internalConfig } from "@/config/app-settings";
 import { store } from "@/store";
 import { messenger } from "@/utils/my-ant-design-vue";
 import { hasPermission } from "@/utils/route";
-import { loginRedirect } from "@/utils/timeout-actions";
+import { loginRedirect, homeRedirect } from "@/utils/timeout-actions";
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import Framework from "../layout/framework/Framework.vue";
 import { studentRoutes } from "./modules/student";
@@ -121,6 +121,7 @@ router.beforeEach(async (to, from, next) => {
     loginRedirect();
   } else if (internalConfig.accessControl && !hasPermission(to)) {
     messenger.warning("抱歉，您没有权限访问此资源");
+    homeRedirect();
   } else {
     // TODO: 待处理
     next();

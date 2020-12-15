@@ -1,5 +1,6 @@
 import { store } from "@/store";
 import { ref, Ref, onMounted, onUnmounted } from "vue";
+import Cookies from "js-cookie";
 
 // 获取随机字符串
 export function randomString(length = 20) {
@@ -123,15 +124,15 @@ export async function autoRetryAsync(
   return true;
 }
 
-export async function autoRetryUtilFetchedStudentInfo(
+export async function autoRetryUtilFetchedUserInfo(
   fn: () => void,
   config: AutoRetryConfig = new AutoRetryConfig()
 ) {
   const fnWrapper = async () => {
-    if (!store.state.student.info.username) {
+    if (!store.state.user.isInfoFetched) {
       return false;
     } else {
-      fn();
+      await fn();
       return true;
     }
   };
@@ -160,3 +161,5 @@ export function isStrEmpty(str: string) {
 export function isStrBlank(str: string) {
   return !str || /^\s*$/.test(str);
 }
+
+export const cookies = Cookies;

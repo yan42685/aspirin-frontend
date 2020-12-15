@@ -8,7 +8,7 @@ export const studentRoutes: RouteRecordRaw[] = [
     component: Framework,
     meta: {
       title: "学生",
-      roles: ["student"]
+      roles: ["STUDENT"]
     },
     children: [
       {

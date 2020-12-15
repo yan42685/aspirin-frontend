@@ -29,7 +29,7 @@
 <script lang="ts">
 import { GradeDTO, JsonWrapper, IPage } from "@/api/rest-api";
 import { defineComponent, reactive, toRefs } from "vue";
-import { autoRetryUtilFetchedStudentInfo } from "@/utils/basic-lib";
+import { autoRetryUtilFetchedUserInfo } from "@/utils/basic-lib";
 import { store } from "@/store";
 import WhiteBackground from "@/components/basic/WhiteBackground.vue";
 import { DownOutlined } from "@ant-design/icons-vue";
@@ -95,7 +95,7 @@ export default defineComponent({
       data.loading = false;
     }
 
-    autoRetryUtilFetchedStudentInfo(fetchInfo);
+    autoRetryUtilFetchedUserInfo(fetchInfo);
 
     return { ...toRefs(data) };
   }

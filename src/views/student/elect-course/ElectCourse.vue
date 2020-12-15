@@ -100,7 +100,7 @@ import {
 } from "@/api/rest-api";
 import { store } from "@/store";
 import { bigPage } from "@/api/request-params";
-import { autoRetryAsync } from "@/utils/basic-lib";
+import { autoRetryUtilFetchedUserInfo } from "@/utils/basic-lib";
 import ElectCourseButton from "./ElectCourseButton.vue";
 
 export default defineComponent({
@@ -195,10 +195,6 @@ export default defineComponent({
     });
 
     async function fetchAllInfo() {
-      if (!store.state.student.info.username) {
-        return false;
-      }
-
       const semester = store.state.student.info.semester;
 
       const request1 = getRequest("/api/student/available-course-list", {
@@ -236,12 +232,10 @@ export default defineComponent({
       const data5 = res5.data as IPage<CourseDropDTO>;
       data.dropCourseRecords = data5.records;
       data.loading = false;
-
-      return true;
     }
 
     // 因为刚开始vuex还没来得及获取数据，所以这里会获取不到semester, 需要延时重试
-    autoRetryAsync(fetchAllInfo);
+    autoRetryUtilFetchedUserInfo(fetchAllInfo);
 
     return { ...toRefs(data) };
   }

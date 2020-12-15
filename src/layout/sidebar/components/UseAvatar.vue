@@ -9,7 +9,7 @@
         </div>
         <!-- TODO: 登出 -->
         <div class="logout-container">
-          <a><LogoutOutlined /> 登出</a>
+          <a @click.stop.prevent="logout"><LogoutOutlined /> 登出</a>
         </div>
       </template>
       <a-avatar :size="65" class="avatar">
@@ -23,6 +23,8 @@
 import { defineComponent, reactive, computed, toRefs } from "vue";
 import { store } from "@/store";
 import { UserOutlined, LogoutOutlined } from "@ant-design/icons-vue";
+import { logout } from "@/service/account";
+import { autoRetryUtilFetchedUserInfo, cookies } from "@/utils/basic-lib";
 
 export default defineComponent({
   name: "UseAvatar",
@@ -32,9 +34,20 @@ export default defineComponent({
   },
   setup() {
     const data = reactive({
-      avatarUrl: computed(() => store.state.student.info.avatarUrl)
+      avatarUrl: ""
     });
-    return { ...toRefs(data) };
+    let fetchAvatarUrl: () => void = () => console.log("未获取到role信息");
+
+    if (cookies.get("aspirin-role") === "STUDENT") {
+      fetchAvatarUrl = () =>
+        (data.avatarUrl = store.state.student.info.avatarUrl);
+    } else if (cookies.get("aspirin-role") === "TEACHER") {
+      // TODO
+      console.log("待获取教师头像url");
+    }
+
+    autoRetryUtilFetchedUserInfo(fetchAvatarUrl);
+    return { ...toRefs(data), logout };
   }
 });
 </script>

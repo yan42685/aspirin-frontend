@@ -12,11 +12,11 @@ export interface AllState {
 
 export interface UserState {
   role: RoleEnum | null;
+  isInfoFetched: boolean;
 }
 
 export interface StudentState {
   info: StudentDTO;
-  isInfoFetched: boolean;
 }
 
 export interface TeacherState {
