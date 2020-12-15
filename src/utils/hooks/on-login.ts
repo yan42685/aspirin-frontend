@@ -12,11 +12,6 @@ export function loginHook() {
     if (internalConfig.debugRole === "STUDENT") {
       // 测试用的虚拟学生登录
 
-<<<<<<< HEAD
-    const loginParams = {
-      role: RoleEnum.TEACHER,
-      username: "2222",
-=======
       const loginParams = {
         role: RoleEnum.STUDENT,
         username: "stu",
@@ -36,6 +31,7 @@ export function loginHook() {
       cookies.set("aspirin-role", "TEACHER");
       store.commit("setUserRole", "TEACHER");
       // TODO: 获取教师信息
+      store.commit("getTeacherInfo");
     }
   } else {
     // 生产环境
@@ -44,26 +40,10 @@ export function loginHook() {
     const testStudentLoginParams = {
       role: RoleEnum.STUDENT,
       username: "stu",
->>>>>>> d7171522830ef937cba133e8e818af7d402908b3
       password: "123456",
       rememberMe: true
     };
 
-<<<<<<< HEAD
-    getRequest("/api/account/user-login", loginParams);
-
-    // 权限过滤的依据
-    localStorage.setItem("aspirin-role", "teacher");
-
-    store.commit("setUserRole", loginParams.role);
-    switch (loginParams.role) {
-      case RoleEnum.STUDENT:
-        store.commit("getStudentInfo");
-        break;
-      case RoleEnum.TEACHER:
-        store.commit("getTeacherInfo");
-        break;
-=======
     const testTeacherLoginParams = {
       role: RoleEnum.TEACHER,
       username: "2222",
@@ -75,7 +55,6 @@ export function loginHook() {
     // const role = localStorage.getItem("aspirin-role");
     const role = cookies.get("aspirin-role");
     store.commit("setUserRole", role);
->>>>>>> d7171522830ef937cba133e8e818af7d402908b3
 
     if (role === "STUDENT") {
       getRequest("/api/account/user-login", testStudentLoginParams);
