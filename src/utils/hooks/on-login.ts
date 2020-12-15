@@ -10,8 +10,8 @@ export function loginHook() {
     // 测试用的虚拟学生登录
 
     const loginParams = {
-      role: RoleEnum.STUDENT,
-      username: "stu",
+      role: RoleEnum.TEACHER,
+      username: "2222",
       password: "123456",
       rememberMe: true
     };
@@ -19,12 +19,15 @@ export function loginHook() {
     getRequest("/api/account/user-login", loginParams);
 
     // 权限过滤的依据
-    localStorage.setItem("aspirin-role", "student");
+    localStorage.setItem("aspirin-role", "teacher");
 
     store.commit("setUserRole", loginParams.role);
     switch (loginParams.role) {
       case RoleEnum.STUDENT:
         store.commit("getStudentInfo");
+        break;
+      case RoleEnum.TEACHER:
+        store.commit("getTeacherInfo");
         break;
 
       default:

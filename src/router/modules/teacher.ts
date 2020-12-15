@@ -7,7 +7,8 @@ export const teacherRoutes: RouteRecordRaw[] = [
     path: "/teacher",
     component: Framework,
     meta: {
-      title: "教师"
+      title: "教师",
+      roles: ["teacher"]
     },
     children: [
       {
@@ -25,7 +26,8 @@ export const teacherRoutes: RouteRecordRaw[] = [
         component: () =>
           import("@/views/teacher/score/score.vue"),
         meta: {
-          title: "评分"
+          title: "评分",
+          hidden: true
         }
       },
       {
