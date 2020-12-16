@@ -1,7 +1,7 @@
 import { internalConfig } from "@/config/app-settings";
 import { store } from "@/store";
 import { messenger } from "@/utils/my-ant-design-vue";
-import { hasPermission, addDynamicRoutes } from "@/utils/route";
+import { hasPermission, updateDynamicRoutes } from "@/utils/route";
 import { loginRedirect, homeRedirect } from "@/utils/timeout-actions";
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import Framework from "../layout/framework/Framework.vue";
@@ -116,7 +116,7 @@ const router = createRouter({
 const ROUTE_WHITE_LIST = ["/login", "/register", "/404"];
 
 router.beforeEach(async (to, from, next) => {
-  addDynamicRoutes();
+  updateDynamicRoutes();
   if (ROUTE_WHITE_LIST.includes(to.path)) {
     next();
   } else if (internalConfig.loginInterception && !cookies.get("aspirin-role")) {
@@ -137,6 +137,6 @@ router.afterEach(to => {
 });
 
 // 刷新页面后执行
-addDynamicRoutes();
+updateDynamicRoutes();
 
 export { router };

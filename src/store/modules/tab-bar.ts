@@ -1,6 +1,7 @@
 import { MutationTree, GetterTree } from "vuex";
 import { AllState } from "../types";
 import { RouteLocation, RouteRecord } from "vue-router";
+import { hasPermission } from "@/utils/route";
 
 export const tabBarMutations: MutationTree<AllState> = {
   addTab({ tabBar }, newTab: RouteLocation | RouteRecord) {
@@ -57,6 +58,12 @@ export const tabBarMutations: MutationTree<AllState> = {
   deleteAllTabs({ tabBar }) {
     tabBar.openTabs = tabBar.openTabs.filter(
       (tab: RouteLocation) => tab.meta && tab.meta.affix
+    );
+  },
+
+  clearNoPermissionTabs({ tabBar }) {
+    tabBar.openTabs = tabBar.openTabs.filter((tab: RouteLocation) =>
+      hasPermission(tab)
     );
   }
 };
