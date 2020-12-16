@@ -254,15 +254,16 @@ export default defineComponent({
 
     h1 {
       font-size: 30px;
+      display: block;
+      border-bottom: 1px solid lightgray;
+      width: 64%;
+      margin: 0 auto;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
     }
     .edit-icon {
       font-size: 20px;
       cursor: pointer;
-    }
-
-    ul {
-      border-top: 1px solid lightgray;
-      /* padding-top: 35px; */
     }
   }
   .card-right {

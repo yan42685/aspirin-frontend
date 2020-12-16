@@ -11,7 +11,7 @@ export class InternalConfig {
   keepAliveMaxNum = 10;
   isDebug = true;
   // debug 模式下自动登录的角色
-  debugRole: "ADMINISTRATOR" | "STUDENT" | "TEACHER" = "TEACHER";
+  debugRole: "ADMINISTRATOR" | "STUDENT" | "TEACHER" = "STUDENT";
 }
 
 export const internalConfig = new InternalConfig();
