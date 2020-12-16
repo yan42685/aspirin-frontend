@@ -75,7 +75,7 @@
             </span>
             <span v-else>
               <a v-bind="record.submitted ? { disabled: 'disabled' } : {}" @click="handleEditNumber(record, index)">
-                操作
+                {{ !record.submitted ? '操作' : '已提交'}}
               </a>
             </span>
           </div>
@@ -294,9 +294,7 @@ export default defineComponent({
         if (attrs.scoreToId === "") {
           Modal.info({
             title: '请重新选择课程进行打分',
-            // onOk() {
-
-            // },
+            // onOk() {},
           });
           return
         }
@@ -306,6 +304,14 @@ export default defineComponent({
           current: data.pageCurrent,
           size: data.pageSize
         });
+
+        if (!res.data) {
+          Modal.info({
+            title: res.message,
+            // onOk() {},
+          });
+          return
+        }
         const list = res.data.records as TeacherScoreDTO[];
         data.dataList = list;
         data.loading = false;

@@ -22,13 +22,15 @@
         <template #operation="{ record }">
           <div class="editable-row-operations">
             <span >
-              <a @click="handleGoToScore(record)">去打分</a>
+              <a v-bind="!goScoreBtn ? { disabled: 'disabled' } : {}" @click="handleGoToScore(record)">
+                {{!goScoreBtn ? '应用未开启' : '去打分'}}
+              </a>
             </span>
           </div>
         </template>
       </a-table>
       </a-tab-pane>
-      <a-tab-pane key="2" tab="打分" :disabled="disabledScoreTabs">
+      <a-tab-pane key="2" tab="打分" :disabled="!goScoreBtn || disabledScoreTabs">
         <TeacherScore :scoreToId="scoreToId" />
       </a-tab-pane>
     </a-tabs>
@@ -51,6 +53,7 @@ export default defineComponent({
   components: { WhiteBackground, TeacherScore },
   setup() {
     const data = reactive({
+      goScoreBtn: false,
       activeKeys: "1",
       disabledScoreTabs: true,
       scoreToId: "",
@@ -103,15 +106,25 @@ export default defineComponent({
       },
       handleTabsClick(keys: string) {
         data.activeKeys = keys
+      },
+      async handleCheckSwitchState() {
+        data.loading = true;
+        const results = await getRequest("/api/administrator/app-switch", {
+          switchEnum: "ELECT_SWITCH"
+        });
+        data.loading = false;
+        data.goScoreBtn = results.data as boolean;  
       }
     });
 
     async function initTable() {
       data.loading = true;
       const result = await getRequest("/api/teacher/teaching-courses");
+      data.loading = false;
+      if (!result.data) return;
       const list = result.data as TeacherTeachDTO[];
       data.dataList = list;
-      data.loading = false;
+      data.handleCheckSwitchState();
     }
 
     onMounted(() => autoRetryUtilFetchedTeacherInfo(initTable));
