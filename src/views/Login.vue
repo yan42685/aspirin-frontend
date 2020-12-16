@@ -8,7 +8,7 @@
       <a-form layout="horizontal" :model="formInline" @submit="handleSubmit">
         <a-form-item>
           <a-input
-            v-model:value="formInline.user"
+            v-model:value="formInline.username"
             placeholder="账号"
             style="width: 100%"
           >
@@ -30,17 +30,22 @@
           </a-input>
         </a-form-item>
         <a-form-item>
-          <a-form-item>
-            <a-radio-group v-model:value="loginType">
-              <a-radio value="STUDENT">学生</a-radio>
-              <a-radio value="TEACHER"> 教师 </a-radio>
-            </a-radio-group>
-          </a-form-item>
+          <a-select v-model:value="formInline.role" placeholder="请选择身份">
+            <a-select-option value="STUDENT">
+              学生
+            </a-select-option>
+            <a-select-option value="TEACHER">
+              教师
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item>
           <a-button
             block
             type="primary"
             html-type="submit"
-            :disabled="formInline.user === '' || formInline.password === ''"
+            :disabled="formInline.username === '' || formInline.password === ''"
+            :loading="btnLoading"
           >
             登录
           </a-button>
@@ -63,6 +68,11 @@ import {
 import { messenger } from "../utils/my-ant-design-vue";
 import { loginRedirect } from "@/utils/timeout-actions";
 import { UserOutlined, LockOutlined } from "@ant-design/icons-vue";
+import { getRequest } from "@/utils/request";
+import { cookies } from "../utils/basic-lib";
+import { store } from "@/store";
+import { loginHook } from "@/utils/hooks/on-login";
+import { router } from "@/router";
 
 export default defineComponent({
   components: {
@@ -72,13 +82,46 @@ export default defineComponent({
   name: "Login",
   setup() {
     const data = reactive({
+      btnLoading: false,
       formInline: {
-        user: "123",
-        password: "123"
+        username: "stu",
+        password: "123456",
+        role: "STUDENT",
+        rememberMe: true
       },
       loginType: "STUDENT",
-      handleSubmit(e: any) {
-        // console.log(this.formInline);
+      async handleSubmit(e: any) {
+        const { username, password, role } = data.formInline;
+        const userNameRgx =
+          username !== "" && /^[^\u4e00-\u9fa5]+$/.test(username);
+        const pwdRgx = password !== "";
+        if (!userNameRgx || !pwdRgx) {
+          messenger.warning("请检查用户名和密码");
+          return;
+        }
+        data.btnLoading = true;
+        const results = await getRequest("/api/account/user-login", {
+          ...data.formInline
+        });
+        data.btnLoading = false;
+
+        if (results.code !== 0) {
+          messenger.warning(results.message);
+          return;
+        }
+
+        if (role === "STUDENT") {
+          cookies.set("aspirin-role", "STUDENT");
+          store.commit("setUserRole", "STUDENT");
+          store.commit("getStudentInfo");
+        } else {
+          cookies.set("aspirin-role", "TEACHER");
+          store.commit("setUserRole", "TEACHER");
+          store.commit("getTeacherInfo");
+        }
+
+        loginHook();
+        router.push("/home");
       }
     });
     // const { x, y } = getMousePosition();
@@ -89,7 +132,7 @@ export default defineComponent({
     // };
 
     // onMounted(() => {
-    //   document.addEventListener("click", showClickPosition);
+    // document.addEventListener("click", showClickPosition);
     // });
     // onUnmounted(() => {
     //   document.removeEventListener("click", showClickPosition);

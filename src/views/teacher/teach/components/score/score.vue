@@ -217,6 +217,11 @@ export default defineComponent({
         data.editNumber = true;
       },
       handleChangeInputVal(value: string, key: string) {
+        const valNumber = Number(value)
+        if (valNumber > 100 ||  valNumber < 0) {
+          messenger.warning("分数只能在 0～100 之间");
+          value = "0";
+        }
         switch (key) {
           case "regularScores":
             data.regularScoresValue = value;

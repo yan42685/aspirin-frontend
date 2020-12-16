@@ -4,6 +4,7 @@ import {
   RouteRecordNormalized
 } from "vue-router";
 import { internalConfig } from "@/config/app-settings";
+import { dynamicRootRoutes, router } from "@/router";
 import { cookies } from "./basic-lib";
 
 export function hasPermission(route: RouteRecordRaw | RouteLocation) {
@@ -39,4 +40,11 @@ export function routeMetaContains(
     result = true;
   }
   return result;
+}
+
+export function addDynamicRoutes() {
+  // 根据权限动态添加路由
+  dynamicRootRoutes
+    .filter(route => hasPermission(route))
+    .forEach(route => router.addRoute(route));
 }
