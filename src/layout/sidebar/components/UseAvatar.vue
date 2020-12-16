@@ -44,8 +44,8 @@ export default defineComponent({
       fetchAvatarUrl = () =>
         (data.avatarUrl = store.state.student.info.avatarUrl);
     } else if (cookies.get("aspirin-role") === "TEACHER") {
-      // TODO
-      console.log("待获取教师头像url");
+      fetchAvatarUrl = () =>
+        (data.avatarUrl = store.state.teacher.info.avatarUrl);
     }
 
     autoRetryUtilFetchedUserInfo(fetchAvatarUrl);

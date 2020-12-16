@@ -3,6 +3,7 @@ import { tabBarMutations } from "./modules/tab-bar";
 import { GenderEnum, RoleEnum } from "@/api/rest-api";
 import { AllState } from "./types";
 import { StudentMutations, StudentActions } from "./modules/student";
+import { TeacherMutations, TeacherActions } from "./modules/teacher";
 
 export const store = createStore<AllState>({
   state: {
@@ -22,6 +23,20 @@ export const store = createStore<AllState>({
         admissionYear: 0,
         semester: 0
       }
+    },
+    teacher: {
+      info: {
+        username: "",
+        realName: "",
+        gender: GenderEnum.SECRETE,
+        phoneNumber: "",
+        contactInformation: "",
+        nickname: "",
+        avatarUrl: "",
+        faculty: "",
+        number: ""
+      },
+      isInfoFetched: false
     },
     tabBar: { openTabs: [] },
     layout: { sidebarCollapsed: false }
@@ -53,10 +68,14 @@ export const store = createStore<AllState>({
     ...tabBarMutations,
 
     // 学生
-    ...StudentMutations
+    ...StudentMutations,
+
+    // 教师
+    ...TeacherMutations
   },
 
   actions: {
-    ...StudentActions
+    ...StudentActions,
+    ...TeacherActions
   }
 });

@@ -1,5 +1,5 @@
 import { RoleEnum } from "@/api/rest-api";
-import { StudentDTO } from "@/api/rest-api";
+import { StudentDTO, TeacherDTO } from "@/api/rest-api";
 import { RouteLocation, RouteRecordRaw } from "vue-router";
 
 export interface AllState {
@@ -7,6 +7,7 @@ export interface AllState {
   student: StudentState;
   tabBar: TabBarState;
   layout: LayoutState;
+  teacher: TeacherState;
 }
 
 export interface UserState {
@@ -16,6 +17,11 @@ export interface UserState {
 
 export interface StudentState {
   info: StudentDTO;
+}
+
+export interface TeacherState {
+  info: TeacherDTO;
+  isInfoFetched: boolean;
 }
 
 export interface TabBarState {

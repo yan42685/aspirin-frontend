@@ -139,6 +139,21 @@ export async function autoRetryUtilFetchedUserInfo(
   autoRetryAsync(fnWrapper);
 }
 
+export async function autoRetryUtilFetchedTeacherInfo(
+  fn: () => void,
+  config: AutoRetryConfig = new AutoRetryConfig()
+) {
+  const fnWrapper = async () => {
+    if (!store.state.teacher.info.username) {
+      return false;
+    } else {
+      fn();
+      return true;
+    }
+  };
+  autoRetryAsync(fnWrapper);
+}
+
 export function isStrEmpty(str: string) {
   return !str || 0 === str.length;
 }

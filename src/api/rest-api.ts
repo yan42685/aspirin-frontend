@@ -83,6 +83,35 @@ export interface CourseDetailDTO {
   semester: number;
 }
 
+export interface TeacherTeachDTO {
+  courseDetailId: number;
+  courseNumber: string;
+  courseName: string;
+  credit: number;
+  period: number;
+  specialtyName: string;
+  type: TeacherTeachTypeEnum;
+  semester: number;
+}
+
+export interface TeacherScoreDTO {
+  courseDetailId: number;
+  courseNumber: string;
+  courseName: string;
+  credit: number;
+  examScores: number;
+  finalScores: number;
+  gradeId: number;
+  period: number;
+  regularScores: number;
+  specialtyName: string;
+  type: TeacherTeachTypeEnum;
+  semester: number;
+  studentName: string;
+  studentNumber: string;
+  submitted: boolean;
+}
+
 export interface CourseDropDTO {
   createTime: Date;
   courseDetailId: number;
@@ -635,6 +664,13 @@ export enum ApplicationSwitchEnum {
 }
 
 export enum CourseTypeEnum {
+  COMMON_COMPULSORY = "公共必修",
+  PROFESSIONAL_COMPULSORY = "专业必修",
+  COMMON_ELECTIVE = "公共选修",
+  PROFESSIONAL_ELECTIVE = "专业选修"
+}
+
+export enum TeacherTeachTypeEnum {
   COMMON_COMPULSORY = "公共必修",
   PROFESSIONAL_COMPULSORY = "专业必修",
   COMMON_ELECTIVE = "公共选修",
