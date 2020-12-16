@@ -49,9 +49,7 @@ export function updateDynamicRoutes() {
     .filter(route => hasPermission(route))
     .forEach(route => router.addRoute(route));
 
-  dynamicRootRoutes
-    .filter(route => !hasPermission(route))
-    .forEach(route => route.name && router.removeRoute(route.name));
-
-  store.commit("clearNoPermissionTabs");
+  // dynamicRootRoutes
+  //   .filter(route => !hasPermission(route))
+  // .forEach(route => route.name && router.removeRoute(route.name));
 }
