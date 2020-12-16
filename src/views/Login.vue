@@ -73,6 +73,7 @@ import { cookies } from "../utils/basic-lib";
 import { store } from "@/store";
 import { loginHook } from "@/utils/hooks/on-login";
 import { router } from "@/router";
+import { windowReloadHook } from "@/utils/hooks/window-reload";
 
 export default defineComponent({
   components: {
@@ -112,15 +113,11 @@ export default defineComponent({
 
         if (role === "STUDENT") {
           cookies.set("aspirin-role", "STUDENT");
-          store.commit("setUserRole", "STUDENT");
-          store.commit("getStudentInfo");
         } else {
           cookies.set("aspirin-role", "TEACHER");
-          store.commit("setUserRole", "TEACHER");
-          store.commit("getTeacherInfo");
         }
 
-        loginHook();
+        windowReloadHook();
         router.push("/home");
       }
     });

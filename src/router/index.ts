@@ -8,6 +8,7 @@ import Framework from "../layout/framework/Framework.vue";
 import { studentRoutes } from "./modules/student";
 import { teacherRoutes } from "./modules/teacher";
 import { cookies } from "@/utils/basic-lib";
+import { windowReloadHook } from "@/utils/hooks/window-reload";
 
 // 旧版本是RouteConfig 新版本是RouteRecordRaw
 export const staticRootRoutes: Array<RouteRecordRaw> = [
