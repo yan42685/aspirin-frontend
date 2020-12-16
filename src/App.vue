@@ -7,7 +7,9 @@ import { defineComponent, reactive } from "vue";
 import { loginHook } from "./utils/hooks/on-login";
 
 export default defineComponent({
-  setup() {}
+  setup() {
+    console.log("");
+  }
 });
 </script>
 
