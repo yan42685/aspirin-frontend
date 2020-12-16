@@ -102,6 +102,7 @@ import { store } from "@/store";
 import { bigPage } from "@/api/request-params";
 import { autoRetryUtilFetchedUserInfo } from "@/utils/basic-lib";
 import ElectCourseButton from "./ElectCourseButton.vue";
+import { messenger } from "@/utils/my-ant-design-vue";
 
 export default defineComponent({
   components: { WhiteBackground, ElectCourseButton },
@@ -168,29 +169,6 @@ export default defineComponent({
           default:
             return null;
         }
-      },
-      onElect: (event: any, courseNumber: string, type: CourseTypeEnum) => {
-        const element = event.target as HTMLElement;
-        element.textContent = "已选";
-        element.setAttribute("disabled", "true");
-        const dataSource = data.getDataSourceByCourseType(type);
-        if (dataSource) {
-          const target = dataSource.find(
-            record => record.courseNumber === courseNumber
-          );
-          console.log(target);
-        }
-      },
-
-      onDrop: (event: any, courseNumber: string, type: CourseTypeEnum) => {
-        const element = event.target as HTMLElement;
-        const dataSource = data.getDataSourceByCourseType(type);
-        if (dataSource) {
-          const target = dataSource.find(
-            record => record.courseNumber === courseNumber
-          );
-          console.log(target);
-        }
       }
     });
 
@@ -223,6 +201,11 @@ export default defineComponent({
         request4,
         request5
       ]);
+
+      if (res1.code === -21) {
+        messenger.warn("抱歉, 选课系统尚未开启");
+        return;
+      }
 
       data.title = `第 ${semester} 学期选课表`;
       data.commonCompulsory = res1.data as ElectiveDTO[];
