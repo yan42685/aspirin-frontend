@@ -49,6 +49,7 @@ export default defineComponent({
     }
 
     autoRetryUtilFetchedUserInfo(fetchAvatarUrl);
+
     return { ...toRefs(data), logout };
   }
 });
