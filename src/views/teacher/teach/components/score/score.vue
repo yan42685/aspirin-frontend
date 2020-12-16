@@ -60,8 +60,8 @@
         <template #operation="{ record, index }">
           <div class="editable-row-operations">
             <span v-if="index === editingKey && editingKey !== -1">
-              <a style="margin: 0 5px" @click.stop="handleMarkScores(record)">
-                打分
+              <a style="margin: 0 5px" @click.stop="handleMark(record)">
+                保存
               </a>
               <a-popconfirm
                 title="确定要提交吗?"
@@ -243,10 +243,6 @@ export default defineComponent({
         data.editingKey = -1;
         data.editNumber = false;
       },
-      handleMarkScores(record: any) {
-        const { submitted } = record;
-        data.handlePutMark(record);
-      },
       async handleSubmitMark(record: any) {
         data.loading = true;
         const { gradeId } = record;
@@ -262,24 +258,7 @@ export default defineComponent({
           messenger.error(`提交失败: ${result.message}`);
         }
       },
-      async handlePostMark(record: any) {
-        data.loading = true;
-        const { gradeId } = record;
-        const result: any = await postRequest("/api/teacher/mark", {
-          examScores: data.examScoresValue,
-          regularScores: data.regularScoresValue,
-          gradeId
-        });
-        data.loading = false;
-        if (result.code === 0) {
-          messenger.success("提交成功");
-          data.handleCancel();
-          data.initTable();
-        } else {
-          messenger.error(`提交失败: ${result.message}`);
-        }
-      },
-      async handlePutMark(record: any) {
+      async handleMark(record: any) {
         data.loading = true;
         const { gradeId } = record;
         const result: any = await putRequest("/api/teacher/mark", {
@@ -289,11 +268,11 @@ export default defineComponent({
         });
         data.loading = false;
         if (result.code === 0) {
-          messenger.success("修改成功");
+          messenger.success("保存成功");
           data.handleCancel();
           data.initTable();
         } else {
-          messenger.error(`修改失败: ${result.message}`);
+          messenger.error(`保存失败: ${result.message}`);
         }
       },
       async initTable() {
