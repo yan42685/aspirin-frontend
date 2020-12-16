@@ -8,7 +8,7 @@ import { loginHook } from "./utils/hooks/on-login";
 
 export default defineComponent({
   setup() {
-    loginHook();
+    // loginHook();
   }
 });
 </script>
