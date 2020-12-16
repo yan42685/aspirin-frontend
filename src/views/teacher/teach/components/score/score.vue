@@ -97,6 +97,7 @@ import WhiteBackground from "@/components/basic/WhiteBackground.vue";
 import { messenger } from "@/utils/my-ant-design-vue";
 import { router } from "@/router";
 import { Modal } from "ant-design-vue";
+import { eventBus } from "@/utils/event-bus";
 const testData = {
   code: 0,
   data: {
@@ -217,8 +218,8 @@ export default defineComponent({
         data.editNumber = true;
       },
       handleChangeInputVal(value: string, key: string) {
-        const valNumber = Number(value)
-        if (valNumber > 100 ||  valNumber < 0) {
+        const valNumber = Number(value);
+        if (valNumber > 100 || valNumber < 0) {
           messenger.warning("分数只能在 0～100 之间");
           value = "0";
         }
@@ -308,6 +309,14 @@ export default defineComponent({
       autoRetryUtilFetchedTeacherInfo(data.initTable);
     });
 
+    const loadedCourseDetailIds = new Set();
+
+    eventBus.on("go-to-score", () => {
+      if (!loadedCourseDetailIds.has(context.attrs.scoreToId)) {
+        loadedCourseDetailIds.add(context.attrs.scoreToId);
+        data.initTable();
+      }
+    });
     return { ...toRefs(data) };
   }
 });

@@ -24,15 +24,22 @@
             <template #operation="{ record }">
               <div class="editable-row-operations">
                 <span>
-                  <a v-bind="!goScoreBtn ? { disabled: 'disabled' } : {}" @click="handleGoToScore(record)">
-                    {{!goScoreBtn ? '应用未开启' : '去打分'}}
+                  <a
+                    v-bind="!goScoreBtn ? { disabled: 'disabled' } : {}"
+                    @click="handleGoToScore(record)"
+                  >
+                    {{ !goScoreBtn ? "应用未开启" : "去打分" }}
                   </a>
                 </span>
               </div>
             </template>
           </a-table>
         </a-tab-pane>
-        <a-tab-pane key="2" tab="打分" :disabled="!goScoreBtn || disabledScoreTabs">
+        <a-tab-pane
+          key="2"
+          tab="打分"
+          :disabled="!goScoreBtn || disabledScoreTabs"
+        >
           <TeacherScore :scoreToId="scoreToId" />
         </a-tab-pane>
       </a-tabs>
@@ -49,6 +56,7 @@ import { autoRetryUtilFetchedTeacherInfo } from "@/utils/basic-lib";
 import WhiteBackground from "@/components/basic/WhiteBackground.vue";
 import { router } from "@/router";
 import TeacherScore from "./components/score/score.vue";
+import { eventBus } from "@/utils/event-bus";
 
 export default defineComponent({
   name: "TeacherTeach",
@@ -104,10 +112,11 @@ export default defineComponent({
         const { courseDetailId } = record;
         data.scoreToId = courseDetailId;
         data.disabledScoreTabs = false;
+        eventBus.emit("go-to-score");
         data.activeKey = "2";
       },
       handleTabsClick(keys: string) {
-        data.activeKey = keys
+        data.activeKey = keys;
       },
       async handleCheckSwitchState() {
         data.loading = true;
@@ -115,7 +124,7 @@ export default defineComponent({
           switchEnum: "ELECT_SWITCH"
         });
         data.loading = false;
-        data.goScoreBtn = results.data as boolean;  
+        data.goScoreBtn = results.data as boolean;
       }
     });
 
