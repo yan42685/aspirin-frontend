@@ -13,10 +13,6 @@ export const TeacherMutations: MutationTree<AllState> = {
       store.commit("setIsInfoFetched", true);
       eventBus.emit("teacherInfoFetched");
     });
-  },
-
-  setIsInfoFetched({ teacher }, status: boolean) {
-    teacher.isInfoFetched = status;
   }
 };
 

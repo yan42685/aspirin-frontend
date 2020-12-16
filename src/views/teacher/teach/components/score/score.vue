@@ -60,21 +60,21 @@
           <div class="editable-row-operations">
             <span v-if="index === editingKey && editingKey !== -1">
 
-              <a-popconfirm title="确定要打分吗?" cancelText="取消" okText="确定" @confirm="_handleSubmit(record, index)">
+              <a-popconfirm title="确定要打分吗?" cancelText="取消" okText="确定" @confirm="handleSubmit(record, index)">
                 <a style="margin: 0 5px">打分</a>
               </a-popconfirm>
-              <a-popconfirm title="确定要修改吗?" cancelText="取消" okText="确定" @confirm="_handleSubmitChange(record, index)">
+              <a-popconfirm title="确定要修改吗?" cancelText="取消" okText="确定" @confirm="handleSubmitChange(record, index)">
                 <a style="margin: 0 5px">修改</a>
               </a-popconfirm>
-              <a-popconfirm title="确定要提交吗?" cancelText="取消" okText="确定" @confirm="_handleSubmitMark(record, index)">
+              <a-popconfirm title="确定要提交吗?" cancelText="取消" okText="确定" @confirm="handleSubmitMark(record, index)">
                 <a style="margin: 0 5px">提交</a>
               </a-popconfirm>
-              <a-popconfirm title="确定要取消吗?" cancelText="取消" okText="确定" @confirm="_handleCancel">
+              <a-popconfirm title="确定要取消吗?" cancelText="取消" okText="确定" @confirm="handleCancel">
                 <a>取消</a>
               </a-popconfirm>
             </span>
             <span v-else>
-              <a v-bind="record.submitted ? { disabled: 'disabled' } : {}" @click="_handleEditNumber(record, index)">
+              <a v-bind="record.submitted ? { disabled: 'disabled' } : {}" @click="handleEditNumber(record, index)">
                 操作
               </a>
             </span>
@@ -122,9 +122,8 @@ const testData = {
 export default defineComponent({
   name: "TeacherScore",
   components: { WhiteBackground },
-  setup() {
+  setup(props, context) {
     const data = reactive({
-      searchId: "",
       pageCurrent: 1,
       pageSize: 999,
       tagsColor: ["geekblue", "green", "geekblue", "green"],
@@ -201,7 +200,7 @@ export default defineComponent({
           slots: { customRender: 'operation' },
         },
       ],
-      _handleEditNumber(record: any, index: number) {
+      handleEditNumber(record: any, index: number) {
         
         const { regularScores, finalScores, examScores } = record;
         
@@ -226,22 +225,22 @@ export default defineComponent({
             break;
         }
       },
-      _handleCancel() {
+      handleCancel() {
         data.regularScoresValue = "";
         data.finalScoresValue = "";
         data.examScoresValue = "";
         data.editingKey = -1;
         data.editNumber = false;
       },
-      _handleSubmit(records: any) {
+      handleSubmit(records: any) {
         const { submitted } = records;
-        data._handlePostMark(records) 
+        data.handlePostMark(records) 
       },
-      _handleSubmitChange(records: any) {
+      handleSubmitChange(records: any) {
         const { submitted } = records;
-        data._handlePutMark(records);
+        data.handlePutMark(records);
       },
-      async _handleSubmitMark(records: any) {
+      async handleSubmitMark(records: any) {
         data.loading = true;
         const { gradeId } = records;
         const result: any = await putRequest("/api/teacher/submit-mark", {
@@ -250,13 +249,13 @@ export default defineComponent({
         data.loading = false;
         if (result.code === 0) {
           messenger.success("提交成功");
-          data._handleCancel();
+          data.handleCancel();
           data.initTable();
         } else {
           messenger.error(`提交失败: ${result.message}`);
         }
       },
-      async _handlePostMark(records: any) {
+      async handlePostMark(records: any) {
         data.loading = true;
         const { gradeId } = records;
         const result: any = await postRequest("/api/teacher/mark", {
@@ -267,13 +266,13 @@ export default defineComponent({
         data.loading = false;
         if (result.code === 0) {
           messenger.success("提交成功");
-          data._handleCancel();
+          data.handleCancel();
           data.initTable();
         } else {
           messenger.error(`提交失败: ${result.message}`);
         }
       },
-      async _handlePutMark(records: any) {
+      async handlePutMark(records: any) {
         data.loading = true;
         const { gradeId } = records;
         const result: any = await putRequest("/api/teacher/mark", {
@@ -284,27 +283,26 @@ export default defineComponent({
         data.loading = false;
         if (result.code === 0) {
           messenger.success("修改成功");
-          data._handleCancel();
+          data.handleCancel();
           data.initTable();
         } else {
           messenger.error(`修改失败: ${result.message}`);
         }
       },
       async initTable() {
-        const linkQuery = window.location.href.split("?");
-        if (linkQuery.length <= 1) {
+        const { attrs } = context;
+        if (attrs.scoreToId === "") {
           Modal.info({
-            title: '请选择课程后进行打分',
-            onOk() {
-              router.go(-1);
-            },
+            title: '请重新选择课程进行打分',
+            // onOk() {
+
+            // },
           });
           return
         }
-        data.searchId = linkQuery[1].split('=')[1]
         data.loading = true;
         const res: any = await getRequest("/api/teacher/mark-page", {
-          courseDetailId: data.searchId,
+          courseDetailId: attrs.scoreToId,
           current: data.pageCurrent,
           size: data.pageSize
         });

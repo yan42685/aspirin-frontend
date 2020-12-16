@@ -19,15 +19,15 @@ export const teacherRoutes: RouteRecordRaw[] = [
           title: "个人中心"
         }
       },
-      {
-        name: "TeacherScore",
-        path: "teacher-score",
-        component: () => import("@/views/teacher/score/score.vue"),
-        meta: {
-          title: "评分",
-          hidden: true
-        }
-      },
+      // {
+      //   name: "TeacherScore",
+      //   path: "teacher-score",
+      //   component: () => import("@/views/teacher/score/score.vue"),
+      //   meta: {
+      //     title: "评分",
+      //     hidden: true
+      //   }
+      // },
       {
         name: "TeacherTeach",
         path: "teacher-teach",

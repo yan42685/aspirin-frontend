@@ -1,7 +1,9 @@
 <template>
   <white-background :loading="loading">
     <div v-if="!loading">
-      <a-table 
+      <a-tabs default-active-key="1" :activeKey="activeKeys" @tabClick="handleTabsClick">
+      <a-tab-pane key="1" tab="授课表">
+        <a-table 
         rowKey="teacherTeach"
         :columns="columns" 
         :data-source="dataList" 
@@ -20,12 +22,16 @@
         <template #operation="{ record }">
           <div class="editable-row-operations">
             <span >
-              <!-- <router-link to='/teacher/score'>去打分</router-link> -->
-              <a @click="_handleGoToScore(record)">去打分</a>
+              <a @click="handleGoToScore(record)">去打分</a>
             </span>
           </div>
         </template>
       </a-table>
+      </a-tab-pane>
+      <a-tab-pane key="2" tab="打分" :disabled="disabledScoreTabs">
+        <TeacherScore :scoreToId="scoreToId" />
+      </a-tab-pane>
+    </a-tabs>
     </div>
   </white-background>
 </template>
@@ -38,12 +44,16 @@ import { getRequest } from "@/utils/request";
 import { autoRetryUtilFetchedTeacherInfo } from "@/utils/basic-lib";
 import WhiteBackground from "@/components/basic/WhiteBackground.vue";
 import { router } from "@/router";
+import TeacherScore from "./components/score/score.vue";
 
 export default defineComponent({
   name: "TeacherTeach",
-  components: { WhiteBackground },
+  components: { WhiteBackground, TeacherScore },
   setup() {
     const data = reactive({
+      activeKeys: "1",
+      disabledScoreTabs: true,
+      scoreToId: "",
       tagsColor: {
         "1": "geekblue", 
         "2": "green", 
@@ -85,9 +95,14 @@ export default defineComponent({
           slots: { customRender: 'operation' },
         }
       ],
-      _handleGoToScore(records: any) {
+      handleGoToScore(records: any) {
         const { courseDetailId } = records;
-        router.push({path: '/teacher/teacher-score', query: {id: courseDetailId}})
+        data.scoreToId = courseDetailId;
+        data.disabledScoreTabs = false;
+        data.activeKeys = "2"
+      },
+      handleTabsClick(keys: string) {
+        data.activeKeys = keys
       }
     });
 
