@@ -73,26 +73,10 @@
             </transition>
           </li>
           <li>
-            <StarOutlined />&nbsp;&nbsp;
-            <transition mode="out-in" name="fade-in">
-              <span :key="userInfo.specialty"> {{ userInfo.specialty }}</span>
-            </transition>
-          </li>
-          <li>
             <IdcardOutlined />&nbsp;&nbsp;
             <transition mode="out-in" name="fade-in">
               <span :key="userInfo.number">{{ userInfo.number }}</span>
             </transition>
-          </li>
-
-          <li>
-            <FireOutlined />&nbsp;&nbsp;
-            <transition mode="out-in" name="fade-in">
-              <span :key="userInfo.admissionYear">{{
-                userInfo.admissionYear
-              }}</span>
-            </transition>
-            级
           </li>
           <li>
             <PhoneOutlined />&nbsp;&nbsp;
@@ -148,9 +132,7 @@ export default defineComponent({
     UserOutlined,
     SmileOutlined,
     PhoneOutlined,
-    ContactsOutlined,
-    FireOutlined,
-    StarOutlined
+    ContactsOutlined
   },
   name: "TeacherInfo",
   setup() {

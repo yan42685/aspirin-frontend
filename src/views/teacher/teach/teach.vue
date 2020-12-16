@@ -1,39 +1,41 @@
 <template>
   <white-background :loading="loading">
     <div v-if="!loading">
-      <a-tabs default-active-key="1" :activeKey="activeKeys" @tabClick="handleTabsClick">
-      <a-tab-pane key="1" tab="授课表">
-        <a-table 
-        rowKey="teacherTeach"
-        :columns="columns" 
-        :data-source="dataList" 
-        :pagination="false"
-        :scroll="{ y: 400 }"
+      <a-tabs
+        default-active-key="1"
+        :activeKey="activeKey"
+        @tabClick="handleTabsClick"
       >
-        <template #tags="{ text: tags }">
-          <span>
-            <a-tag
-              :color="tagsColor[tags]"
-            >
-              {{ tags }}
-            </a-tag>
-          </span>
-        </template>
-        <template #operation="{ record }">
-          <div class="editable-row-operations">
-            <span >
-              <a v-bind="!goScoreBtn ? { disabled: 'disabled' } : {}" @click="handleGoToScore(record)">
-                {{!goScoreBtn ? '应用未开启' : '去打分'}}
-              </a>
-            </span>
-          </div>
-        </template>
-      </a-table>
-      </a-tab-pane>
-      <a-tab-pane key="2" tab="打分" :disabled="!goScoreBtn || disabledScoreTabs">
-        <TeacherScore :scoreToId="scoreToId" />
-      </a-tab-pane>
-    </a-tabs>
+        <a-tab-pane key="1" tab="授课表">
+          <a-table
+            rowKey="courseNumber"
+            :columns="columns"
+            :data-source="dataList"
+            :pagination="false"
+            :scroll="{ y: 400 }"
+          >
+            <template #tags="{ text: tags }">
+              <span>
+                <a-tag :color="tagsColor[tags]">
+                  {{ tags }}
+                </a-tag>
+              </span>
+            </template>
+            <template #operation="{ record }">
+              <div class="editable-row-operations">
+                <span>
+                  <a v-bind="!goScoreBtn ? { disabled: 'disabled' } : {}" @click="handleGoToScore(record)">
+                    {{!goScoreBtn ? '应用未开启' : '去打分'}}
+                  </a>
+                </span>
+              </div>
+            </template>
+          </a-table>
+        </a-tab-pane>
+        <a-tab-pane key="2" tab="打分" :disabled="!goScoreBtn || disabledScoreTabs">
+          <TeacherScore :scoreToId="scoreToId" />
+        </a-tab-pane>
+      </a-tabs>
     </div>
   </white-background>
 </template>
@@ -54,13 +56,13 @@ export default defineComponent({
   setup() {
     const data = reactive({
       goScoreBtn: false,
-      activeKeys: "1",
+      activeKey: "1",
       disabledScoreTabs: true,
       scoreToId: "",
       tagsColor: {
-        "1": "geekblue", 
-        "2": "green", 
-        "3": "pink", 
+        "1": "geekblue",
+        "2": "green",
+        "3": "pink",
         "4": "blue"
       },
       loading: true,
@@ -75,17 +77,17 @@ export default defineComponent({
         {
           title: "课程编号",
           dataIndex: "courseNumber",
-          key: "courseNumber",
+          key: "courseNumber"
         },
         {
           title: "课程名",
           dataIndex: "courseName",
-          key: "courseName",
+          key: "courseName"
         },
         {
           title: "学分",
           dataIndex: "credit",
-          key: "credit",
+          key: "credit"
         },
         {
           title: "学时",
@@ -93,19 +95,19 @@ export default defineComponent({
           dataIndex: "period"
         },
         {
-          title: '操作',
-          dataIndex: 'operation',
-          slots: { customRender: 'operation' },
+          title: "操作",
+          dataIndex: "operation",
+          slots: { customRender: "operation" }
         }
       ],
-      handleGoToScore(records: any) {
-        const { courseDetailId } = records;
+      handleGoToScore(record: any) {
+        const { courseDetailId } = record;
         data.scoreToId = courseDetailId;
         data.disabledScoreTabs = false;
-        data.activeKeys = "2"
+        data.activeKey = "2";
       },
       handleTabsClick(keys: string) {
-        data.activeKeys = keys
+        data.activeKey = keys
       },
       async handleCheckSwitchState() {
         data.loading = true;
@@ -130,7 +132,7 @@ export default defineComponent({
     onMounted(() => autoRetryUtilFetchedTeacherInfo(initTable));
 
     return { ...toRefs(data) };
-  },
+  }
 });
 </script>
 
