@@ -60,11 +60,8 @@
         <template #operation="{ record, index }">
           <div class="editable-row-operations">
             <span v-if="index === editingKey && editingKey !== -1">
-              <a style="margin: 0 5px" @click.stop="handleSubmit(record)">
+              <a style="margin: 0 5px" @click.stop="handleMarkScores(record)">
                 打分
-              </a>
-              <a style="margin: 0 5px" @click.stop="handleSubmitChange(record)">
-                修改
               </a>
               <a-popconfirm
                 title="确定要提交吗?"
@@ -170,14 +167,15 @@ export default defineComponent({
           dataIndex: "period"
         },
         {
-          title: "学生姓名",
+          title: "姓名",
           key: "studentName",
           dataIndex: "studentName"
         },
         {
-          title: "学生学号",
+          title: "学号",
           key: "studentNumber",
-          dataIndex: "studentNumber"
+          dataIndex: "studentNumber",
+          width: 200
         },
         {
           title: "专业名",
@@ -205,6 +203,7 @@ export default defineComponent({
         {
           title: "操作",
           dataIndex: "operation",
+          width: 200,
           slots: { customRender: "operation" }
         }
       ],
@@ -239,11 +238,7 @@ export default defineComponent({
         data.editingKey = -1;
         data.editNumber = false;
       },
-      handleSubmit(record: any) {
-        const { submitted } = record;
-        data.handlePostMark(record);
-      },
-      handleSubmitChange(record: any) {
+      handleMarkScores(record: any) {
         const { submitted } = record;
         data.handlePutMark(record);
       },
