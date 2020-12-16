@@ -6,6 +6,7 @@ import {
 import { internalConfig } from "@/config/app-settings";
 import { dynamicRootRoutes, router } from "@/router";
 import { cookies } from "./basic-lib";
+import { store } from "@/store";
 
 export function hasPermission(route: RouteRecordRaw | RouteLocation) {
   if (internalConfig.accessControl && route.meta && route.meta.roles) {
@@ -42,9 +43,15 @@ export function routeMetaContains(
   return result;
 }
 
-export function addDynamicRoutes() {
+export function updateDynamicRoutes() {
   // 根据权限动态添加路由
   dynamicRootRoutes
     .filter(route => hasPermission(route))
     .forEach(route => router.addRoute(route));
+
+  dynamicRootRoutes
+    .filter(route => !hasPermission(route))
+    .forEach(route => route.name && router.removeRoute(route.name));
+
+  store.commit("clearNoPermissionTabs");
 }
