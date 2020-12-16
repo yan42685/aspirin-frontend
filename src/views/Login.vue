@@ -5,11 +5,7 @@
     <button @click="loginRedirect">redirect</button> -->
     <div class="box">
       <h1>阿司匹林</h1>
-      <a-form
-        layout="horizontal"
-        :model="formInline"
-        @submit="handleSubmit"
-      >
+      <a-form layout="horizontal" :model="formInline" @submit="handleSubmit">
         <a-form-item>
           <a-input
             v-model:value="formInline.user"
@@ -55,14 +51,14 @@
 </template>
 
 <script lang="ts">
-import { getMousePosition } from "../utils/mouse-position";
+// import { getMousePosition } from "../utils/mouse-position";
 import {
   defineComponent,
   computed,
   reactive,
   onMounted,
   onUnmounted,
-  toRefs,
+  toRefs
 } from "vue";
 import { messenger } from "../utils/my-ant-design-vue";
 import { loginRedirect } from "@/utils/timeout-actions";
@@ -71,40 +67,39 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons-vue";
 export default defineComponent({
   components: {
     UserOutlined,
-    LockOutlined,
+    LockOutlined
   },
   name: "Login",
   setup() {
     const data = reactive({
       formInline: {
         user: "123",
-        password: "123",
+        password: "123"
       },
       loginType: "STUDENT",
       handleSubmit(e: any) {
-        console.log(this.formInline);
-      },
+        // console.log(this.formInline);
+      }
     });
-    const { x, y } = getMousePosition();
-    const message = computed(() => `(${x.value}, ${y.value})`);
+    // const { x, y } = getMousePosition();
+    // const message = computed(() => `(${x.value}, ${y.value})`);
+    //
+    // const showClickPosition = () => {
+    //   messenger.info(message.value);
+    // };
 
-    const showClickPosition = () => {
-      messenger.info(message.value);
-    };
-
-    onMounted(() => {
-      document.addEventListener("click", showClickPosition);
-    });
-    onUnmounted(() => {
-      document.removeEventListener("click", showClickPosition);
-    });
+    // onMounted(() => {
+    //   document.addEventListener("click", showClickPosition);
+    // });
+    // onUnmounted(() => {
+    //   document.removeEventListener("click", showClickPosition);
+    // });
 
     return {
-      message,
       loginRedirect,
-      ...toRefs(data),
+      ...toRefs(data)
     };
-  },
+  }
 });
 </script>
 
@@ -114,7 +109,7 @@ export default defineComponent({
   background-size: 100% 100%;
   height: 100vh;
   .box {
-    h1{
+    h1 {
       color: #616161;
       font-weight: bold;
     }
