@@ -84,8 +84,8 @@ export default defineComponent({
     const data = reactive({
       btnLoading: false,
       formInline: {
-        username: "",
-        password: "",
+        username: "stu",
+        password: "123456",
         role: "STUDENT",
         rememberMe: true
       },
