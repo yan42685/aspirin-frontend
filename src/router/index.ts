@@ -13,7 +13,7 @@ export const staticRootRoutes: Array<RouteRecordRaw> = [
   {
     path: "/",
     component: Framework,
-    redirect: "/login",
+    redirect: "/home",
     children: [
       {
         path: "home",
