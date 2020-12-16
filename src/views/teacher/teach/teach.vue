@@ -112,7 +112,7 @@ export default defineComponent({
         const { courseDetailId } = record;
         data.scoreToId = courseDetailId;
         data.disabledScoreTabs = false;
-        eventBus.emit("go-to-score");
+        eventBus.emit("go-to-score", { id: courseDetailId });
         data.activeKey = "2";
       },
       handleTabsClick(keys: string) {

@@ -276,7 +276,7 @@ export default defineComponent({
           messenger.error(`保存失败: ${result.message}`);
         }
       },
-      async initTable() {
+      async initTable(courseDetailId: number) {
         const { attrs } = context;
         if (attrs.scoreToId === "") {
           Modal.info({
@@ -287,7 +287,7 @@ export default defineComponent({
         }
         data.loading = true;
         const res: any = await getRequest("/api/teacher/mark-page", {
-          courseDetailId: attrs.scoreToId,
+          courseDetailId: courseDetailId,
           current: data.pageCurrent,
           size: data.pageSize
         });
@@ -300,21 +300,22 @@ export default defineComponent({
           return;
         }
         const list = res.data.records as TeacherScoreDTO[];
+        data.scoresMap.set(courseDetailId, list);
         data.dataList = list;
         data.loading = false;
-      }
+      },
+      scoresMap: new Map()
     });
 
     onMounted(() => {
-      autoRetryUtilFetchedTeacherInfo(data.initTable);
+      data.initTable(context.attrs.scoreToId as number);
     });
 
-    const loadedCourseDetailIds = new Set();
-
-    eventBus.on("go-to-score", () => {
-      if (!loadedCourseDetailIds.has(context.attrs.scoreToId)) {
-        loadedCourseDetailIds.add(context.attrs.scoreToId);
-        data.initTable();
+    eventBus.on("go-to-score", (e: any) => {
+      if (data.scoresMap.has(e.id)) {
+        data.dataList = data.scoresMap.get(e.id);
+      } else {
+        data.initTable(e.id);
       }
     });
     return { ...toRefs(data) };
