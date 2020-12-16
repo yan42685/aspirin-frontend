@@ -1,11 +1,8 @@
 import { getRequest } from "../request";
 import { store } from "@/store";
-import { eventBus } from "../event-bus";
-import { messenger } from "../my-ant-design-vue";
 import { RoleEnum } from "@/api/rest-api";
 import { internalConfig } from "@/config/app-settings";
 import { cookies } from "../basic-lib";
-import { addDynamicRoutes } from "../route";
 
 const testStudentLoginParams = {
   role: RoleEnum.STUDENT,
@@ -59,6 +56,3 @@ export function loginHook() {
     }
   }
 }
-
-// 动态添加路由
-addDynamicRoutes();

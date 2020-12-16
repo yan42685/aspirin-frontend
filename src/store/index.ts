@@ -4,6 +4,7 @@ import { GenderEnum, RoleEnum } from "@/api/rest-api";
 import { AllState } from "./types";
 import { StudentMutations, StudentActions } from "./modules/student";
 import { TeacherMutations, TeacherActions } from "./modules/teacher";
+import createPersistedState from "vuex-persistedstate";
 
 export const store = createStore<AllState>({
   state: {
@@ -77,5 +78,7 @@ export const store = createStore<AllState>({
   actions: {
     ...StudentActions,
     ...TeacherActions
-  }
+  },
+
+  plugins: [createPersistedState()]
 });

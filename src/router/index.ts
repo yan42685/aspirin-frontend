@@ -116,6 +116,7 @@ const router = createRouter({
 const ROUTE_WHITE_LIST = ["/login", "/register", "/404"];
 
 router.beforeEach(async (to, from, next) => {
+  addDynamicRoutes();
   if (ROUTE_WHITE_LIST.includes(to.path)) {
     next();
   } else if (internalConfig.loginInterception && !cookies.get("aspirin-role")) {
@@ -134,7 +135,5 @@ router.afterEach(to => {
     document.title = to.meta.title + " - " + internalConfig.appName;
   }
 });
-
-addDynamicRoutes();
 
 export { router };
