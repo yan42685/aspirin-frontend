@@ -136,4 +136,7 @@ router.afterEach(to => {
   }
 });
 
+// 刷新页面后执行
+addDynamicRoutes();
+
 export { router };
