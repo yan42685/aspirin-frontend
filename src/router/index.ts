@@ -134,9 +134,4 @@ router.afterEach(to => {
   }
 });
 
-// 根据权限动态添加路由
-dynamicRootRoutes
-  .filter(route => hasPermission(route))
-  .forEach(route => router.addRoute(route));
-
 export { router };

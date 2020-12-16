@@ -71,6 +71,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons-vue";
 import { getRequest } from "@/utils/request";
 import { cookies } from "../utils/basic-lib";
 import { store } from "@/store";
+import { loginHook } from "@/utils/hooks/on-login";
 import { router } from "@/router";
 
 export default defineComponent({
@@ -91,11 +92,12 @@ export default defineComponent({
       loginType: "STUDENT",
       async handleSubmit(e: any) {
         const { username, password, role } = data.formInline;
-        const userNameRgx = username !== "" && /^[^\u4e00-\u9fa5]+$/.test(username);
+        const userNameRgx =
+          username !== "" && /^[^\u4e00-\u9fa5]+$/.test(username);
         const pwdRgx = password !== "";
         if (!userNameRgx || !pwdRgx) {
           messenger.warning("请检查用户名和密码");
-          return
+          return;
         }
         data.btnLoading = true;
         const results = await getRequest("/api/account/user-login", {
@@ -105,21 +107,22 @@ export default defineComponent({
 
         if (results.code !== 0) {
           messenger.warning(results.message);
-          return
+          return;
         }
 
         if (role === "STUDENT") {
           cookies.set("aspirin-role", "STUDENT");
           store.commit("setUserRole", "STUDENT");
           store.commit("getStudentInfo");
-        }else{
+        } else {
           cookies.set("aspirin-role", "TEACHER");
           store.commit("setUserRole", "TEACHER");
           store.commit("getTeacherInfo");
         }
 
-        router.push('/home')
-      },
+        loginHook();
+        router.push("/home");
+      }
     });
     // const { x, y } = getMousePosition();
     // const message = computed(() => `(${x.value}, ${y.value})`);
@@ -129,7 +132,7 @@ export default defineComponent({
     // };
 
     // onMounted(() => {
-      // document.addEventListener("click", showClickPosition);
+    // document.addEventListener("click", showClickPosition);
     // });
     // onUnmounted(() => {
     //   document.removeEventListener("click", showClickPosition);
