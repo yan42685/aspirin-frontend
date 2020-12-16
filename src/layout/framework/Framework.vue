@@ -8,11 +8,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, reactive, toRefs } from "vue";
+import { defineComponent, computed, reactive, toRefs, onMounted } from "vue";
 import UseSidebar from "../sidebar/UseSidebar.vue";
 import UseContent from "../content/UseContent.vue";
 import UseHeader from "../header/UseHeader.vue";
 import { store } from "@/store";
+import { windowReloadHook } from "@/utils/hooks/window-reload";
 
 export default defineComponent({
   name: "Framework",
@@ -28,6 +29,8 @@ export default defineComponent({
         store.commit("toggleSidebarCollapse");
       }
     });
+
+    windowReloadHook();
 
     return { ...toRefs(data) };
   }

@@ -6,5 +6,3 @@ import { store } from "@/store";
 export function windowReloadHook() {
   loginHook();
 }
-
-windowReloadHook();
