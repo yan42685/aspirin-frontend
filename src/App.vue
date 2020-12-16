@@ -4,10 +4,12 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from "vue";
+import { loginHook } from "./utils/hooks/on-login";
+import { fetchBasicInfo } from "./utils/hooks/window-reload";
 
 export default defineComponent({
   setup() {
-    // console.log("");
+    //
   }
 });
 </script>

@@ -48,10 +48,10 @@ export function loginHook() {
     store.commit("setUserRole", role);
 
     if (role === "STUDENT") {
-      getRequest("/api/account/user-login", testStudentLoginParams);
+      // getRequest("/api/account/user-login", testStudentLoginParams);
       store.commit("getStudentInfo");
     } else if (role === "TEACHER") {
-      getRequest("/api/account/user-login", testTeacherLoginParams);
+      // getRequest("/api/account/user-login", testTeacherLoginParams);
       store.commit("getTeacherInfo");
     }
   }
