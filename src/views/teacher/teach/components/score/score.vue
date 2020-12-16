@@ -60,22 +60,12 @@
         <template #operation="{ record, index }">
           <div class="editable-row-operations">
             <span v-if="index === editingKey && editingKey !== -1">
-              <a-popconfirm
-                title="确定要打分吗?"
-                cancelText="取消"
-                okText="确定"
-                @confirm="handleSubmit(record)"
-              >
-                <a style="margin: 0 5px">打分</a>
-              </a-popconfirm>
-              <a-popconfirm
-                title="确定要修改吗?"
-                cancelText="取消"
-                okText="确定"
-                @confirm="handleSubmitChange(record)"
-              >
-                <a style="margin: 0 5px">修改</a>
-              </a-popconfirm>
+              <a style="margin: 0 5px" @click.stop="handleSubmit(record)">
+                打分
+              </a>
+              <a style="margin: 0 5px" @click.stop="handleSubmitChange(record)">
+                修改
+              </a>
               <a-popconfirm
                 title="确定要提交吗?"
                 cancelText="取消"
@@ -84,18 +74,14 @@
               >
                 <a style="margin: 0 5px">提交</a>
               </a-popconfirm>
-              <a-popconfirm
-                title="确定要取消吗?"
-                cancelText="取消"
-                okText="确定"
-                @confirm="handleCancel"
-              >
-                <a>取消</a>
-              </a-popconfirm>
+              <a @click.stop="handleCancel">取消</a>
             </span>
             <span v-else>
-              <a v-bind="record.submitted ? { disabled: 'disabled' } : {}" @click="handleEditNumber(record, index)">
-                {{ !record.submitted ? '操作' : '已提交'}}
+              <a
+                v-bind="record.submitted ? { disabled: 'disabled' } : {}"
+                @click="handleEditNumber(record, index)"
+              >
+                {{ !record.submitted ? "操作" : "已提交" }}
               </a>
             </span>
           </div>
@@ -314,7 +300,7 @@ export default defineComponent({
         const { attrs } = context;
         if (attrs.scoreToId === "") {
           Modal.info({
-            title: '请重新选择课程进行打分',
+            title: "请重新选择课程进行打分"
             // onOk() {},
           });
           return;
@@ -328,10 +314,10 @@ export default defineComponent({
 
         if (!res.data) {
           Modal.info({
-            title: res.message,
+            title: res.message
             // onOk() {},
           });
-          return
+          return;
         }
         const list = res.data.records as TeacherScoreDTO[];
         data.dataList = list;
