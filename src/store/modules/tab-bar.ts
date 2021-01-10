@@ -5,6 +5,10 @@ import { hasPermission } from "@/utils/route";
 
 export const tabBarMutations: MutationTree<AllState> = {
   addTab({ tabBar }, newTab: RouteLocation | RouteRecord) {
+    if (newTab.meta && newTab.meta.hidden) {
+      // 不添加隐藏的tab
+      return;
+    }
     const tabExists = !!tabBar.openTabs.find(
       (tab: RouteLocation) => tab.path == newTab.path
     );
