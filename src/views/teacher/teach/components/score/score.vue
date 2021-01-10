@@ -247,6 +247,7 @@ export default defineComponent({
       async handleSubmitMark(record: any) {
         data.loading = true;
         const { gradeId } = record;
+        const { courseDetailId } = record;
         const result: any = await putRequest("/api/teacher/submit-mark", {
           gradeId
         });
@@ -254,7 +255,7 @@ export default defineComponent({
         if (result.code === 0) {
           messenger.success("提交成功");
           data.handleCancel();
-          data.initTable();
+          data.initTable(courseDetailId);
         } else {
           messenger.error(`提交失败: ${result.message}`);
         }
