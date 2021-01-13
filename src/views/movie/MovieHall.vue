@@ -200,7 +200,6 @@ export default defineComponent({
             });
           }
         };
-        // 限制调用频率
         _.throttle(fn, 500)();
       },
       clearErrorMessage() {
