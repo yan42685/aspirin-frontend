@@ -16,7 +16,7 @@
               :pagination="false"
               :scroll="{ y: 400 }"
             >
-              <template #action="{record}">
+              <template #action="{ record }">
                 <elect-course-button
                   :courseDetailId="record.id"
                   :courseStatus="record.status"
@@ -32,7 +32,7 @@
               :pagination="false"
               :scroll="{ y: 400 }"
             >
-              <template #action="{record}">
+              <template #action="{ record }">
                 <elect-course-button
                   :courseDetailId="record.id"
                   :courseStatus="record.status"
@@ -48,7 +48,7 @@
               :pagination="false"
               :scroll="{ y: 400 }"
             >
-              <template #action="{record}">
+              <template #action="{ record }">
                 <elect-course-button
                   :courseDetailId="record.id"
                   :courseStatus="record.status"
@@ -64,7 +64,7 @@
               :pagination="false"
               :scroll="{ y: 400 }"
             >
-              <template #action="{record}">
+              <template #action="{ record }">
                 <elect-course-button
                   :courseDetailId="record.id"
                   :courseStatus="record.status"
@@ -96,7 +96,7 @@ import {
   ElectiveDTO,
   CourseTypeEnum,
   CourseDropDTO,
-  IPage
+  IPage,
 } from "@/api/rest-api";
 import { store } from "@/store";
 import { bigPage } from "@/api/request-params";
@@ -126,14 +126,14 @@ export default defineComponent({
           // 点击排序的规则
           sorter: (a: ElectiveDTO, b: ElectiveDTO) =>
             a.dayOfTheWeek - b.dayOfTheWeek,
-          width: 150
+          width: 150,
         },
         {
           title: "第几节课",
           dataIndex: "schedulingTime",
           sorter: (a: ElectiveDTO, b: ElectiveDTO) =>
             a.schedulingTime - b.schedulingTime,
-          width: 150
+          width: 150,
         },
         { title: "地点", dataIndex: "classroomName" },
         { title: "学时", dataIndex: "period" },
@@ -142,8 +142,8 @@ export default defineComponent({
           title: "操作",
           key: "action",
           width: 260,
-          slots: { customRender: "action" }
-        }
+          slots: { customRender: "action" },
+        },
       ],
       dropCourseRecords: [] as CourseDropDTO[],
       dropColumns: [
@@ -153,7 +153,7 @@ export default defineComponent({
         { title: "地点", dataIndex: "classroomName" },
         { title: "学时", dataIndex: "period" },
         { title: "学分", dataIndex: "credit" },
-        { title: "退课时间", dataIndex: "createTime" }
+        { title: "退课时间", dataIndex: "createTime" },
       ],
 
       getDataSourceByCourseType: (type: CourseTypeEnum) => {
@@ -169,7 +169,7 @@ export default defineComponent({
           default:
             return null;
         }
-      }
+      },
     });
 
     async function fetchAllInfo() {
@@ -177,19 +177,19 @@ export default defineComponent({
 
       const request1 = getRequest("/api/student/available-course-list", {
         semester: semester,
-        courseType: "COMMON_COMPULSORY"
+        courseType: "COMMON_COMPULSORY",
       });
       const request2 = getRequest("/api/student/available-course-list", {
         semester: semester,
-        courseType: "COMMON_ELECTIVE"
+        courseType: "COMMON_ELECTIVE",
       });
       const request3 = getRequest("/api/student/available-course-list", {
         semester: semester,
-        courseType: "PROFESSIONAL_COMPULSORY"
+        courseType: "PROFESSIONAL_COMPULSORY",
       });
       const request4 = getRequest("/api/student/available-course-list", {
         semester: semester,
-        courseType: "PROFESSIONAL_ELECTIVE"
+        courseType: "PROFESSIONAL_ELECTIVE",
       });
       const request5 = getRequest("/api/student/course-drop-record", bigPage);
 
@@ -199,7 +199,7 @@ export default defineComponent({
         request2,
         request3,
         request4,
-        request5
+        request5,
       ]);
 
       if (res1.code === -21) {
@@ -221,7 +221,7 @@ export default defineComponent({
     autoRetryUtilFetchedUserInfo(fetchAllInfo);
 
     return { ...toRefs(data) };
-  }
+  },
 });
 </script>
 

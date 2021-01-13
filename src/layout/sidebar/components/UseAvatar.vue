@@ -13,7 +13,7 @@
         </div>
       </template>
       <a-avatar :size="65" class="avatar">
-        <template #icon><img :src="avatarUrl" alt=""/></template>
+        <template #icon><img :src="avatarUrl" alt="" /></template>
       </a-avatar>
     </a-popover>
   </div>
@@ -30,11 +30,13 @@ export default defineComponent({
   name: "UseAvatar",
   components: {
     UserOutlined,
-    LogoutOutlined
+    LogoutOutlined,
   },
   setup() {
     const data = reactive({
-      avatarUrl: ""
+      avatarUrl:
+        // TODO: 仅为展示而设置, 正常情况应该删掉
+        "http://qiniu-cdn.alexyan.cn/administrator/admin1/avatar/defaultAvatar.jpg",
     });
     let fetchAvatarUrl: () => void = () => console.log("未获取到role信息");
 
@@ -49,7 +51,7 @@ export default defineComponent({
     autoRetryUtilFetchedUserInfo(fetchAvatarUrl);
 
     return { ...toRefs(data), logout };
-  }
+  },
 });
 </script>
 

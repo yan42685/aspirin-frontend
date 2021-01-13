@@ -31,12 +31,8 @@
         </a-form-item>
         <a-form-item>
           <a-select v-model:value="formInline.role" placeholder="请选择身份">
-            <a-select-option value="STUDENT">
-              学生
-            </a-select-option>
-            <a-select-option value="TEACHER">
-              教师
-            </a-select-option>
+            <a-select-option value="STUDENT"> 学生 </a-select-option>
+            <a-select-option value="TEACHER"> 教师 </a-select-option>
           </a-select>
         </a-form-item>
         <a-form-item>
@@ -63,7 +59,7 @@ import {
   reactive,
   onMounted,
   onUnmounted,
-  toRefs
+  toRefs,
 } from "vue";
 import { messenger } from "../utils/my-ant-design-vue";
 import { loginRedirect } from "@/utils/timeout-actions";
@@ -74,11 +70,13 @@ import { store } from "@/store";
 import { loginHook } from "@/utils/hooks/on-login";
 import { router } from "@/router";
 import { windowReloadHook } from "@/utils/hooks/window-reload";
+import Axios from "axios";
+import { JsonWrapper } from "@/api/rest-api";
 
 export default defineComponent({
   components: {
     UserOutlined,
-    LockOutlined
+    LockOutlined,
   },
   name: "Login",
   setup() {
@@ -88,7 +86,7 @@ export default defineComponent({
         username: "stu",
         password: "123456",
         role: "STUDENT",
-        rememberMe: true
+        rememberMe: true,
       },
       loginType: "STUDENT",
       async handleSubmit(e: any) {
@@ -101,13 +99,17 @@ export default defineComponent({
           return;
         }
         data.btnLoading = true;
-        const results = await getRequest("/api/account/user-login", {
-          ...data.formInline
-        });
+        const rawResult = await Axios.get(
+          "http://alexyan.cn:8090/api/account/user-login",
+          {
+            params: data.formInline,
+          }
+        );
+        const result = rawResult.data as JsonWrapper<any>;
         data.btnLoading = false;
 
-        if (results.code !== 0) {
-          messenger.warning(results.message);
+        if (result.code !== 0) {
+          messenger.warning(result.message);
           return;
         }
 
@@ -119,7 +121,7 @@ export default defineComponent({
 
         windowReloadHook();
         router.push("/home");
-      }
+      },
     });
     // const { x, y } = getMousePosition();
     // const message = computed(() => `(${x.value}, ${y.value})`);
@@ -137,9 +139,9 @@ export default defineComponent({
 
     return {
       loginRedirect,
-      ...toRefs(data)
+      ...toRefs(data),
     };
-  }
+  },
 });
 </script>
 

@@ -19,6 +19,8 @@ const testTeacherLoginParams = {
 };
 
 export function loginHook() {
+  // TODO: 去掉
+  return;
   if (internalConfig.isDebug) {
     // 测试环境
     if (internalConfig.debugRole === "STUDENT") {

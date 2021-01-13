@@ -71,6 +71,7 @@ export const dynamicRootRoutes: RouteRecordRaw[] = [
       title: "首页",
       icon: "home"
       // affix: true // TODO: 取消注释
+      
     },
     children: [
       {
@@ -85,7 +86,6 @@ export const dynamicRootRoutes: RouteRecordRaw[] = [
         component: () => import("../views/pages/TestTwo.vue"),
         meta: { title: "测试页面 Two" }
       },
-      ...movieRoutes
       // {
       //   name: "UserCenter",
       //   path: "user-center",
@@ -98,8 +98,9 @@ export const dynamicRootRoutes: RouteRecordRaw[] = [
   },
 
   // 模块
-  ...studentRoutes,
-  ...teacherRoutes,
+  ...movieRoutes,
+  // ...studentRoutes,
+  // ...teacherRoutes,
 
   // 在动态路由注入后，再注入404重定向规则，以确保该规则置于路由表最底部
   {

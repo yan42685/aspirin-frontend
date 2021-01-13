@@ -3,7 +3,7 @@ import Framework from "@/layout/framework/Framework.vue";
 
 export const movieRoutes: RouteRecordRaw[] = [
   {
-    name: "Teacher",
+    name: "Movie",
     path: "/movie",
     component: Framework,
     meta: {
@@ -17,6 +17,13 @@ export const movieRoutes: RouteRecordRaw[] = [
         meta: {
           title: "影厅"
         }
+      },
+      {name: "MovieList",
+      path:"list",
+      component: () => import("@/views/movie/MovieList.vue"),
+      meta: {
+        title: "电影列表"
+      }
       }
     ]
   }
