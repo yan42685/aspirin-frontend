@@ -35,7 +35,7 @@ import {
   postRequest,
   putRequest,
 } from "@/utils/request";
-import { computed, defineComponent, reactive, ref, toRefs } from "vue";
+import { defineComponent, reactive, toRefs } from "vue";
 import WhiteBackground from "@/components/basic/WhiteBackground";
 
 type Action = "add" | "modify";
@@ -63,7 +63,7 @@ export default defineComponent({
 
       // modal里保存的hall信息
       currentHall: {} as Hall,
-      rowList: [[0]] as number[][],
+      seats: [[0]] as number[][],
     });
 
     const methods = reactive({
@@ -72,6 +72,7 @@ export default defineComponent({
           postRequest("/hall", data.currentHall).then((res) => {
             if (res.code === 0) {
               const list = res.data as Hall[];
+
               data.hallList = list;
               messenger.success("添加影厅成功");
             } else {
@@ -82,6 +83,9 @@ export default defineComponent({
           putRequest("/hall", data.currentHall).then((res) => {
             if (res.code === 0) {
               const list = res.data as Hall[];
+              console.log(res);
+
+              console.log("1111", list);
               data.hallList = list;
               messenger.success("修改影厅成功");
             } else {
@@ -97,14 +101,14 @@ export default defineComponent({
         data.modalVisible = true;
         data.currentHall = record;
         // TODO: 处理解析错误的情况
-        data.rowList = JSON.parse(record.seats);
+        data.seats = JSON.parse(record.seats);
       },
       addHall() {
         data.modalTitle = "添加";
         data.modalAction = "add";
         data.modalVisible = true;
         data.currentHall = {} as Hall;
-        data.rowList = [[0]];
+        data.seats = [[0]];
       },
       deleteHall(id: number) {
         deleteRequest("/hall", { id: id }).then((res) => {
@@ -118,10 +122,10 @@ export default defineComponent({
       },
 
       addRow() {
-        data.rowList.push([0]);
+        data.seats.push([0]);
       },
       deleteRow(index: number) {
-        data.rowList.splice(index, 1);
+        data.seats.splice(index, 1);
       },
     });
 
