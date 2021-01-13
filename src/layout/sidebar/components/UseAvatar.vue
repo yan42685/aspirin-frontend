@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed, toRefs } from "vue";
+import { defineComponent, reactive, toRefs } from "vue";
 import { store } from "@/store";
 import { UserOutlined, LogoutOutlined } from "@ant-design/icons-vue";
 import { logout } from "@/service/account";
