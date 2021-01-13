@@ -9,6 +9,7 @@ import { studentRoutes } from "./modules/student";
 import { teacherRoutes } from "./modules/teacher";
 import { cookies } from "@/utils/basic-lib";
 import { windowReloadHook } from "@/utils/hooks/window-reload";
+import { movieRoutes } from "./modules/movie";
 
 // 旧版本是RouteConfig 新版本是RouteRecordRaw
 export const staticRootRoutes: Array<RouteRecordRaw> = [
@@ -83,7 +84,8 @@ export const dynamicRootRoutes: RouteRecordRaw[] = [
         path: "test-two",
         component: () => import("../views/pages/TestTwo.vue"),
         meta: { title: "测试页面 Two" }
-      }
+      },
+      ...movieRoutes
       // {
       //   name: "UserCenter",
       //   path: "user-center",
