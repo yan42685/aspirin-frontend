@@ -3,8 +3,13 @@
     <h1>影厅列表</h1>
     <a-modal :title="modalTitle" v-model:visible="modalVisible" @ok="modalOk">
       <a-input-group>
-        <span>{{ modalErrorMessage }}</span>
-        <a-input addon-before="影厅名称" v-model:value="currentHall.name" />
+        <span class="modal-error-message">{{ modalErrorMessage }}</span>
+        <a-input
+          addon-before="影厅名称"
+          v-model:value="currentHall.name"
+          @blur="checkDuplicateName"
+          @change="clearErrorMessage"
+        />
         <div class="add-row-button">
           <a-button type="primary" @click="addRow">添加行</a-button>
         </div>
@@ -59,6 +64,7 @@ import {
 import { defineComponent, reactive, toRefs } from "vue";
 import WhiteBackground from "@/components/basic/WhiteBackground";
 import { MinusCircleOutlined } from "@ant-design/icons-vue";
+import _ from "lodash";
 
 type Action = "add" | "modify";
 
@@ -73,6 +79,7 @@ export default defineComponent({
       modalVisible: false,
       modalTitle: "",
       modalErrorMessage: "",
+      currentPage: 1,
       columns: [
         { title: "影厅名称", dataIndex: "name" },
         {
@@ -90,9 +97,23 @@ export default defineComponent({
     });
 
     const methods = reactive({
+      async fetchInfo() {
+        const request = getRequest("/hall/list");
+        const result = await request;
+        if (result.code !== 0) {
+          messenger.warn("请求影厅列表失败");
+          return;
+        }
+        data.hallList = result.data as Hall[];
+        data.loading = false;
+      },
       modalOk() {
         data.currentHall.seats = JSON.stringify(data.seats);
         if (data.modalAction === "add") {
+          if (data.modalErrorMessage === "名称已存在") {
+            messenger.error("影厅名称已存在, 无法添加");
+            return;
+          }
           postRequest("/hall", data.currentHall).then((res) => {
             if (res.code === 0) {
               const list = res.data as Hall[];
@@ -166,20 +187,28 @@ export default defineComponent({
       deleteRow(row: number) {
         data.seats.splice(row, 1);
       },
+
+      checkDuplicateName() {
+        const fn = () => {
+          if (data.modalAction === "add") {
+            getRequest("/hall/isNameExists", {
+              name: data.currentHall.name,
+            }).then((res) => {
+              if (res.data === true) {
+                data.modalErrorMessage = "名称已存在";
+              }
+            });
+          }
+        };
+        // 限制调用频率
+        _.throttle(fn, 500)();
+      },
+      clearErrorMessage() {
+        data.modalErrorMessage = "";
+      },
     });
 
-    async function fetchInfo() {
-      const request = getRequest("/hall/list");
-      const result = await request;
-      if (result.code !== 0) {
-        messenger.warn("请求影厅列表失败");
-        return;
-      }
-      data.hallList = result.data as Hall[];
-      data.loading = false;
-    }
-
-    fetchInfo();
+    methods.fetchInfo();
 
     return { ...toRefs(data), ...toRefs(methods) };
   },
@@ -187,6 +216,10 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+.modal-error-message {
+  color: red;
+}
+
 .add-row-button {
   display: inline-block;
   margin-left: 80%;
