@@ -2,10 +2,26 @@
   <white-background :loading="loading">
     <h1>影厅列表</h1>
     <a-modal :title="modalTitle" v-model:visible="modalVisible" @ok="modalOk">
-      <div class="form">
-        <a-label>影厅名称</a-label>
-        <a-input v-model:value="currentHall.name" />
-      </div>
+      <a-input-group>
+        <span>{{ modalErrorMessage }}</span>
+        <a-input addon-before="影厅名称" v-model:value="currentHall.name" />
+        <div class="add-row-button">
+          <a-button type="primary" @click="addRow">添加行</a-button>
+        </div>
+        <div class="hall-seats-label">影片座位</div>
+        <ul class="text-ul">
+          <li v-for="(row, rowIndex) in seats" :key="rowIndex">
+            <select @change="updateRow($event, rowIndex)">
+              <option v-for="i in 12" :key="i" :value="i">
+                {{ i }}
+              </option>
+            </select>
+            <a class="delete-row-button" @click="deleteRow(rowIndex)">
+              <MinusCircleOutlined />
+            </a>
+          </li>
+        </ul>
+      </a-input-group>
     </a-modal>
     <div v-if="!loading">
       <!-- scroll可以固定table的长度，然后内部滑动 -->
@@ -17,7 +33,7 @@
         :scroll="{ y: 400 }"
       >
         <template #action="{ record }">
-          <a @click="modifyHall(record)">修改</a>&nbsp;
+          <a @click="updateHall(record)">修改</a>&nbsp;
           <a @click="addHall()">添加</a>&nbsp;
           <a @click="deleteHall(record.id)">删除</a>
         </template>
@@ -37,12 +53,13 @@ import {
 } from "@/utils/request";
 import { defineComponent, reactive, toRefs } from "vue";
 import WhiteBackground from "@/components/basic/WhiteBackground";
+import { MinusCircleOutlined } from "@ant-design/icons-vue";
 
 type Action = "add" | "modify";
 
 export default defineComponent({
   name: "MovieHall",
-  components: { WhiteBackground },
+  components: { WhiteBackground, MinusCircleOutlined },
 
   setup() {
     const data = reactive({
@@ -50,6 +67,7 @@ export default defineComponent({
       modalAction: "modify" as Action,
       modalVisible: false,
       modalTitle: "",
+      modalErrorMessage: "",
       columns: [
         { title: "影厅名称", dataIndex: "name" },
         {
@@ -68,6 +86,7 @@ export default defineComponent({
 
     const methods = reactive({
       modalOk() {
+        data.currentHall.seats = JSON.stringify(data.seats);
         if (data.modalAction === "add") {
           postRequest("/hall", data.currentHall).then((res) => {
             if (res.code === 0) {
@@ -95,7 +114,7 @@ export default defineComponent({
         }
         data.modalVisible = false;
       },
-      modifyHall(record: Hall) {
+      updateHall(record: Hall) {
         data.modalTitle = "修改";
         data.modalAction = "modify";
         data.modalVisible = true;
@@ -124,8 +143,22 @@ export default defineComponent({
       addRow() {
         data.seats.push([0]);
       },
-      deleteRow(index: number) {
-        data.seats.splice(index, 1);
+      updateRow(event: any, row: number) {
+        const target = event.target;
+        let col = 0;
+        if (target) {
+          // 字符串转换成数字
+          col = +target.value;
+          console.log("col", col);
+        }
+
+        data.seats[row] = [];
+        for (let i = 0; i < col; i++) {
+          data.seats[row].push(0);
+        }
+      },
+      deleteRow(row: number) {
+        data.seats.splice(row, 1);
       },
     });
 
@@ -147,4 +180,18 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.add-row-button {
+  display: inline-block;
+  margin-left: 80%;
+  margin-top: 12px;
+}
+
+.delete-row-button {
+  display: inline-block;
+  font-size: 18px;
+  color: red;
+  line-height: 18px;
+  margin-left: 50%;
+}
+</style>
