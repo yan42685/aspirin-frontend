@@ -12,7 +12,12 @@
         <ul class="text-ul">
           <li v-for="(row, rowIndex) in seats" :key="rowIndex">
             <select @change="updateRow($event, rowIndex)">
-              <option v-for="i in 12" :key="i" :value="i">
+              <option
+                v-for="i in 12"
+                :key="i"
+                :value="i"
+                :selected="i === seats[rowIndex].length"
+              >
                 {{ i }}
               </option>
             </select>
@@ -134,6 +139,7 @@ export default defineComponent({
           if (res.code === 0) {
             const list = res.data as Hall[];
             data.hallList = list;
+            messenger.success("删除影厅成功");
           } else {
             messenger.error("删除影厅失败");
           }
@@ -192,6 +198,6 @@ export default defineComponent({
   font-size: 18px;
   color: red;
   line-height: 18px;
-  margin-left: 50%;
+  margin-left: 70%;
 }
 </style>
