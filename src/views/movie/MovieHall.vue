@@ -232,4 +232,8 @@ export default defineComponent({
   line-height: 18px;
   margin-left: 70%;
 }
+
+.text-ul {
+  font-size: 14px;
+}
 </style>
