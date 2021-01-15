@@ -53,7 +53,7 @@ export default defineComponent({
       nonHiddenChildren: computed(() => getNonHiddenChildren(props.route)),
       itemType: computed(
         (): ItemType =>
-          data.nonHiddenChildren.length > 1 ? "SubMenu" : "MenuItem"
+          data.nonHiddenChildren.length > 0 ? "SubMenu" : "MenuItem"
       ),
       currentFullPath: computed(() =>
         concatPath(props.basePath, props.route.path)
