@@ -34,8 +34,8 @@ export default defineComponent({
     route: null as PropType<RouteRecordRaw> | null,
     basePath: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
 
   setup(props) {
@@ -43,7 +43,7 @@ export default defineComponent({
       let children = [] as Array<RouteRecordRaw>;
       if (route.children && route.children.length !== 0) {
         children = route.children.filter(
-          route => !route.meta || (route.meta && !route.meta.hidden)
+          (route) => !route.meta || (route.meta && !route.meta.hidden)
         );
       }
       return children;
@@ -57,12 +57,13 @@ export default defineComponent({
       ),
       currentFullPath: computed(() =>
         concatPath(props.basePath, props.route.path)
-      )
+      ),
     });
 
     return { ...toRefs(data), concatPath };
-  }
+  },
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+</style>
