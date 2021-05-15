@@ -4,15 +4,21 @@
       <ul class="problem-area">
         <li v-for="i in multiplicationCount" :key="i">
           {{ factorAs[i - 1] }} x {{ factorBs[i - 1] }} =
-          <span v-if="isShowAnswers">{{ productions[i - 1] }}</span>
+          <transition mode="out-in" name="fade-in">
+            <span v-if="isShowAnswers">{{ productions[i - 1] }}</span>
+          </transition>
         </li>
       </ul>
     </div>
     <div class="subtraction">
       <ul class="problem-area">
         <li v-for="i in subtractionCount" :key="i">
-          {{ minuends[i - 1] }} - {{ subtrahends[i - 1] }} =
-          <span v-if="isShowAnswers">{{ differences[i - 1] }}</span>
+          <span>
+            {{ minuends[i - 1] }} - {{ subtrahends[i - 1] }} =
+            <transition mode="out-in" name="fade-in">
+              <span v-if="isShowAnswers">{{ differences[i - 1] }}</span>
+            </transition>
+          </span>
         </li>
       </ul>
     </div>
@@ -80,6 +86,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+@import "@/styles/transitions.scss";
 .problem-area {
   //   height: 500px;
   //   width: 300px;

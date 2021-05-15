@@ -22,8 +22,8 @@
 </template>
 
 <script lang="ts">
-import { getRequest, postRequest, deleteRequest } from "@/utils/request";
-import { defineComponent, reactive, toRefs, PropType, computed } from "vue";
+import { postRequest, deleteRequest } from "@/utils/request";
+import { defineComponent, reactive, toRefs, PropType } from "vue";
 import { ElectiveStatusEnum } from "@/api/rest-api";
 import { messenger } from "@/utils/my-ant-design-vue";
 import { eventBus } from "@/utils/event-bus";
@@ -32,7 +32,7 @@ export default defineComponent({
   name: "ElectCourseButton",
   props: {
     courseDetailId: String,
-    courseStatus: null as null | PropType<ElectiveStatusEnum>
+    courseStatus: null as null | PropType<ElectiveStatusEnum>,
   },
   setup(props) {
     const initialElectText: string =
@@ -52,7 +52,7 @@ export default defineComponent({
       onElect: async () => {
         data.electLoading = true;
         const result: any = await postRequest("/api/student/elective", {
-          courseDetailId: props.courseDetailId
+          courseDetailId: props.courseDetailId,
         });
         data.electLoading = false;
         if (result.code === 0) {
@@ -69,7 +69,7 @@ export default defineComponent({
       onDrop: async () => {
         data.dropLoading = true;
         const result: any = await deleteRequest("/api/student/elective", {
-          courseDetailId: props.courseDetailId
+          courseDetailId: props.courseDetailId,
         });
         data.dropLoading = false;
         if (result.code === 0) {
@@ -82,12 +82,12 @@ export default defineComponent({
         } else {
           messenger.error(`退选失败: ${result.message}`);
         }
-      }
+      },
     });
     return {
-      ...toRefs(data)
+      ...toRefs(data),
     };
-  }
+  },
 });
 </script>
 
