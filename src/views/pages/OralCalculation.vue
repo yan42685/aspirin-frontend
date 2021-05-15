@@ -22,7 +22,6 @@
         </li>
       </ul>
     </div>
-    <!-- <button @click="fillNumbers">更新</button> -->
     <br />
     <div class="commands">
       <a-button type="primary" @click="fillNumbers">更新</a-button>
@@ -33,7 +32,7 @@
         @mouseleave="hideAnswers"
         @click="showAnswers"
         >悬浮显示答案</a-button
-      >
+      >&nbsp;&nbsp;&nbsp;(按空格也可以开关答案)
     </div>
   </white-background>
 </template>
@@ -42,6 +41,7 @@
 import WhiteBackground from "@/components/basic/WhiteBackground.vue";
 import { defineComponent, reactive, toRefs } from "vue";
 import { randomNum } from "@/utils/basic-lib";
+import key from "keymaster";
 
 export default defineComponent({
   components: { WhiteBackground },
@@ -57,15 +57,20 @@ export default defineComponent({
       minuends: [] as number[],
       subtrahends: [] as number[],
       differences: [] as number[],
-      showAnswers: function () {
+      showAnswers: () => {
         data.isShowAnswers = true;
       },
-      hideAnswers: function () {
+      hideAnswers: () => {
         data.isShowAnswers = false;
+      },
+      showOrHideAnswers: () => {
+        data.isShowAnswers = !data.isShowAnswers;
       },
     });
 
     function fillNumbers() {
+      data.isShowAnswers = false;
+
       for (let i = 0; i < data.multiplicationCount; i++) {
         data.factorAs[i] = randomNum(11, 100);
         data.factorBs[i] = randomNum(11, 100);
@@ -80,6 +85,14 @@ export default defineComponent({
     }
 
     fillNumbers();
+    // 注册快捷键
+    key("space", data.showOrHideAnswers);
+    // 禁用浏览器默认的按空格下移网页的行为
+    document.addEventListener("keydown", (event) => {
+      if (event && event.keyCode == 32) {
+        event.preventDefault();
+      }
+    });
 
     return { ...toRefs(data), fillNumbers };
   },
