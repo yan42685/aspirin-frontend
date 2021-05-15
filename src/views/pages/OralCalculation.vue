@@ -23,6 +23,7 @@
       </ul>
     </div>
     <!-- <button @click="fillNumbers">更新</button> -->
+    <br />
     <div class="commands">
       <a-button type="primary" @click="fillNumbers">更新</a-button>
       &nbsp;&nbsp;&nbsp;
@@ -48,7 +49,7 @@ export default defineComponent({
   setup() {
     const data = reactive({
       isShowAnswers: false,
-      multiplicationCount: 20,
+      multiplicationCount: 18,
       subtractionCount: 20,
       factorAs: [] as number[],
       factorBs: [] as number[],
@@ -88,15 +89,21 @@ export default defineComponent({
 <style scoped lang="scss">
 @import "@/styles/transitions.scss";
 .problem-area {
-  //   height: 500px;
-  //   width: 300px;
   display: flex;
   flex-wrap: wrap;
   li {
+    font-size: 1.4em;
     display: inline-block;
     margin: 10px;
-    width: 150px;
     height: 30px;
   }
+}
+
+.multiplication li {
+  width: 150px;
+}
+
+.subtraction li {
+  width: 230px;
 }
 </style>
