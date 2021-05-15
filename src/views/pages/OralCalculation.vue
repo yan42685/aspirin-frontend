@@ -4,7 +4,7 @@
       <ul class="problem-area">
         <li v-for="i in multiplicationCount" :key="i">
           {{ factorAs[i - 1] }} x {{ factorBs[i - 1] }} =
-          {{ productions[i - 1] }}
+          <span v-if="isShowAnswers">{{ productions[i - 1] }}</span>
         </li>
       </ul>
     </div>
@@ -12,16 +12,28 @@
       <ul class="problem-area">
         <li v-for="i in subtractionCount" :key="i">
           {{ minuends[i - 1] }} - {{ subtrahends[i - 1] }} =
-          {{ differences[i - 1] }}
+          <span v-if="isShowAnswers">{{ differences[i - 1] }}</span>
         </li>
       </ul>
+    </div>
+    <!-- <button @click="fillNumbers">更新</button> -->
+    <div class="commands">
+      <a-button type="primary" @click="fillNumbers">更新</a-button>
+      &nbsp;&nbsp;&nbsp;
+      <a-button
+        type="primary"
+        @mouseover="showAnswers"
+        @mouseleave="hideAnswers"
+        @click="showAnswers"
+        >悬浮显示答案</a-button
+      >
     </div>
   </white-background>
 </template>
 
 <script lang="ts">
 import WhiteBackground from "@/components/basic/WhiteBackground.vue";
-import { computed, defineComponent, reactive, toRefs } from "vue";
+import { defineComponent, reactive, toRefs } from "vue";
 import { randomNum } from "@/utils/basic-lib";
 
 export default defineComponent({
@@ -29,14 +41,21 @@ export default defineComponent({
   name: "OralCalculation",
   setup() {
     const data = reactive({
-      multiplicationCount: 15,
-      subtractionCount: 15,
+      isShowAnswers: false,
+      multiplicationCount: 20,
+      subtractionCount: 20,
       factorAs: [] as number[],
       factorBs: [] as number[],
       productions: [] as number[],
       minuends: [] as number[],
       subtrahends: [] as number[],
       differences: [] as number[],
+      showAnswers: function () {
+        data.isShowAnswers = true;
+      },
+      hideAnswers: function () {
+        data.isShowAnswers = false;
+      },
     });
 
     function fillNumbers() {
@@ -55,7 +74,7 @@ export default defineComponent({
 
     fillNumbers();
 
-    return { ...toRefs(data) };
+    return { ...toRefs(data), fillNumbers };
   },
 });
 </script>
