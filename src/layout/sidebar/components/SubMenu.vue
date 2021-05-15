@@ -14,7 +14,6 @@
 <script lang="ts">
 import { defineComponent, PropType, computed } from "vue";
 import { RouteRecordRaw } from "vue-router";
-import { router } from "@/router";
 import UseIcon from "@/components/UseIcon.vue";
 import { concatPath } from "@/utils/basic-lib";
 
@@ -24,8 +23,8 @@ export default defineComponent({
     route: null as PropType<RouteRecordRaw> | null,
     basePath: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
 
   components: { UseIcon },
@@ -35,7 +34,7 @@ export default defineComponent({
       concatPath(props.basePath, props.route.path)
     );
     return { targetPath };
-  }
+  },
 });
 </script>
 

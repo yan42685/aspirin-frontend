@@ -13,28 +13,29 @@
         </div>
       </template>
       <a-avatar :size="65" class="avatar">
-        <template #icon><img :src="avatarUrl" alt=""/></template>
+        <template #icon><img :src="avatarUrl" alt="" /></template>
       </a-avatar>
     </a-popover>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed, toRefs } from "vue";
+import { defineComponent, reactive, toRefs } from "vue";
 import { store } from "@/store";
 import { UserOutlined, LogoutOutlined } from "@ant-design/icons-vue";
 import { logout } from "@/service/account";
 import { autoRetryUtilFetchedUserInfo, cookies } from "@/utils/basic-lib";
+import { defaultAvatar } from "@/config/constant";
 
 export default defineComponent({
   name: "UseAvatar",
   components: {
     UserOutlined,
-    LogoutOutlined
+    LogoutOutlined,
   },
   setup() {
     const data = reactive({
-      avatarUrl: ""
+      avatarUrl: defaultAvatar,
     });
     let fetchAvatarUrl: () => void = () => console.log("未获取到role信息");
 
@@ -49,7 +50,7 @@ export default defineComponent({
     autoRetryUtilFetchedUserInfo(fetchAvatarUrl);
 
     return { ...toRefs(data), logout };
-  }
+  },
 });
 </script>
 
