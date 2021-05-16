@@ -88,7 +88,6 @@ export default defineComponent({
     fillNumbers();
     // 注册快捷键
     key("space", data.showOrHideAnswers);
-    // 禁用浏览器默认的按空格下移网页的行为
     stopSpaceDefaultBehavior();
 
     return { ...toRefs(data), fillNumbers };
