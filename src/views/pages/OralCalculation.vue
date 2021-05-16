@@ -41,6 +41,7 @@
 import WhiteBackground from "@/components/basic/WhiteBackground.vue";
 import { defineComponent, reactive, toRefs } from "vue";
 import { randomNum } from "@/utils/basic-lib";
+import { stopSpaceDefaultBehavior } from "@/utils/event-listener";
 import key from "keymaster";
 
 export default defineComponent({
@@ -88,11 +89,7 @@ export default defineComponent({
     // 注册快捷键
     key("space", data.showOrHideAnswers);
     // 禁用浏览器默认的按空格下移网页的行为
-    document.addEventListener("keydown", (event) => {
-      if (event && event.keyCode == 32) {
-        event.preventDefault();
-      }
-    });
+    stopSpaceDefaultBehavior();
 
     return { ...toRefs(data), fillNumbers };
   },
