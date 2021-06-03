@@ -73,8 +73,8 @@ export default defineComponent({
       data.isShowAnswers = false;
 
       for (let i = 0; i < data.divisionCount; i++) {
-        data.factorAs[i] = randomNum(11, 1000);
-        data.factorBs[i] = randomNum(11, 1000);
+        data.factorAs[i] = randomNum(11, 10000);
+        data.factorBs[i] = randomNum(11, 10000);
         data.quotients[i] = parseFloat(
           (data.factorAs[i] / data.factorBs[i]).toFixed(3)
         );
