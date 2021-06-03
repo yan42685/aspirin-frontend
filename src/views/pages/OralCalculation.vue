@@ -76,7 +76,7 @@ export default defineComponent({
         data.factorAs[i] = randomNum(11, 10000);
         data.factorBs[i] = randomNum(11, 10000);
         data.quotients[i] = parseFloat(
-          (data.factorAs[i] / data.factorBs[i]).toFixed(3)
+          (data.factorAs[i] / data.factorBs[i]).toFixed(4)
         );
       }
 
@@ -88,9 +88,11 @@ export default defineComponent({
     }
 
     fillNumbers();
-    // 注册快捷键
+    // 空格显示/隐藏答案
     key("space", data.showOrHideAnswers);
     stopSpaceDefaultBehavior();
+    // n换下一批计算
+    key("n", fillNumbers);
 
     return { ...toRefs(data), fillNumbers };
   },
