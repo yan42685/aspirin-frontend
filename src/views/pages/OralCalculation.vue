@@ -1,11 +1,11 @@
 <template>
   <white-background>
-    <div class="multiplication">
+    <div class="division">
       <ul class="problem-area">
-        <li v-for="i in multiplicationCount" :key="i">
-          {{ factorAs[i - 1] }} x {{ factorBs[i - 1] }} =
+        <li v-for="i in divisionCount" :key="i">
+          {{ factorAs[i - 1] }} / {{ factorBs[i - 1] }} =
           <transition mode="out-in" name="fade-in">
-            <span v-if="isShowAnswers">{{ productions[i - 1] }}</span>
+            <span v-if="isShowAnswers">{{ quotients[i - 1] }}</span>
           </transition>
         </li>
       </ul>
@@ -50,11 +50,11 @@ export default defineComponent({
   setup() {
     const data = reactive({
       isShowAnswers: false,
-      multiplicationCount: 18,
+      divisionCount: 18,
       subtractionCount: 20,
       factorAs: [] as number[],
       factorBs: [] as number[],
-      productions: [] as number[],
+      quotients: [] as number[],
       minuends: [] as number[],
       subtrahends: [] as number[],
       differences: [] as number[],
@@ -72,10 +72,12 @@ export default defineComponent({
     function fillNumbers() {
       data.isShowAnswers = false;
 
-      for (let i = 0; i < data.multiplicationCount; i++) {
-        data.factorAs[i] = randomNum(11, 100);
-        data.factorBs[i] = randomNum(11, 100);
-        data.productions[i] = data.factorAs[i] * data.factorBs[i];
+      for (let i = 0; i < data.divisionCount; i++) {
+        data.factorAs[i] = randomNum(11, 1000);
+        data.factorBs[i] = randomNum(11, 1000);
+        data.quotients[i] = parseFloat(
+          (data.factorAs[i] / data.factorBs[i]).toFixed(3)
+        );
       }
 
       for (let i = 0; i < data.subtractionCount; i++) {
@@ -108,8 +110,8 @@ export default defineComponent({
   }
 }
 
-.multiplication li {
-  width: 150px;
+.division li {
+  width: 200px;
 }
 
 .subtraction li {
