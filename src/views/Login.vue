@@ -45,12 +45,12 @@
 <script lang="ts">
 import { JsonWrapper } from "@/api/rest-api";
 import { router } from "@/router";
-import { windowReloadHook } from "@/utils/hooks/window-reload";
+import { loginHook } from "@/utils/hooks/on-login";
 import { getRequest } from "@/utils/request";
 import { loginRedirect } from "@/utils/timeout-actions";
+import { saveToken } from "@/utils/cookies";
 import { LockOutlined, UserOutlined } from "@ant-design/icons-vue";
 import { defineComponent, reactive, toRefs } from "vue";
-import { cookies } from "../utils/basic-lib";
 import { messenger } from "../utils/my-ant-design-vue";
 
 export default defineComponent({
@@ -89,9 +89,9 @@ export default defineComponent({
           return;
         }
 
-        cookies.set("tokenForRequest", result.data);
+        saveToken(result.data);
 
-        windowReloadHook();
+        loginHook();
         router.push("/home");
       },
     });

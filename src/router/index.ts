@@ -8,6 +8,7 @@ import Framework from "../layout/framework/Framework.vue";
 import { AdministratorRoutes } from "./modules/administrator";
 import { cookies } from "@/utils/basic-lib";
 import { windowReloadHook } from "@/utils/hooks/window-reload";
+import { getToken } from "@/utils/token";
 
 // 旧版本是RouteConfig 新版本是RouteRecordRaw
 export const staticRootRoutes: Array<RouteRecordRaw> = [
@@ -118,10 +119,7 @@ router.beforeEach(async (to, from, next) => {
     updateDynamicRoutes();
     if (ROUTE_WHITE_LIST.includes(to.path)) {
         next();
-    } else if (
-        internalConfig.loginInterception &&
-        !cookies.get("aspirin-role")
-    ) {
+    } else if (internalConfig.loginInterception && !getToken()) {
         loginRedirect();
     } else if (internalConfig.accessControl && !hasPermission(to)) {
         messenger.warning("抱歉，您没有权限访问此资源");
