@@ -1,14 +1,11 @@
 <template>
   <div id="login">
-    <!-- <h2>This is Login</h2>
-    <p>{{ message }}</p>
-    <button @click="loginRedirect">redirect</button> -->
     <div class="box">
-      <h1>阿司匹林</h1>
-      <a-form layout="horizontal" :model="formInline" @submit="handleSubmit">
+      <h1>欢迎使用crm系统</h1>
+      <a-form layout="horizontal" :model="formData" @submit="handleSubmit">
         <a-form-item>
           <a-input
-            v-model:value="formInline.username"
+            v-model:value="formData.username"
             placeholder="账号"
             style="width: 100%"
           >
@@ -19,7 +16,7 @@
         </a-form-item>
         <a-form-item>
           <a-input
-            v-model:value="formInline.password"
+            v-model:value="formData.password"
             type="password"
             placeholder="密码"
             style="width: 100%"
@@ -30,21 +27,11 @@
           </a-input>
         </a-form-item>
         <a-form-item>
-          <a-select v-model:value="formInline.role" placeholder="请选择身份">
-            <a-select-option value="STUDENT">
-              学生
-            </a-select-option>
-            <a-select-option value="TEACHER">
-              教师
-            </a-select-option>
-          </a-select>
-        </a-form-item>
-        <a-form-item>
           <a-button
             block
             type="primary"
             html-type="submit"
-            :disabled="formInline.username === '' || formInline.password === ''"
+            :disabled="formData.username === '' || formData.password === ''"
             :loading="btnLoading"
           >
             登录
@@ -56,90 +43,64 @@
 </template>
 
 <script lang="ts">
-// import { getMousePosition } from "../utils/mouse-position";
-import {
-  defineComponent,
-  computed,
-  reactive,
-  onMounted,
-  onUnmounted,
-  toRefs
-} from "vue";
-import { messenger } from "../utils/my-ant-design-vue";
-import { loginRedirect } from "@/utils/timeout-actions";
-import { UserOutlined, LockOutlined } from "@ant-design/icons-vue";
-import { getRequest } from "@/utils/request";
-import { cookies } from "../utils/basic-lib";
-import { store } from "@/store";
-import { loginHook } from "@/utils/hooks/on-login";
+import { JsonWrapper } from "@/api/rest-api";
 import { router } from "@/router";
 import { windowReloadHook } from "@/utils/hooks/window-reload";
+import { getRequest } from "@/utils/request";
+import { loginRedirect } from "@/utils/timeout-actions";
+import { LockOutlined, UserOutlined } from "@ant-design/icons-vue";
+import { defineComponent, reactive, toRefs } from "vue";
+import { cookies } from "../utils/basic-lib";
+import { messenger } from "../utils/my-ant-design-vue";
 
 export default defineComponent({
   components: {
     UserOutlined,
-    LockOutlined
+    LockOutlined,
   },
   name: "Login",
   setup() {
     const data = reactive({
       btnLoading: false,
-      formInline: {
-        username: "stu",
-        password: "123456",
-        role: "STUDENT",
-        rememberMe: true
+      formData: {
+        username: "",
+        password: "",
       },
-      loginType: "STUDENT",
       async handleSubmit(e: any) {
-        const { username, password, role } = data.formInline;
-        const userNameRgx =
+        const { username, password } = data.formData;
+        const usernameRgx =
           username !== "" && /^[^\u4e00-\u9fa5]+$/.test(username);
         const pwdRgx = password !== "";
-        if (!userNameRgx || !pwdRgx) {
+        if (!usernameRgx || !pwdRgx) {
           messenger.warning("请检查用户名和密码");
           return;
         }
         data.btnLoading = true;
-        const results = await getRequest("/api/account/user-login", {
-          ...data.formInline
-        });
+        const result: JsonWrapper<string> = await getRequest(
+          "/api/account/login",
+          {
+            ...data.formData,
+          }
+        );
         data.btnLoading = false;
 
-        if (results.code !== 0) {
-          messenger.warning(results.message);
+        if (result.code !== 0) {
+          messenger.warning(result.message);
           return;
         }
 
-        if (role === "STUDENT") {
-          cookies.set("aspirin-role", "STUDENT");
-        } else {
-          cookies.set("aspirin-role", "TEACHER");
-        }
+        cookies.set("tokenForRequest", result.data);
 
         windowReloadHook();
         router.push("/home");
-      }
+      },
     });
-    // const { x, y } = getMousePosition();
-    // const message = computed(() => `(${x.value}, ${y.value})`);
-    //
-    // const showClickPosition = () => {
-    //   messenger.info(message.value);
-    // };
-
-    // onMounted(() => {
-    // document.addEventListener("click", showClickPosition);
-    // });
-    // onUnmounted(() => {
-    //   document.removeEventListener("click", showClickPosition);
-    // });
 
     return {
       loginRedirect,
-      ...toRefs(data)
+      ...toRefs(data),
     };
-  }
+  },
 });
 </script>
 

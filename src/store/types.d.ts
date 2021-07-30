@@ -3,31 +3,14 @@ import { StudentDTO, TeacherDTO } from "@/api/rest-api";
 import { RouteLocation, RouteRecordRaw } from "vue-router";
 
 export interface AllState {
-  user: UserState;
-  student: StudentState;
-  tabBar: TabBarState;
-  layout: LayoutState;
-  teacher: TeacherState;
-}
-
-export interface UserState {
-  role: RoleEnum | null;
-  isInfoFetched: boolean;
-}
-
-export interface StudentState {
-  info: StudentDTO;
-}
-
-export interface TeacherState {
-  info: TeacherDTO;
-  isInfoFetched: boolean;
+    tabBar: TabBarState;
+    layout: LayoutState;
 }
 
 export interface TabBarState {
-  openTabs: Array<RouteLocation>;
+    openTabs: Array<RouteLocation>;
 }
 
 export interface LayoutState {
-  sidebarCollapsed: boolean;
+    sidebarCollapsed: boolean;
 }
