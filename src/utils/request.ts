@@ -1,6 +1,6 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import qs from "qs";
-import { ExceptionEnum, JsonWrapper, TokenDto } from "@/api/rest-api";
+import { ExceptionEnum, Result, TokenDto } from "@/api/rest-api";
 import { message } from "ant-design-vue";
 import { messenger } from "./my-ant-design-vue";
 // axios重试插件
@@ -46,38 +46,26 @@ httpClient.defaults.raxConfig = {
 const interceptorId = rax.attach(httpClient);
 
 // ============= 对外提供的api ============
-export function getRequest<T>(
-    url: string,
-    params?: any
-): Promise<JsonWrapper<T>> {
+export function getRequest<T>(url: string, params?: any): Promise<Result<T>> {
     return httpClient.get(url, { params: params });
 }
 
-export function postRequest<T>(
-    url: string,
-    params?: any
-): Promise<JsonWrapper<T>> {
+export function postRequest<T>(url: string, params?: any): Promise<Result<T>> {
     return httpClient.post(url, qs.stringify(params));
 }
 
-export function putRequest<T>(
-    url: string,
-    params?: any
-): Promise<JsonWrapper<T>> {
+export function putRequest<T>(url: string, params?: any): Promise<Result<T>> {
     return httpClient.put(url, qs.stringify(params));
 }
 
 export function deleteRequest<T>(
     url: string,
     params?: any
-): Promise<JsonWrapper<T>> {
+): Promise<Result<T>> {
     return httpClient.delete(url, { params: params });
 }
 
-export function patchRequest<T>(
-    url: string,
-    params?: any
-): Promise<JsonWrapper<T>> {
+export function patchRequest<T>(url: string, params?: any): Promise<Result<T>> {
     return httpClient.patch(url, qs.stringify(params));
 }
 
@@ -106,7 +94,7 @@ httpClient.interceptors.response.use(
         // handleError(response);
 
         const config = response.config;
-        const result: JsonWrapper<unknown> = response.data;
+        const result: Result<unknown> = response.data;
 
         const errorCode: number = result.code;
         const errorMessage: string = result.message;

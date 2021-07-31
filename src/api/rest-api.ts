@@ -4,13 +4,6 @@
 
 export interface Serializable {}
 
-// TODO: 将JsonWrapper全部替换为Result
-export interface JsonWrapper<T> {
-    code: number;
-    message: string;
-    data: T;
-}
-
 export interface Result<T> {
     code: number;
     message: string;

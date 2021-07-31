@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts">
-import { JsonWrapper, TokenDto } from "@/api/rest-api";
+import {  Result, TokenDto } from "@/api/rest-api";
 import { router } from "@/router";
 import { saveAccessToken, saveRefreshToken } from "@/utils/cookies";
 import { loginHook } from "@/utils/hooks/on-login";
@@ -77,7 +77,7 @@ export default defineComponent({
         }
         data.btnLoading = true;
 
-        const result: JsonWrapper<TokenDto> = await getRequest(
+        const result: Result<TokenDto> = await getRequest(
           "/api/account/login",
           {
             ...data.formData,
