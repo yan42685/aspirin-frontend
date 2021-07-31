@@ -22,6 +22,7 @@
 import { defineComponent, reactive, computed, toRefs } from "vue";
 import { UserOutlined, LogoutOutlined } from "@ant-design/icons-vue";
 import { logout } from "@/service/account";
+import { internalConfig } from "@/config/app-settings";
 
 export default defineComponent({
   name: "UseAvatar",
@@ -31,7 +32,7 @@ export default defineComponent({
   },
   setup() {
     const data = reactive({
-      avatarUrl: "cdn.alexyan.cn/administrator/admin1/avatar/defaultAvatar.jpg",
+      avatarUrl: internalConfig.defaultAvatar,
     });
 
     return { ...toRefs(data), logout };
