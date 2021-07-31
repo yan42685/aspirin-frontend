@@ -4,7 +4,14 @@
 
 export interface Serializable {}
 
+// TODO: 将JsonWrapper全部替换为Result
 export interface JsonWrapper<T> {
+    code: number;
+    message: string;
+    data: T;
+}
+
+export interface Result<T> {
     code: number;
     message: string;
     data: T;
@@ -19,31 +26,26 @@ export interface IPage<T> extends Serializable {
     records: T[];
 }
 
-export enum ExceptionEnum {
+export const enum ExceptionEnum {
     FILE_IO_EXCEPTION = 51,
     TO_BE_IMPLEMENTED = 50,
     UNKNOWN_EXCEPTION = 99,
     NOT_REGISTER = -1,
     NOT_LOGIN = -2,
-    NO_PERMISSION = -3,
-    INVALID_PARAM = -4,
-    IMAGE_UPLOAD_FAIL = -5,
-    DOWNLOADING_FILE_NOT_EXITS = -6,
-    USERNAME_EXISTS = -7,
-    WRONG_CREDENTIALS = -8,
-    WRONG_PASSWORD = -9,
-    USER_NOT_EXISTS = -10,
-    VERIFICATION_CODE_MISMATCH = -11,
-    NUMBER_EXISTS = -12,
-    NUMBER_NOT_EXIST = -13,
-    ROLE_HEADER_MISSING = -14,
-    CLASSROOM_NOT_AVAILABLE = -15,
-    TEACHER_NOT_AVAILABLE = -16,
-    DROP_COURSE_NOT_FOUND = -17,
-    STUDENT_NOT_AVAILABLE = -18,
-    COURSE_HAS_BEEN_CHOSEN = -19,
-    COURSE_STUDENT_SEMESTER_MISMATCH = -20,
-    FUNCTION_DISABLED = -21,
+    ACCESS_TOKEN_EXPIRED = -3,
+    REFRESH_TOKEN_EXPIRED = -4,
+    NO_PERMISSION = -5,
+    WRONG_CREDENTIALS = -6,
+    WRONG_PASSWORD = -7,
+    USERNAME_EXISTS = -8,
+    USER_NOT_EXISTS = -9,
+    VERIFICATION_CODE_MISMATCH = -10,
+    INVALID_PARAM = -31,
+    IMAGE_UPLOAD_FAIL = -32,
+    DOWNLOADING_FILE_NOT_EXITS = -33,
+    NUMBER_EXISTS = -41,
+    NUMBER_NOT_EXIST = -42,
+    FUNCTION_DISABLED = -43,
 }
 
 export enum GenderEnum {
