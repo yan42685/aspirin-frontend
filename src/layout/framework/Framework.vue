@@ -13,27 +13,24 @@ import UseSidebar from "../sidebar/UseSidebar.vue";
 import UseContent from "../content/UseContent.vue";
 import UseHeader from "../header/UseHeader.vue";
 import { store } from "@/store";
-import { windowReloadHook } from "@/utils/hooks/window-reload";
 
 export default defineComponent({
   name: "Framework",
   components: {
     UseSidebar,
     UseHeader,
-    UseContent
+    UseContent,
   },
   setup() {
     const data = reactive({
       sidebarCollapsed: computed(() => store.state.layout.sidebarCollapsed),
       toggleCollapse: () => {
         store.commit("toggleSidebarCollapse");
-      }
+      },
     });
 
-    windowReloadHook();
-
     return { ...toRefs(data) };
-  }
+  },
 });
 </script>
 

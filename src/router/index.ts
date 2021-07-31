@@ -1,14 +1,11 @@
 import { internalConfig } from "@/config/app-settings";
-import { store } from "@/store";
+import { getAccessToken } from "@/utils/cookies";
 import { messenger } from "@/utils/my-ant-design-vue";
 import { hasPermission, updateDynamicRoutes } from "@/utils/route";
-import { loginRedirect, homeRedirect } from "@/utils/timeout-actions";
+import { homeRedirect, loginRedirect } from "@/utils/timeout-actions";
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import Framework from "../layout/framework/Framework.vue";
 import { AdministratorRoutes } from "./modules/administrator";
-import { cookies } from "@/utils/basic-lib";
-import { windowReloadHook } from "@/utils/hooks/window-reload";
-import { getToken } from "@/utils/token";
 
 // 旧版本是RouteConfig 新版本是RouteRecordRaw
 export const staticRootRoutes: Array<RouteRecordRaw> = [
@@ -119,7 +116,7 @@ router.beforeEach(async (to, from, next) => {
     updateDynamicRoutes();
     if (ROUTE_WHITE_LIST.includes(to.path)) {
         next();
-    } else if (internalConfig.loginInterception && !getToken()) {
+    } else if (internalConfig.loginInterception && !getAccessToken()) {
         loginRedirect();
     } else if (internalConfig.accessControl && !hasPermission(to)) {
         messenger.warning("抱歉，您没有权限访问此资源");

@@ -1,15 +1,25 @@
 import { cookies } from "./basic-lib";
 
-const TOKEN_KEY = "tokenForRequest";
+const ACCESS_TOKEN_KEY = "accessToken";
+const REFRESH_TOKEN_KEY = "refreshToken";
 const ROLE_KEY = "userRole";
 
-export function getToken(): string {
-    const token = cookies.get(TOKEN_KEY);
+export function getAccessToken(): string {
+    const token = cookies.get(ACCESS_TOKEN_KEY);
     return token ? token : "";
 }
 
-export function saveToken(token: string) {
-    cookies.set(TOKEN_KEY, token);
+export function saveAccessToken(token: string) {
+    cookies.set(ACCESS_TOKEN_KEY, token);
+}
+
+export function getRefreshToken(): string {
+    const token = cookies.get(REFRESH_TOKEN_KEY);
+    return token ? token : "";
+}
+
+export function saveRefreshToken(token: string) {
+    cookies.set(REFRESH_TOKEN_KEY, token);
 }
 
 export function getRole(): string {

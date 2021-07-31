@@ -43,12 +43,12 @@
 </template>
 
 <script lang="ts">
-import { JsonWrapper } from "@/api/rest-api";
+import { JsonWrapper, TokenDto } from "@/api/rest-api";
 import { router } from "@/router";
+import { saveAccessToken, saveRefreshToken } from "@/utils/cookies";
 import { loginHook } from "@/utils/hooks/on-login";
 import { getRequest } from "@/utils/request";
 import { loginRedirect } from "@/utils/timeout-actions";
-import { saveToken } from "@/utils/cookies";
 import { LockOutlined, UserOutlined } from "@ant-design/icons-vue";
 import { defineComponent, reactive, toRefs } from "vue";
 import { messenger } from "../utils/my-ant-design-vue";
@@ -76,7 +76,8 @@ export default defineComponent({
           return;
         }
         data.btnLoading = true;
-        const result: JsonWrapper<string> = await getRequest(
+
+        const result: JsonWrapper<TokenDto> = await getRequest(
           "/api/account/login",
           {
             ...data.formData,
@@ -89,7 +90,8 @@ export default defineComponent({
           return;
         }
 
-        saveToken(result.data);
+        saveAccessToken(result.data.accessToken);
+        saveRefreshToken(result.data.refreshToken);
 
         loginHook();
         router.push("/home");

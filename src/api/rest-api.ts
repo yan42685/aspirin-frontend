@@ -17,6 +17,10 @@ export interface Result<T> {
     data: T;
 }
 
+export interface TokenDto {
+    accessToken: string;
+    refreshToken: string;
+}
 export interface IPage<T> extends Serializable {
     size: number;
     total: number;
@@ -32,8 +36,8 @@ export const enum ExceptionEnum {
     UNKNOWN_EXCEPTION = 99,
     NOT_REGISTER = -1,
     NOT_LOGIN = -2,
-    ACCESS_TOKEN_EXPIRED = -3,
-    REFRESH_TOKEN_EXPIRED = -4,
+    TOKEN_EXPIRED = -3,
+    WRONG_TOKEN = -4,
     NO_PERMISSION = -5,
     WRONG_CREDENTIALS = -6,
     WRONG_PASSWORD = -7,
