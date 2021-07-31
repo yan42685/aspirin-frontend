@@ -17,7 +17,7 @@ import {
 
 // ============= 请求重试模块 ============
 // 请求超时的时限
-const REQUEST_TIMEOUT = 13000;
+const REQUEST_TIMEOUT = 1000 * 13;
 
 // create an axios instance
 const httpClient = axios.create({
@@ -121,7 +121,7 @@ httpClient.interceptors.response.use(
                     isRefreshingToken = true;
                     postRequest("/api/account/refreshToken", getRefreshToken())
                         .then((result) => {
-                            // 刷新token也失败，只能重新登录了
+                            // 如果刷新token也失败，只能重新登录了
                             if (result.code !== 0) {
                                 loginRedirect();
                                 return;
@@ -167,12 +167,6 @@ httpClient.interceptors.response.use(
 
     (error) => {
         // 异常处理
-
-        /* const { code, message, config } = error;                      */
-        /* if (code === "ECONNABORTED" || message === "Network Error") { */
-        /*   // 请求超时                                             */
-        /*   messenger.error(`请求超时，网络状况不佳`);       */
-        /* }                                                             */
 
         // 可以进行相关提示等处理
         return Promise.reject(error);
