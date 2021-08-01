@@ -2,7 +2,7 @@
 
 ## 一些坑：
 
--   view 文件夹内的组件不要在 template 内第一行写注释, 其他地方都可以写 (不知道为什么会有这种问题)
+-   views 文件夹内的组件不要在 template 内第一行写注释, 其他地方都可以写 (不知道为什么会有这种问题)
     以下是错误示范:
 
 ```vue
@@ -11,5 +11,3 @@
     <div><h1>test</h1></div>
 </template>
 ```
-
--   暂时不要使用<white-background>组件，因为里面的 slot 和 transition、router-view 这些有冲突

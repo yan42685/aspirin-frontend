@@ -1,10 +1,10 @@
 <!-- BUG: 暂时不要用，因为和transition、router-view整合在一起有bug -->
 <template>
-  <delayed-spin :loading="loading" :loadingDelay="loadingDelay" class="spin">
-    <div class="background">
+  <div class="background">
+    <delayed-spin :loading="loading" :loadingDelay="loadingDelay" class="spin">
       <slot></slot>
-    </div>
-  </delayed-spin>
+    </delayed-spin>
+  </div>
 </template>
 
 <script lang="ts">

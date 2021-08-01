@@ -1,6 +1,6 @@
 <!-- template内部只能有一个root标签,否则UseContent那里的transition、router-view会出bug, 所以要用div包起来 -->
 <template>
-  <div class="container">
+  <white-background :loading="loading">
     <a-row class="header">
       <a-col :span="18"></a-col>
       <a-col :span="6">
@@ -59,7 +59,7 @@
         </a-form-item>
       </a-form>
     </a-modal>
-  </div>
+  </white-background>
 </template>
 
 
@@ -69,13 +69,14 @@ import { getRequest, postRequest } from "@/utils/request";
 import { Student } from "@/api/rest-api";
 import { messenger } from "@/utils/my-ant-design-vue";
 import { PlusOutlined } from "@ant-design/icons-vue";
+import WhiteBackground from "@/components/basic/WhiteBackground.vue";
 
 type ModalAction = "add" | "modify";
 type StudentInput = { id: string; name: string; age: number; birthday: string };
 
 export default defineComponent({
   name: "StudentList",
-  components: { PlusOutlined },
+  components: { PlusOutlined, WhiteBackground },
   setup() {
     const data = reactive({
       loading: true,
