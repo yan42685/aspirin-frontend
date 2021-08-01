@@ -12,16 +12,16 @@
     </a-row>
     <div v-if="!loading">
       <a-table
+        class="table"
         rowKey="id"
         :columns="columns"
         :data-source="dataSource"
         :pagination="pagination"
-        :scroll="{ y: 400 }"
       >
         <template #operation="{ record }">
           <div>
             <span>
-              <a style="margin: 0 5px" @click.stop="handleModify(record)">
+              <a class="operation-text" @click.stop="handleModify(record)">
                 修改
               </a>
               <a-popconfirm
@@ -30,7 +30,7 @@
                 cancelText="取消"
                 @confirm="handleDelete(record)"
               >
-                <a style="margin: 0 5px">删除</a>
+                <a class="operation-text">删除</a>
               </a-popconfirm>
             </span>
           </div>
@@ -185,5 +185,13 @@ export default defineComponent({
   height: 50px;
   display: flex;
   align-items: center;
+}
+
+.table {
+  margin: 0 40px;
+
+  .operation-text {
+    margin-right: 0.8em;
+  }
 }
 </style>
