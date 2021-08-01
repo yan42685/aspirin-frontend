@@ -1,27 +1,11 @@
 <template>
+  <div class="header">
+    <a-button type="primary">
+      <template #icon><SearchOutlined /></template>
+      Search
+    </a-button>
+  </div>
   <white-background :loading="loading">
-    <a-modal
-      title="修改个人信息"
-      v-model:visible="modalVisible"
-      @ok="handleConfirmModify"
-    >
-      <a-form
-        :model="form"
-        :label-col="{ span: 5 }"
-        :wrapper-col="{ span: 16 }"
-      >
-        <a-form-item label="姓名">
-          <a-input v-model:value="form.name" name="name" />
-        </a-form-item>
-        <a-form-item label="年龄" name="age">
-          <a-input v-model:value="form.age" />
-        </a-form-item>
-        <a-form-item label="生日" name="birthday">
-          <a-input v-model:value="form.birthday" />
-        </a-form-item>
-      </a-form>
-    </a-modal>
-
     <div v-if="!loading">
       <a-table
         rowKey="id"
@@ -50,15 +34,36 @@
       </a-table>
     </div>
   </white-background>
+
+  <a-modal
+    :title="modalTitle"
+    v-model:visible="modalVisible"
+    @ok="handleModalConfirm"
+  >
+    <a-form :model="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 16 }">
+      <a-form-item label="姓名">
+        <a-input v-model:value="form.name" name="name" />
+      </a-form-item>
+      <a-form-item label="年龄" name="age">
+        <a-input v-model:value="form.age" />
+      </a-form-item>
+      <a-form-item label="生日" name="birthday">
+        <a-input v-model:value="form.birthday" />
+      </a-form-item>
+    </a-form>
+  </a-modal>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from "vue";
-import { getRequest } from "@/utils/request";
+import { getRequest, postRequest } from "@/utils/request";
 import WhiteBackground from "@/components/basic/WhiteBackground.vue";
 import { Student } from "@/api/rest-api";
 import { messenger } from "@/utils/my-ant-design-vue";
 import { notifyRequestResult } from "@/utils/ui/notify";
+
+type ModalAction = "add" | "modify";
+type StudentInput = { id: string; name: string; age: number; birthday: string };
 
 export default defineComponent({
   name: "StudentList",
@@ -67,12 +72,14 @@ export default defineComponent({
     const data = reactive({
       loading: true,
       modalVisible: false,
+      modalTitle: "",
+      modalAction: "add" as ModalAction,
       form: {
         id: "",
         name: "",
-        age: "",
+        age: 0,
         birthday: "",
-      },
+      } as StudentInput,
       dataSource: [] as Student[],
       columns: [
         {
@@ -98,25 +105,46 @@ export default defineComponent({
         },
       ],
       pagination: {
-        pageSize: 8, // 默认每页显示数量
+        pageSize: 7, // 默认每页显示数量
         showQuickJumper: true, // 快速跳转
       },
+      handleAdd() {
+        data.modalTitle = "添加学生";
+        data.form = {} as StudentInput;
+        data.modalVisible = true;
+        data.modalAction = "add";
+      },
       handleModify(record: Student) {
+        data.modalTitle = "修改学生";
         Object.assign(data.form, record);
         data.modalVisible = true;
+        data.modalAction = "modify";
       },
-      handleConfirmModify() {
+      handleModalConfirm() {
         data.modalVisible = false;
-        getRequest("/api/administrator/updateStudent", data.form).then(
-          (res) => {
-            if (res.code === 0) {
-              messenger.success("修改成功");
-              data.dataSource = res.data as Student[];
-            } else {
-              messenger.error(`修改失败, ${res.message}`);
+        if (data.modalAction === "add") {
+          postRequest("/api/administrator/addStudent", data.form).then(
+            (res) => {
+              if (res.code === 0) {
+                messenger.success("添加成功");
+                data.dataSource = res.data as Student[];
+              } else {
+                messenger.error(`添加失败，${res.message}`);
+              }
             }
-          }
-        );
+          );
+        } else if (data.modalAction === "modify") {
+          getRequest("/api/administrator/updateStudent", data.form).then(
+            (res) => {
+              if (res.code === 0) {
+                messenger.success("修改成功");
+                data.dataSource = res.data as Student[];
+              } else {
+                messenger.error(`修改失败, ${res.message}`);
+              }
+            }
+          );
+        }
       },
       handleDelete(record: Student) {
         getRequest("/api/administrator/deleteStudent", { id: record.id }).then(
