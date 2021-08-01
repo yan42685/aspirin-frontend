@@ -27,7 +27,7 @@
         rowKey="id"
         :columns="columns"
         :data-source="dataSource"
-        :pagination="false"
+        :pagination="pagination"
         :scroll="{ y: 400 }"
       >
         <template #operation="{ record }">
@@ -97,6 +97,10 @@ export default defineComponent({
           slots: { customRender: "operation" },
         },
       ],
+      pagination: {
+        pageSize: 8, // 默认每页显示数量
+        showQuickJumper: true, // 快速跳转
+      },
       handleModify(record: Student) {
         Object.assign(data.form, record);
         data.modalVisible = true;
