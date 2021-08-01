@@ -1,18 +1,20 @@
 <template>
   <!-- 不要在router-view上写css样式, 应在外层container上写 -->
   <a-layout-content v-if="showRouterView" class="content">
-    <!-- NOTE: 和router3.x版本不一样，这里加:key="$router.path"会不缓存, 因为router4会自动绑定this了 -->
-    <!-- 作为router-view显示的目标组件，template中只能有一个root标签,否transition、router-view会出bug -->
-    <router-view v-slot="{ Component }">
-      <transition mode="out-in" name="fade-transform">
-        <!-- NOTE: vue router4好像目前不支持带属性的keep-alive -->
-        <!-- <keep-alive :include="cachedTabNames" :max="keepAliveMaxNum"> -->
-        <keep-alive>
-          <component :is="Component" />
-        </keep-alive>
-        <!-- </keep-alive> -->
-      </transition>
-    </router-view>
+    <white-background>
+      <!-- NOTE: 和router3.x版本不一样，这里加:key="$router.path"会不缓存, 因为router4会自动绑定this了 -->
+      <!-- 作为router-view显示的目标组件，template中只能有一个root标签,否transition、router-view会出bug -->
+      <router-view v-slot="{ Component }">
+        <transition mode="out-in" name="fade-transform">
+          <!-- NOTE: vue router4好像目前不支持带属性的keep-alive -->
+          <!-- <keep-alive :include="cachedTabNames" :max="keepAliveMaxNum"> -->
+          <keep-alive>
+            <component :is="Component" />
+          </keep-alive>
+          <!-- </keep-alive> -->
+        </transition>
+      </router-view>
+    </white-background>
   </a-layout-content>
 </template>
 
@@ -23,8 +25,10 @@ import { internalConfig } from "@/config/app-settings";
 import { store } from "@/store";
 import { eventBus } from "@/utils/event-bus";
 import { router } from "@/router";
+import WhiteBackground from "@/components/basic/WhiteBackground.vue";
 
 export default defineComponent({
+  components: { WhiteBackground },
   name: "UseContent",
 
   setup() {

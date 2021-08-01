@@ -70,9 +70,9 @@ export const dynamicRootRoutes: RouteRecordRaw[] = [
         },
         children: [
             {
-                name: "Test",
+                name: "Test1",
                 path: "test",
-                component: () => import("../views/pages/Test.vue"),
+                component: () => import("../views/pages/TestOne.vue"),
                 meta: { title: "测试页面" },
             },
             {

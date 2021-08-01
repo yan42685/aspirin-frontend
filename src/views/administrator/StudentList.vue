@@ -1,3 +1,4 @@
+<!-- template内部只能有一个root标签,否则UseContent那里的transition、router-view会出bug, 所以要用div包起来 -->
 <template>
   <div class="container">
     <a-row class="header">

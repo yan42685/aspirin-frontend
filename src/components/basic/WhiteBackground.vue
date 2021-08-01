@@ -1,5 +1,5 @@
+<!-- BUG: 暂时不要用，因为和transition、router-view整合在一起有bug -->
 <template>
-  <!--BUG: 暂时不要用，因为和transition、router-view整合在一起有bug -->
   <delayed-spin :loading="loading" :loadingDelay="loadingDelay" class="spin">
     <div class="background">
       <slot></slot>

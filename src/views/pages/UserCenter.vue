@@ -1,5 +1,8 @@
 <template>
-  <div><h1>User Center...</h1></div>
+  <div>
+    <h1>User Center...</h1>
+    <div><a-button type="primary">click</a-button></div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -9,7 +12,7 @@ export default defineComponent({
   name: "UserCenter",
   setup() {
     return {};
-  }
+  },
 });
 </script>
 

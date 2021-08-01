@@ -1,29 +1,15 @@
-# aspirin-frontend
+# 前端脚手架
 
-## Project setup
+## 一些坑：
 
-```
-npm install
-```
+-   view 文件夹内的组件不要在 template 内第一行写注释, 其他地方都可以写 (不知道为什么会有这种问题)
+    以下是错误示范:
 
-### Compiles and hot-reloads for development
-
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-
-```
-npm run build
+```vue
+<template>
+    <!-- 不要在第一行写注释 -->
+    <div><h1>test</h1></div>
+</template>
 ```
 
-### Lints and fixes files
-
-```
-npm run lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
+-   暂时不要使用<white-background>组件，因为里面的 slot 和 transition、router-view 这些有冲突
