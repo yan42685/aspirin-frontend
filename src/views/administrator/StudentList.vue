@@ -58,6 +58,7 @@ import { getRequest } from "@/utils/request";
 import WhiteBackground from "@/components/basic/WhiteBackground.vue";
 import { Student } from "@/api/rest-api";
 import { messenger } from "@/utils/my-ant-design-vue";
+import { notifyRequestResult } from "@/utils/ui/notify";
 
 export default defineComponent({
   name: "StudentList",
@@ -116,7 +117,7 @@ export default defineComponent({
       handleDelete(record: Student) {
         getRequest("/api/administrator/deleteStudent", { id: record.id }).then(
           (res) => {
-            n;
+            notifyRequestResult(res, "删除成功", "删除失败");
           }
         );
       },
@@ -126,11 +127,6 @@ export default defineComponent({
     getRequest("/api/administrator/allStudents").then((res) => {
       data.loading = false;
       data.dataSource = res.data as Student[];
-    });
-
-    getRequest("/api/administrator/add", { a: 3, b: 4 }).then((res) => {
-      console.log("加法结果");
-      console.log(res.data);
     });
 
     return { ...toRefs(data) };

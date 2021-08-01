@@ -3,9 +3,9 @@ import { messenger } from "../my-ant-design-vue";
 
 // 请求成功或失败后的通知
 export function notifyRequestResult(
+    result: Result<unknown>,
     successMsg: string,
-    failMsg: string,
-    result: Result<unknown>
+    failMsg: string
 ) {
     if (result.code === 0) {
         messenger.success(successMsg);
