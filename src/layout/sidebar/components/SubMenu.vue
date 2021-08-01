@@ -21,11 +21,14 @@ import { concatPath } from "@/utils/basic-lib";
 export default defineComponent({
   name: "SubMenu",
   props: {
-    route: null as PropType<RouteRecordRaw> | null,
+    route: {
+      type: Object as PropType<RouteRecordRaw>,
+      default: {},
+    },
     basePath: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
 
   components: { UseIcon },
@@ -35,7 +38,7 @@ export default defineComponent({
       concatPath(props.basePath, props.route.path)
     );
     return { targetPath };
-  }
+  },
 });
 </script>
 

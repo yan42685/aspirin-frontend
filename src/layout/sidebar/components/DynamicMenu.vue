@@ -31,7 +31,10 @@ export default defineComponent({
   name: "DynamicMenu",
   components: { SubMenu, MenuItem },
   props: {
-    route: null as PropType<RouteRecordRaw> | null,
+    route: {
+      type: Object as PropType<RouteRecordRaw>,
+      default: {},
+    },
     basePath: {
       type: String,
       default: "",

@@ -7,9 +7,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs, watchEffect } from "vue";
-import { useRoute, RouteRecord, RouteLocation } from "vue-router";
-import { RoleEnum } from "@/api/rest-api";
-import { getRequest, putRequest } from "@/utils/request";
+import { RouteLocation, RouteRecord, useRoute } from "vue-router";
 
 export default defineComponent({
   name: "Test",
@@ -45,10 +43,10 @@ export default defineComponent({
         // //     store.commit("getStudentInfo");
         // //     break;
         // // }
-      }
+      },
     });
     return { ...toRefs(data) };
-  }
+  },
 });
 </script>
 

@@ -4,6 +4,7 @@
     <!-- NOTE: 和router3.x版本不一样，这里加:key="$router.path"会不缓存, 因为router4会自动绑定this了 -->
     <router-view v-slot="{ Component }">
       <transition mode="out-in" name="fade-transform">
+        <!-- 必须要有一个根标签，不然transition无法作用于router-view -->
         <!-- NOTE: vue router4好像目前不支持带属性的keep-alive -->
         <!-- <keep-alive :include="cachedTabNames" :max="keepAliveMaxNum"> -->
         <keep-alive>
@@ -43,7 +44,7 @@ export default defineComponent({
           }
         });
         return cachedTabNames;
-      })
+      }),
     });
     const currentRoute = useRoute();
 
@@ -54,7 +55,7 @@ export default defineComponent({
       });
     });
     return { router, currentRoute, ...toRefs(data) };
-  }
+  },
 });
 </script>
 

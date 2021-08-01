@@ -1,58 +1,67 @@
 <template>
-  <div class="header">
-    <a-button type="primary">
-      <template #icon><SearchOutlined /></template>
-      Search
-    </a-button>
-  </div>
-  <white-background :loading="loading">
-    <div v-if="!loading">
-      <a-table
-        rowKey="id"
-        :columns="columns"
-        :data-source="dataSource"
-        :pagination="pagination"
-        :scroll="{ y: 400 }"
-      >
-        <template #operation="{ record }">
-          <div>
-            <span>
-              <a style="margin: 0 5px" @click.stop="handleModify(record)">
-                修改
-              </a>
-              <a-popconfirm
-                title="确定要删除吗?"
-                okText="确定"
-                cancelText="取消"
-                @confirm="handleDelete(record)"
-              >
-                <a style="margin: 0 5px">删除</a>
-              </a-popconfirm>
-            </span>
-          </div>
-        </template>
-      </a-table>
+  <!-- 必须要有一个根标签，不然transition无法作用于router-view -->
+  <div class="container">
+    <div class="header">
+      <a-button type="primary">
+        <!-- <template #icon><SearchOutlined /></template> -->
+        Search
+      </a-button>
     </div>
-  </white-background>
 
-  <a-modal
-    :title="modalTitle"
-    v-model:visible="modalVisible"
-    @ok="handleModalConfirm"
-  >
-    <a-form :model="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 16 }">
-      <a-form-item label="姓名">
-        <a-input v-model:value="form.name" name="name" />
-      </a-form-item>
-      <a-form-item label="年龄" name="age">
-        <a-input v-model:value="form.age" />
-      </a-form-item>
-      <a-form-item label="生日" name="birthday">
-        <a-input v-model:value="form.birthday" />
-      </a-form-item>
-    </a-form>
-  </a-modal>
+    <white-background :loading="loading">
+      <div v-if="!loading">
+        <a-table
+          rowKey="id"
+          :columns="columns"
+          :data-source="dataSource"
+          :pagination="pagination"
+          :scroll="{ y: 400 }"
+        >
+          <template #operation="{ record }">
+            <div>
+              <span>
+                <a style="margin: 0 5px" @click.stop="handleModify(record)">
+                  修改
+                </a>
+                <a-popconfirm
+                  title="确定要删除吗?"
+                  okText="确定"
+                  cancelText="取消"
+                  @confirm="handleDelete(record)"
+                >
+                  <a style="margin: 0 5px">删除</a>
+                </a-popconfirm>
+              </span>
+            </div>
+          </template>
+        </a-table>
+      </div>
+    </white-background>
+
+    <a-modal
+      :title="modalTitle"
+      v-model:visible="modalVisible"
+      @ok="handleModalConfirm"
+    >
+      <a-form
+        :model="form"
+        :label-col="{ span: 5 }"
+        :wrapper-col="{ span: 16 }"
+      >
+        <a-form-item label="姓名">
+          <a-input v-model:value="form.name" name="name" />
+        </a-form-item>
+        <a-form-item label="年龄" name="age">
+          <a-input v-model:value="form.age" />
+        </a-form-item>
+        <a-form-item label="生日" name="birthday">
+          <a-input v-model:value="form.birthday" />
+        </a-form-item>
+      </a-form>
+    </a-modal>
+  </div>
 </template>
+
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from "vue";

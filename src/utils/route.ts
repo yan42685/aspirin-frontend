@@ -9,7 +9,7 @@ import { getRole } from "./cookies";
 
 export function hasPermission(route: RouteRecordRaw | RouteLocation) {
     if (internalConfig.accessControl && route.meta && route.meta.roles) {
-        const requiredRoles: string[] = route.meta.roles;
+        const requiredRoles = route.meta.roles as string[];
         const currentRole = getRole();
         return currentRole && requiredRoles.includes(currentRole);
     }

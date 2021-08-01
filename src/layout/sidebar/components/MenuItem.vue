@@ -18,11 +18,14 @@ import { concatPath } from "@/utils/basic-lib";
 export default defineComponent({
   name: "MenuItem",
   props: {
-    route: null as PropType<RouteRecordRaw> | null,
+    route: {
+      type: Object as PropType<RouteRecordRaw>,
+      default: {},
+    },
     basePath: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   components: { UseIcon },
 
@@ -30,11 +33,11 @@ export default defineComponent({
     const data = reactive({
       currentRoute: useRoute(),
       targetPath: computed(() => concatPath(props.basePath, props.route.path)),
-      handleClick: () => router.push(data.targetPath)
+      handleClick: () => router.push(data.targetPath),
     });
 
     return { ...toRefs(data) };
-  }
+  },
 });
 </script>
 
