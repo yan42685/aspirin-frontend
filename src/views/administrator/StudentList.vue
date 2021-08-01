@@ -1,42 +1,41 @@
 <template>
-  <!-- 必须要有一个根标签，不然transition无法作用于router-view -->
   <div class="container">
-    <div class="header">
-      <a-button type="primary">
-        <!-- <template #icon><SearchOutlined /></template> -->
-        Search
-      </a-button>
+    <a-row class="header">
+      <a-col :span="18"></a-col>
+      <a-col :span="6">
+        <a-button type="primary" @click="handleAdd">
+          <template #icon><PlusOutlined /></template>
+          添加学生
+        </a-button>
+      </a-col>
+    </a-row>
+    <div v-if="!loading">
+      <a-table
+        rowKey="id"
+        :columns="columns"
+        :data-source="dataSource"
+        :pagination="pagination"
+        :scroll="{ y: 400 }"
+      >
+        <template #operation="{ record }">
+          <div>
+            <span>
+              <a style="margin: 0 5px" @click.stop="handleModify(record)">
+                修改
+              </a>
+              <a-popconfirm
+                title="确定要删除吗?"
+                okText="确定"
+                cancelText="取消"
+                @confirm="handleDelete(record)"
+              >
+                <a style="margin: 0 5px">删除</a>
+              </a-popconfirm>
+            </span>
+          </div>
+        </template>
+      </a-table>
     </div>
-
-    <white-background :loading="loading">
-      <div v-if="!loading">
-        <a-table
-          rowKey="id"
-          :columns="columns"
-          :data-source="dataSource"
-          :pagination="pagination"
-          :scroll="{ y: 400 }"
-        >
-          <template #operation="{ record }">
-            <div>
-              <span>
-                <a style="margin: 0 5px" @click.stop="handleModify(record)">
-                  修改
-                </a>
-                <a-popconfirm
-                  title="确定要删除吗?"
-                  okText="确定"
-                  cancelText="取消"
-                  @confirm="handleDelete(record)"
-                >
-                  <a style="margin: 0 5px">删除</a>
-                </a-popconfirm>
-              </span>
-            </div>
-          </template>
-        </a-table>
-      </div>
-    </white-background>
 
     <a-modal
       :title="modalTitle"
@@ -66,17 +65,16 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from "vue";
 import { getRequest, postRequest } from "@/utils/request";
-import WhiteBackground from "@/components/basic/WhiteBackground.vue";
 import { Student } from "@/api/rest-api";
 import { messenger } from "@/utils/my-ant-design-vue";
-import { notifyRequestResult } from "@/utils/ui/notify";
+import { PlusOutlined } from "@ant-design/icons-vue";
 
 type ModalAction = "add" | "modify";
 type StudentInput = { id: string; name: string; age: number; birthday: string };
 
 export default defineComponent({
   name: "StudentList",
-  components: { WhiteBackground },
+  components: { PlusOutlined },
   setup() {
     const data = reactive({
       loading: true,
@@ -158,7 +156,12 @@ export default defineComponent({
       handleDelete(record: Student) {
         getRequest("/api/administrator/deleteStudent", { id: record.id }).then(
           (res) => {
-            notifyRequestResult(res, "删除成功", "删除失败");
+            if (res.code === 0) {
+              messenger.success("删除成功");
+              data.dataSource = res.data as Student[];
+            } else {
+              messenger.error(`删除失败, ${res.message}`);
+            }
           }
         );
       },
@@ -176,4 +179,9 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+.header {
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
 </style>

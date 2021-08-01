@@ -81,14 +81,14 @@ export const dynamicRootRoutes: RouteRecordRaw[] = [
                 component: () => import("../views/pages/TestTwo.vue"),
                 meta: { title: "测试页面 Two" },
             },
-            // {
-            //   name: "UserCenter",
-            //   path: "user-center",
-            //   component: () => import("../views/pages/UserCenter.vue"),
-            //   meta: {
-            //     title: "用户中心"
-            //   }
-            // }
+            {
+                name: "UserCenter",
+                path: "user-center",
+                component: () => import("../views/pages/UserCenter.vue"),
+                meta: {
+                    title: "用户中心",
+                },
+            },
         ],
     },
 

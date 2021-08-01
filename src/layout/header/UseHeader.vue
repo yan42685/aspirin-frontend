@@ -20,7 +20,6 @@
 import { defineComponent, reactive, toRefs, computed } from "vue";
 import UseBreadCrumb from "./component/UseBreadCrumb.vue";
 import UseTabBar from "./component/UseTabBar.vue";
-import { messenger } from "@/utils/my-ant-design-vue";
 import { eventBus } from "@/utils/event-bus";
 import { RedoOutlined } from "@ant-design/icons-vue";
 import FullScreenButton from "@/components/button/FullScreenButton.vue";
@@ -30,15 +29,15 @@ export default defineComponent({
     UseBreadCrumb,
     UseTabBar,
     RedoOutlined,
-    FullScreenButton
+    FullScreenButton,
   },
   name: "UseHeader",
   setup() {
     const data = reactive({
-      reloadTab: () => eventBus.emit("reloadTab")
+      reloadTab: () => eventBus.emit("reloadTab"),
     });
     return { ...toRefs(data) };
-  }
+  },
 });
 </script>
 

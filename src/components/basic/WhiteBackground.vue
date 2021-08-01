@@ -1,4 +1,5 @@
 <template>
+  <!--BUG: 暂时不要用，因为和transition、router-view整合在一起有bug -->
   <delayed-spin :loading="loading" :loadingDelay="loadingDelay" class="spin">
     <div class="background">
       <slot></slot>
@@ -17,20 +18,20 @@ export default defineComponent({
     // 正在加载中
     loading: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // 延迟显示
     loadingDelay: {
       type: Number,
-      default: 500
-    }
+      default: 500,
+    },
   },
 
   components: { DelayedSpin },
 
   setup() {
     return {};
-  }
+  },
 });
 </script>
 

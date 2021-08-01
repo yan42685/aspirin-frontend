@@ -8,11 +8,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, reactive, toRefs, onMounted } from "vue";
-import UseSidebar from "../sidebar/UseSidebar.vue";
+import { store } from "@/store";
+import { computed, defineComponent, reactive, toRefs } from "vue";
 import UseContent from "../content/UseContent.vue";
 import UseHeader from "../header/UseHeader.vue";
-import { store } from "@/store";
+import UseSidebar from "../sidebar/UseSidebar.vue";
 
 export default defineComponent({
   name: "Framework",

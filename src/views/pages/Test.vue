@@ -1,4 +1,5 @@
 <template>
+  <!-- 只能有一个root标签,否则UseContent那里的transition、router-view会出bug, 所以要用div包起来 -->
   <div>
     <div><h1>Test One...</h1></div>
     <button @click="teacherLogin">click</button>
@@ -10,6 +11,7 @@ import { defineComponent, reactive, toRefs, watchEffect } from "vue";
 import { RouteLocation, RouteRecord, useRoute } from "vue-router";
 
 export default defineComponent({
+  components: {},
   name: "Test",
   setup() {
     const currentRoute: RouteLocation = useRoute();

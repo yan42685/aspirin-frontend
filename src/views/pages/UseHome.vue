@@ -1,19 +1,16 @@
 <template>
-  <white-background>
-    <h1>Home...</h1>
-  </white-background>
+  <div><h1>Home...</h1></div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import WhiteBackground from "@/components/basic/WhiteBackground.vue";
 
 export default defineComponent({
-  components: { WhiteBackground },
+  components: {},
   name: "UseHome",
   setup() {
     return {};
-  }
+  },
 });
 </script>
 

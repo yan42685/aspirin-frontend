@@ -1,19 +1,16 @@
 <template>
-  <white-background :loading="true">
-    <div><h1>Test Two...</h1></div>
-  </white-background>
+  <div><h1>Test Two...</h1></div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import WhiteBackground from "@/components/basic/WhiteBackground.vue";
 
 export default defineComponent({
-  components: { WhiteBackground },
+  components: {},
   name: "TestTwo",
   setup() {
     return {};
-  }
+  },
 });
 </script>
 
