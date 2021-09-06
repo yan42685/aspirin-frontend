@@ -11,3 +11,5 @@
     <div><h1>test</h1></div>
 </template>
 ```
+
+-   views 文件夹的组件 template 内只能有一个 root 标签

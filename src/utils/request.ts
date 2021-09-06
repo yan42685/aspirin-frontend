@@ -107,34 +107,38 @@ httpClient.interceptors.response.use(
                 // accessToken过期, 尝试刷新token
                 if (!isRefreshingToken) {
                     isRefreshingToken = true;
-                    postRequest("/api/account/refreshToken", getRefreshToken())
-                        .then((result) => {
-                            // 如果刷新token也失败，只能重新登录了
-                            if (result.code !== 0) {
-                                loginRedirect();
-                                return;
-                            }
-
-                            const {
-                                accessToken,
-                                refreshToken,
-                            } = result.data as TokenDto;
-                            saveAccessToken(accessToken);
-                            saveRefreshToken(refreshToken);
-                            // 修改这次请求的 accessToken
-                            config.headers["accessToken"] = accessToken;
-
-                            // 发送其他等待的请求
-                            pendingRequests.forEach((sendRequest) =>
-                                sendRequest(accessToken)
-                            );
-                            // 立刻重新发送这次请求
-                            return httpClient(config);
-                        })
-                        .finally(() => {
+                    postRequest(
+                        "/api/account/refreshToken",
+                        getRefreshToken()
+                    ).then((result) => {
+                        // 如果刷新token也失败，只能重新登录了
+                        if (result.code !== 0) {
+                            loginRedirect();
                             isRefreshingToken = false;
                             pendingRequests = [];
-                        });
+                            return;
+                        }
+
+                        const {
+                            accessToken,
+                            refreshToken,
+                        } = result.data as TokenDto;
+                        saveAccessToken(accessToken);
+                        saveRefreshToken(refreshToken);
+                        // 已经保存了新的accessToken, 其他请求可以正常发送了
+                        isRefreshingToken = false;
+                        // 修改这次请求的 accessToken
+                        config.headers["accessToken"] = accessToken;
+
+                        // 发送等待队列中的所有请求
+                        pendingRequests.forEach((sendRequest) =>
+                            sendRequest(accessToken)
+                        );
+                        // 清空等待队列
+                        pendingRequests = [];
+                        // 立刻重新发送这次请求
+                        return httpClient(config);
+                    });
                 } else {
                     // 如果正在刷新token, 将 [因accessToken过期而调用失败的请求] 重新加入等待队列
                     return new Promise((resolve) => {
